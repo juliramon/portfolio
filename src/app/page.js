@@ -157,7 +157,7 @@ export default function Home() {
 					className="absolute inset-x-0 top-full -translate-y-1/2 text-center"
 					ref={firstSectionHeading}
 				>
-					Hi, it's <span>Juli</span>.
+					Hi, it&apos;s <span>Juli</span>.
 				</h1>
 			</section>
 
@@ -166,7 +166,7 @@ export default function Home() {
 				<div className="container-xs">
 					<div ref={firstSectionTextBlock} className="opacity-0">
 						<p>
-							I'm a{" "}
+							I&apos;m a{" "}
 							<span className="bg-primary-900 text-quartiary-500 inline-block px-2.5">
 								creative front-end developer
 							</span>{" "}
