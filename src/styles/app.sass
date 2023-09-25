@@ -2,6 +2,12 @@
 @tailwind components
 @tailwind utilities
 
+@import 'layout/nav'
+@import 'components/buttons'
+@import 'utils/animations'
+
+@import 'node_modules/locomotive-scroll/src/locomotive-scroll'
+
 @layer base
 
 	@font-face
@@ -16,24 +22,55 @@
 		font-weight: 400
 		font-display: swap
 
+	@font-face
+		font-family: 'Shadows Into Light'
+		src: url('../../fonts/shadowsintolight-regular-webfont.ttf') type('truetype'), url('../../fonts/shadowsintolight-regular-webfont.woff') type('woff'), url('../../fonts/shadowsintolight-regular-webfont.woff2') type('woff2')
+		font-weight: 400
+		font-display: swap
+
 	html
 		@apply font-body antialiased
 
 	body
+		@apply font-body bg-primary-200 text-primary-800 font-normal text-base relative
+
+	::selection
+		@apply bg-primary-900 text-quartiary-500
+
+	.bg-dark
 		background-image: url('../../public/grid-pattern.svg')
-		@apply font-body bg-primary-700 text-primary-200 font-normal text-base relative
+		@apply bg-primary-800 text-primary-200 font-normal text-base relative
+
+	.bg-white
+		background-image: url('../../public/grid-pattern.svg')
+		@apply bg-primary-200 text-primary-800 font-normal text-base relative
 
 	h1, h2, h3, h4
-		@apply font-heading font-medium
+		@apply font-heading
 
-	p
+	h1
+		font-size: clamp(50px, 3vw, 100px)
+		line-height: clamp(32px, 3vw, 80px)
+
+	p, .text-block
+		font-size: clamp(24px, 3vw, 30px)
+		line-height: clamp(24px, 3vw, 24px)
 		@apply mb-5 leading-normal
 
-	a:not(header a, footer a)
+	a:not(header a, footer a, .button)a
 		@apply border-b border-dotted hover:text-secondary-500 transition-all duration-300 ease-in-out
 
 	.container-xs
-		@apply max-w-[58ch] mx-auto
+		@apply w-full max-w-[700px] mx-auto px-6
 
 	.bg-supercolor
 		background: linear-gradient(35deg, hsl(30deg 86% 97%) 0%, hsl(71deg 34% 96%) 12%, hsl(145deg 33% 96%) 22%, hsl(182deg 33% 96%) 31%, hsl(204deg 47% 96%) 40%, hsl(239deg 53% 96%) 48%, hsl(318deg 53% 95%) 57%,hsl(360deg 100% 95%) 65%,hsl(348deg 83% 94%) 74%, hsl(284deg 38% 93%) 83%, hsl(219deg 52% 92%) 91%, hsl(194deg 40% 90%) 100%)
+
+	.h-adaptative
+		@apply h-screen
+
+	.scroll-overlay
+		@apply relative after:fixed after:inset-0 after:w-full after:h-full after:bg-quartiary-900 after:transition-all after:duration-700 after:ease-in-out after:z-50
+
+		&.active
+			@apply after:-translate-y-full

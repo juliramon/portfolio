@@ -5,7 +5,7 @@ const customColors = {
 		100: "#f5f5f5",
 		200: "#eeeeee",
 		300: "#dddddd",
-		400: "#666666",
+		400: "#bbbbbb",
 		500: "#4d4d4d",
 		600: "#3e3e3e",
 		700: "#232323",
@@ -34,6 +34,17 @@ const customColors = {
 		800: "#026550",
 		900: "#013328",
 	},
+	quartiary: {
+		100: "#ffcce8",
+		200: "#ff99d2",
+		300: "#ff66bb",
+		400: "#ff33a5",
+		500: "#ff008e",
+		600: "#cc0072",
+		700: "#990055",
+		800: "#660039",
+		900: "#33001c",
+	},
 };
 
 module.exports = {
@@ -52,8 +63,9 @@ module.exports = {
 				base: "16px",
 			},
 			fontFamily: {
-				heading: ["Circular"],
-				body: ["Circular"],
+				heading: ["Circular", "sans-serif"],
+				body: ["Circular", "sans-serif"],
+				handwritten: ["Shadows Into Light", "cursive"],
 			},
 			colors: {
 				...customColors,

@@ -1,0 +1,58 @@
+@layer components
+    .nav
+        @apply fixed z-50 inset-0
+
+        &__button
+            @apply w-14 h-14 fixed bottom-6 right-6 bg-supercolor rounded-full z-[60] shadow-md
+
+        &__button-wrapper
+            @apply block left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute w-7
+
+        &__button-wrapper span
+            @apply bg-primary-900 rounded-full block h-0.5 absolute w-7 transition-all duration-500 ease-in-out first:-translate-y-1.5 last:translate-y-1.5
+
+        &__button.active .nav__button-wrapper span
+            @apply first:translate-y-0 first:rotate-45 last:translate-y-0 last:-rotate-45
+
+        &__menu
+            @apply relative opacity-0 transition-all duration-300 ease-in-out z-50 bg-supercolor w-full h-full translate-y-full py-10 px-6 flex items-center justify-center
+
+        &__menu.active
+            @apply translate-y-0 opacity-100
+
+        &__list
+            @apply bg-transparent
+
+        &__link
+            @apply text-primary-700 text-3xl px-4 py-3 block text-center cursor-pointer mb-0
+
+        &__social-icons
+            @apply flex items-center justify-center px-6 mt-10 gap-4
+
+        &__social-icons svg
+            @apply w-7 h-7
+
+        @screen lg
+
+            @apply top-auto
+
+            &__button
+                @apply hidden
+
+            &__menu
+                @apply opacity-100 flex items-center justify-center right-1/2 translate-x-1/2 bg-none w-auto h-auto p-0 fixed bottom-10 translate-y-0
+
+            &__list
+                @apply relative list-none m-0 rounded-full bg-supercolor inline-flex items-center px-2 py-1.5
+
+            &__bullet
+                @apply absolute left-0 h-full top-1/2 -translate-y-1/2 bg-primary-300 bg-opacity-60 mix-blend-multiply rounded-full transition-all duration-300 ease-in-out
+
+            &__link
+                @apply text-base leading-normal
+
+            &__social-icons
+                @apply mt-0 gap-2.5
+
+            &__social-icons svg
+                @apply w-5 h-5
