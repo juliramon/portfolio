@@ -89,7 +89,7 @@ const Section = ({ id, className = "", dark = false, children }) => (
 		id={id}
 		className={`rule ${dark ? "section-dark" : ""} ${className}`}
 	>
-		<div className={`frame ${dark ? "border-zinc-800" : ""}`}>
+		<div className={`frame ${dark ? "border-night-800" : ""}`}>
 			<span className="cross cross-tl" aria-hidden="true" />
 			<span className="cross cross-tr" aria-hidden="true" />
 			<div className="frame-inner section relative">{children}</div>
@@ -107,7 +107,10 @@ const SectionHeader = ({ index, eyebrow, title, lead, note }) => (
 		<h2 className="section-title">{title}</h2>
 		{lead ? <p className="section-lead">{lead}</p> : null}
 		{note ? (
-			<span className="handwritten-note absolute right-0 top-0 hidden rotate-[4deg] md:flex md:items-start md:gap-1">
+			<span
+				aria-hidden="true"
+				className="handwritten-note absolute right-0 top-0 hidden rotate-[4deg] md:flex md:items-start md:gap-1"
+			>
 				{note}
 				<Scribble variant="down" className="mt-3 h-10 w-12" />
 			</span>
@@ -130,7 +133,7 @@ const ServiceVisual = ({ id }) => {
 							€49.00 · In stock
 						</span>
 					</span>
-					<span className="shrink-0 rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white">
+					<span className="shrink-0 rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-medium text-surface">
 						Add to cart
 					</span>
 				</div>
@@ -157,10 +160,12 @@ const ServiceVisual = ({ id }) => {
 						className="flex items-center justify-between gap-3"
 					>
 						<span className="flex items-center gap-2 text-zinc-700">
-							<span className="text-emerald-600">✓</span>
+							<span className="text-emerald-600 dark:text-emerald-400">
+								✓
+							</span>
 							{item}
 						</span>
-						<span className="rounded bg-emerald-50 px-1.5 py-0.5 text-emerald-700">
+						<span className="rounded bg-emerald-50 dark:bg-emerald-500/20 px-1.5 py-0.5 text-emerald-700 dark:text-emerald-400">
 							{status}
 						</span>
 					</li>
@@ -185,7 +190,7 @@ const ServiceVisual = ({ id }) => {
 								className={`block h-full rounded-full bg-emerald-400 ${width}`}
 							/>
 						</span>
-						<span className="font-mono text-xs text-emerald-700">
+						<span className="font-mono text-xs text-emerald-700 dark:text-emerald-400">
 							good
 						</span>
 					</li>
@@ -206,7 +211,7 @@ const ServiceVisual = ({ id }) => {
 					].map((color) => (
 						<span
 							key={color}
-							className={`h-7 w-7 rounded-full border-2 border-white ${color}`}
+							className={`h-7 w-7 rounded-full border-2 border-surface ${color}`}
 						/>
 					))}
 				</div>
@@ -214,13 +219,16 @@ const ServiceVisual = ({ id }) => {
 			</div>
 			<pre className="overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
 				<code>
-					<span className="text-zinc-400">$</span> npm run dev{"\n"}
-					<span className="font-semibold text-violet-600">
+					<span className="text-zinc-500">$</span> npm run dev{"\n"}
+					<span className="font-semibold text-violet-600 dark:text-violet-400">
 						VITE
 					</span>{" "}
-					<span className="text-zinc-400">ready in</span> 184 ms{"\n"}
-					<span className="text-emerald-600">➜</span> Local:{" "}
-					<span className="text-teal-700">
+					<span className="text-zinc-500">ready in</span> 184 ms{"\n"}
+					<span className="text-emerald-600 dark:text-emerald-400">
+						➜
+					</span>{" "}
+					Local:{" "}
+					<span className="text-teal-700 dark:text-teal-400">
 						http://localhost:5173/
 					</span>
 				</code>
@@ -315,12 +323,12 @@ export default function Home() {
 						{/* Profile "file" card with handwritten annotations */}
 						<div data-reveal className="relative min-w-0">
 							<div className="gradient-border shadow-sm">
-								<div className="overflow-hidden rounded-[15px] bg-white">
+								<div className="overflow-hidden rounded-[15px] bg-surface">
 									<div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2.5">
 										<div className="flex gap-1.5">
-											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
-											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
-											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-surface" />
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-surface" />
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-surface" />
 										</div>
 										<span className="font-mono text-xs text-zinc-500">
 											juli.json
@@ -331,65 +339,65 @@ export default function Home() {
 										<code>
 											{"{\n"}
 											{"  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;name&quot;
 											</span>
 											{": "}
-											<span className="text-emerald-700">
+											<span className="text-emerald-700 dark:text-emerald-400">
 												&quot;{profile.name}&quot;
 											</span>
 											{",\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;version&quot;
 											</span>
 											{": "}
-											<span className="text-quartiary-600">
+											<span className="text-quartiary-600 dark:text-quartiary-400">
 												&quot;
 												<LifeCounter />
 												&quot;
 											</span>
 											{",\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;role&quot;
 											</span>
 											{": "}
-											<span className="text-emerald-700">
+											<span className="text-emerald-700 dark:text-emerald-400">
 												&quot;{profile.role}&quot;
 											</span>
 											{",\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;location&quot;
 											</span>
 											{": "}
-											<span className="text-emerald-700">
+											<span className="text-emerald-700 dark:text-emerald-400">
 												&quot;{profile.location}&quot;
 											</span>
 											{",\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;stack&quot;
 											</span>
 											{": ["}
-											<span className="text-emerald-700">
+											<span className="text-emerald-700 dark:text-emerald-400">
 												&quot;Next.js&quot;,
 												&quot;Shopify&quot;,
 												&quot;WordPress&quot;,
 												&quot;PHP&quot;
 											</span>
 											{"],\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;aiTools&quot;
 											</span>
 											{": ["}
-											<span className="text-violet-600">
+											<span className="text-violet-600 dark:text-violet-400">
 												&quot;Claude&quot;,
 												&quot;Cursor&quot;
 											</span>
 											{"],\n  "}
-											<span className="text-zinc-400">
+											<span className="text-zinc-500">
 												&quot;motto&quot;
 											</span>
 											{": "}
-											<span className="text-emerald-700">
+											<span className="text-emerald-700 dark:text-emerald-400">
 												&quot;{profile.motto}&quot;
 											</span>
 											{"\n}"}
@@ -398,7 +406,10 @@ export default function Home() {
 								</div>
 							</div>
 
-							<span className="handwritten-note absolute -bottom-14 left-6 flex items-end gap-1">
+							<span
+								aria-hidden="true"
+								className="handwritten-note absolute -bottom-14 left-6 flex items-end gap-1"
+							>
 								that&apos;s me, in JSON
 								<Scribble
 									variant="down"
@@ -456,8 +467,8 @@ export default function Home() {
 									className="text-link"
 								>
 									one post at a time
-								</a>
-								.
+								</a>{" "}
+								(it&apos;s even been on TV).
 							</p>
 						</div>
 					</div>
@@ -475,9 +486,12 @@ export default function Home() {
 							fill
 							quality={95}
 							sizes="(min-width: 768px) 740px, 100vw"
-							className="object-cover object-right grayscale transition duration-500 group-hover:grayscale-0"
+							className="object-cover object-right grayscale transition duration-500 group-hover:grayscale-0 dark:brightness-90"
 						/>
-						<figcaption className="handwritten-note absolute bottom-4 left-4 rounded-md bg-white/90 px-2.5 py-1 backdrop-blur">
+						<figcaption
+							aria-hidden="true"
+							className="handwritten-note absolute bottom-4 left-4 rounded-md bg-surface/90 px-2.5 py-1 backdrop-blur"
+						>
 							hover me for colour
 						</figcaption>
 					</figure>
@@ -506,8 +520,8 @@ export default function Home() {
 							41.3874° N, 2.1686° E
 						</p>
 						<span className="absolute right-8 top-1/2 flex h-4 w-4 -translate-y-1/2">
-							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-quartiary-400 opacity-40" />
-							<span className="relative inline-flex h-4 w-4 rounded-full border-2 border-white bg-quartiary-500 shadow" />
+							<span className="absolute inline-flex h-full w-full motion-safe:animate-ping rounded-full bg-quartiary-400 opacity-40" />
+							<span className="relative inline-flex h-4 w-4 rounded-full border-2 border-surface bg-quartiary-500 shadow" />
 						</span>
 					</div>
 
@@ -522,7 +536,9 @@ export default function Home() {
 							<span className="text-zinc-400 line-through">
 								often
 							</span>{" "}
-							<span className="text-quartiary-600">always.</span>
+							<span className="text-quartiary-600 dark:text-quartiary-400">
+								always.
+							</span>
 						</p>
 					</div>
 				</div>
@@ -578,20 +594,20 @@ export default function Home() {
 						{/* Agent session mock */}
 						<div
 							data-reveal
-							className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 lg:col-span-2 lg:row-span-2"
+							className="relative overflow-hidden rounded-xl border border-night-800 bg-night-900/60 lg:col-span-2 lg:row-span-2"
 						>
-							<div className="flex items-center justify-between border-b border-zinc-800 px-4 py-2.5">
+							<div className="flex items-center justify-between border-b border-night-800 px-4 py-2.5">
 								<div className="flex gap-1.5">
-									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
-									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
-									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
+									<span className="h-2.5 w-2.5 rounded-full border border-night-700" />
+									<span className="h-2.5 w-2.5 rounded-full border border-night-700" />
+									<span className="h-2.5 w-2.5 rounded-full border border-night-700" />
 								</div>
-								<span className="font-mono text-xs text-zinc-500">
+								<span className="font-mono text-xs text-night-500">
 									claude — ~/client-store
 								</span>
 								<span className="w-12" />
 							</div>
-							<pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-zinc-300">
+							<pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-night-300">
 								<code>
 									<span className="text-quartiary-300">
 										&gt;
@@ -602,22 +618,22 @@ export default function Home() {
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-zinc-500">Read</span>{" "}
+									<span className="text-night-500">Read</span>{" "}
 									src/components/ProductForm.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-zinc-500">Read</span>{" "}
+									<span className="text-night-500">Read</span>{" "}
 									src/components/VariantPicker.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-zinc-500">Edit</span>{" "}
+									<span className="text-night-500">Edit</span>{" "}
 									src/components/VariantPicker.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-zinc-500">Run</span>{" "}
+									<span className="text-night-500">Run</span>{" "}
 									npm run build{" "}
 									<span className="text-emerald-400">✓</span>
 									{"\n\n"}
@@ -627,7 +643,10 @@ export default function Home() {
 									2 files changed · ready for review
 								</code>
 							</pre>
-							<span className="handwritten-note absolute bottom-4 right-5 flex items-end gap-1">
+							<span
+								aria-hidden="true"
+								className="handwritten-note absolute bottom-4 right-5 flex items-end gap-1"
+							>
 								<Scribble className="h-7 w-9 -scale-x-100" />
 								then I review every diff
 							</span>
@@ -638,10 +657,10 @@ export default function Home() {
 							<div
 								key={tool.id}
 								data-reveal
-								className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-6"
+								className="rounded-xl border border-night-800 bg-night-900/40 p-6"
 							>
 								<div className="flex items-center gap-3">
-									<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-900 text-white">
+									<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-night-700 bg-night-900 text-white">
 										<Icon classList="h-5 w-5">
 											{tool.id === "claude"
 												? iconClaude
@@ -650,7 +669,7 @@ export default function Home() {
 									</span>
 									<h3 className="text-lg">{tool.name}</h3>
 								</div>
-								<p className="mt-4 text-sm leading-relaxed text-zinc-400">
+								<p className="mt-4 text-sm leading-relaxed text-night-400">
 									{tool.description}
 								</p>
 								<ul className="mt-4 flex flex-wrap gap-2">
@@ -684,7 +703,7 @@ export default function Home() {
 								<h3 className="mt-4 text-base">
 									{principle.title}
 								</h3>
-								<p className="mt-2 text-sm leading-relaxed text-zinc-400">
+								<p className="mt-2 text-sm leading-relaxed text-night-400">
 									{principle.description}
 								</p>
 							</li>
@@ -736,7 +755,7 @@ export default function Home() {
 							className="grid gap-4 p-6 md:grid-cols-[180px_1fr] md:p-8"
 						>
 							<div className="flex items-center gap-4 md:flex-col md:items-start">
-								<span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-white p-2.5 shadow-sm">
+								<span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-surface p-2.5 shadow-sm">
 									{job.logo ? (
 										<Image
 											src={job.logo}
@@ -747,7 +766,10 @@ export default function Home() {
 											className="h-full w-full object-contain"
 										/>
 									) : (
-										<span className="font-medium text-zinc-900">
+										<span
+											aria-hidden="true"
+											className="font-medium text-zinc-900"
+										>
 											{job.company
 												.split(" ")
 												.filter(
@@ -832,7 +854,7 @@ export default function Home() {
 								<span className="font-mono text-5xl opacity-40 transition-opacity group-hover:opacity-70">
 									{String(idx + 1).padStart(2, "0")}
 								</span>
-								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
+								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-surface text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
 									<Icon classList="h-4 w-4">
 										{iconArrowUpRight}
 									</Icon>
@@ -862,7 +884,7 @@ export default function Home() {
 			{/* Connect */}
 			<Section id="contact" className="bg-zinc-50/60">
 				<div data-reveal className="gradient-border shadow-sm">
-					<div className="grid overflow-hidden rounded-[15px] bg-white lg:grid-cols-[1.4fr_1fr]">
+					<div className="grid overflow-hidden rounded-[15px] bg-surface lg:grid-cols-[1.4fr_1fr]">
 						<div className="p-8 md:p-12">
 							<span className="eyebrow">
 								<span className="opacity-60">07</span>
@@ -912,7 +934,10 @@ export default function Home() {
 								>
 									Follow on GitHub
 								</a>
-								<span className="handwritten-note hidden items-center gap-1 sm:flex">
+								<span
+									aria-hidden="true"
+									className="handwritten-note hidden items-center gap-1 sm:flex"
+								>
 									<Scribble className="h-7 w-9 -scale-x-100" />
 									don&apos;t be shy!
 								</span>
@@ -925,9 +950,9 @@ export default function Home() {
 										href={social.href}
 										target="_blank"
 										rel="noreferrer"
-										className="group flex items-center gap-4 px-8 py-5 transition-colors hover:bg-white"
+										className="group flex items-center gap-4 px-8 py-5 transition-colors hover:bg-surface"
 									>
-										<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm">
+										<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-200 bg-surface text-zinc-700 shadow-sm">
 											<Icon classList="h-5 w-5">
 												{socialIcons[social.id]}
 											</Icon>

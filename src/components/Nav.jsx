@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
+import ThemeToggle from "@/components/ThemeToggle";
 import { navLinks, profile } from "@/data/content";
 import { iconClose, iconMenu } from "@/utils/icons";
 
@@ -22,7 +23,7 @@ const Nav = () => {
 					if (entry.isIntersecting) setActiveLink(entry.target.id);
 				});
 			},
-			{ rootMargin: "-45% 0px -50% 0px" }
+			{ rootMargin: "-45% 0px -50% 0px" },
 		);
 
 		sections.forEach((section) => observer.observe(section));
@@ -32,7 +33,7 @@ const Nav = () => {
 	const closeMenu = () => setMenuOpen(false);
 
 	return (
-		<header className="sticky top-0 z-50 border-b border-zinc-200 bg-white/80 backdrop-blur-md">
+		<header className="sticky top-0 z-50 border-b border-zinc-200 bg-surface/80 backdrop-blur-md">
 			<div className="frame">
 				<div className="frame-inner flex h-16 items-center justify-between">
 					<a
@@ -43,7 +44,7 @@ const Nav = () => {
 					>
 						<Image
 							src={profile.avatar}
-							alt={`Avatar of ${profile.name}`}
+							alt=""
 							width={32}
 							height={32}
 							className="h-8 w-8 rounded-full border border-zinc-200"
@@ -53,11 +54,17 @@ const Nav = () => {
 						</span>
 					</a>
 
-					<nav className="hidden items-center gap-1 md:flex">
+					<nav
+						aria-label="Main"
+						className="hidden items-center gap-1 md:flex"
+					>
 						{navLinks.map((link) => (
 							<a
 								key={link.id}
 								href={`#${link.id}`}
+								aria-current={
+									activeLink === link.id ? "true" : undefined
+								}
 								className={`rounded-md px-3 py-1.5 text-sm transition-colors ${
 									activeLink === link.id
 										? "bg-zinc-100 text-zinc-900"
@@ -70,6 +77,7 @@ const Nav = () => {
 					</nav>
 
 					<div className="flex items-center gap-2">
+						<ThemeToggle />
 						<a
 							href="#contact"
 							className="button button-primary button-sm hidden sm:inline-flex"
@@ -81,6 +89,7 @@ const Nav = () => {
 							className="button button-secondary button-sm md:hidden"
 							aria-label={menuOpen ? "Close menu" : "Open menu"}
 							aria-expanded={menuOpen}
+							aria-controls="mobile-menu"
 							onClick={() => setMenuOpen(!menuOpen)}
 						>
 							<Icon classList="h-5 w-5">
@@ -91,21 +100,26 @@ const Nav = () => {
 				</div>
 
 				{menuOpen && (
-					<nav className="frame-inner border-t border-zinc-200 py-3 md:hidden">
+					<nav
+						id="mobile-menu"
+						aria-label="Mobile"
+						className="frame-inner border-t border-zinc-200 py-3 md:hidden"
+					>
 						<ul className="flex flex-col">
-							{[...navLinks, { id: "contact", text: "Connect" }].map(
-								(link) => (
-									<li key={link.id}>
-										<a
-											href={`#${link.id}`}
-											onClick={closeMenu}
-											className="block rounded-md px-3 py-2.5 text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
-										>
-											{link.text}
-										</a>
-									</li>
-								)
-							)}
+							{[
+								...navLinks,
+								{ id: "contact", text: "Connect" },
+							].map((link) => (
+								<li key={link.id}>
+									<a
+										href={`#${link.id}`}
+										onClick={closeMenu}
+										className="block rounded-md px-3 py-2.5 text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
+									>
+										{link.text}
+									</a>
+								</li>
+							))}
 						</ul>
 					</nav>
 				)}

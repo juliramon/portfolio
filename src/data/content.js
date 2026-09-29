@@ -1,6 +1,33 @@
 // Central place for all the copy shown on the site.
 // Edit texts, links and lists here without touching the components.
 
+// Canonical site URL for metadata, sitemap and robots.txt.
+// Override with NEXT_PUBLIC_SITE_URL when the site moves to a custom domain.
+export const siteUrl = (
+	process.env.NEXT_PUBLIC_SITE_URL || "https://juliramon.dev"
+).replace(/\/$/, "");
+
+export const seo = {
+	title: "Juli Ramon · Front-End Developer & Team Lead",
+	shortTitle: "Juli Ramon",
+	description:
+		"Front-end developer and team lead in Barcelona. I build websites and e-commerce, lead the front-end team at LA TEVA WEB and work day to day with AI tools like Claude and Cursor.",
+	keywords: [
+		"Juli Ramon",
+		"front-end developer",
+		"front-end team lead",
+		"Barcelona",
+		"websites",
+		"e-commerce",
+		"Shopify",
+		"WordPress",
+		"Next.js",
+		"React",
+		"web performance",
+		"AI-assisted development",
+	],
+};
+
 export const profile = {
 	name: "Juli Ramon",
 	role: "Front-End Team Lead",
@@ -121,7 +148,7 @@ export const experience = [
 		role: "Front-End Team Lead",
 		period: "Present",
 		description:
-			"I lead the front-end team building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI tools like Claude and Cursor into our daily workflow, review code and keep quality and performance high.",
+			"LA TEVA WEB has been recognised as the second-best SEO agency in Spain. I lead its front-end team, building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI tools like Claude and Cursor into our daily workflow, review code and keep quality and performance high.",
 		tags: [
 			"Team lead",
 			"E-commerce",
@@ -135,11 +162,12 @@ export const experience = [
 		id: "escapades",
 		company: "Escapades en parella",
 		href: "https://escapadesenparella.cat",
+		logo: "/logo-escapades-icon.svg",
 		role: "Founder & Developer",
 		period: "Side project",
 		description:
-			"A guide to getaways for couples in Catalonia. I design, build and maintain the platform, and document my surroundings one post at a time.",
-		tags: ["Product", "Content", "SEO"],
+			"A guide to getaways for couples in Catalonia that has even been featured on TV. I design, build and maintain the platform, and document my surroundings one post at a time.",
+		tags: ["Featured on TV", "Product", "Content", "SEO"],
 	},
 ];
 
@@ -148,19 +176,19 @@ export const projects = [
 		id: "escapades",
 		title: "Escapades en parella",
 		description:
-			"Content platform to discover getaways, cabins and plans for couples across Catalonia.",
+			"Content platform to discover getaways, cabins and plans for couples across Catalonia — it has even been featured on TV.",
 		href: "https://escapadesenparella.cat",
 		linkText: "escapadesenparella.cat",
-		tags: ["Web platform", "SEO", "Performance"],
+		tags: ["Featured on TV", "Web platform", "SEO"],
 	},
 	{
 		id: "latevaweb",
 		title: "Client work at LA TEVA WEB",
 		description:
-			"Websites and online stores for businesses, focused on speed, clarity and conversion.",
+			"Websites and online stores built with the team at the second-best SEO agency in Spain, focused on speed, clarity and conversion.",
 		href: "https://latevaweb.com",
 		linkText: "latevaweb.com",
-		tags: ["E-commerce", "Shopify", "WordPress"],
+		tags: ["#2 SEO agency in Spain", "E-commerce", "Shopify"],
 	},
 	{
 		id: "portfolio",

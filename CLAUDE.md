@@ -48,8 +48,22 @@ The site is a single-page portfolio. `src/app/page.js` renders every section, an
   - `.hero-glow` and `.dark-glow` are soft background washes.
   - Keep gradients subtle: the owner asked for this explicitly.
 - **Dark section:** `.section-dark` restyles the headings, lead, eyebrow, crosses and notes inside it.
+- **Dark theme:**
+  - `darkMode: "class"`. The `zinc-*` scale and `surface` read CSS variables defined on `:root` in `app.sass`, and those variables are inverted under `:root.dark`. Most markup therefore needs no `dark:` variants.
+  - Use `bg-surface` / `text-surface` instead of `bg-white` / `text-white`.
+  - Hard-coded accent colors (emerald, violet, teal, quartiary text) need an explicit `dark:` variant.
+  - The AI section is always dark and uses the fixed `night-*` palette, never `zinc-*`.
+  - An inline script in `layout.js` applies the theme before paint (stored in `localStorage` "theme", falling back to the OS preference). `ThemeToggle.jsx` switches it.
+  - Tailwind 3.3 has no `/15` or `/35` opacity steps: use `/10`, `/20` and so on, or arbitrary values.
 - **Colors:** neutrals are Tailwind's `zinc`. `tailwind.config.js` adds brand scales `primary` (grays), `secondary` (yellow), `tertiary` (teal) and `quartiary` (pink, used for accents and the handwritten notes).
 - **Fonts:** self-hosted in `/fonts` (Circular, plus Shadows Into Light for `font-handwritten`) and loaded with `@font-face` from `app.sass` via `../../fonts/...`. `font-mono` is the system monospace stack.
+
+## SEO & metadata
+
+- `siteUrl` in `content.js` (override with `NEXT_PUBLIC_SITE_URL`) feeds `metadataBase`, the canonical URL, `robots.js`, `sitemap.js` and the JSON-LD `Person` / `WebSite` graph in `layout.js`.
+- Icons and social images use Next file conventions in `src/app/`: `favicon.ico`, `icon.png`, `apple-icon.png`, `opengraph-image.png` / `twitter-image.png` (with `.alt.txt`).
+- The OG image and icons are static PNGs rendered from HTML with headless Chrome, not generated at runtime. Re-render them if the hero copy or branding changes.
+- `public/llms.txt` is a hand-written summary for AI assistants. Keep it in sync with `content.js`. `robots.js` explicitly allows the main AI crawlers.
 
 ## Content positioning
 
