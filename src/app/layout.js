@@ -6,7 +6,7 @@ import "../styles/app.sass";
 export const metadata = {
 	title: "Juli Ramon · Front-End Developer",
 	description:
-		"Juli Ramon is a front-end developer based in Barcelona who builds web interfaces that engage and convert.",
+		"Juli Ramon is a front-end developer based in Barcelona building fast Shopify storefronts and interfaces with Vite, working daily with AI agents like Claude and Cursor.",
 };
 
 export default function RootLayout({ children }) {

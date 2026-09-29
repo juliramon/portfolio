@@ -16,12 +16,16 @@ import {
 	iconJavaScript,
 	iconLayout,
 	iconLinkedin,
-	iconMysql,
-	iconNPM,
 	iconNodeJS,
 	iconPHP,
 	iconReact,
-	iconStack,
+	iconShopify,
+	iconVite,
+	iconClaude,
+	iconCursor,
+	iconSparkles,
+	iconRobot,
+	iconEye,
 	iconTailwindCSS,
 	iconX,
 } from "@/utils/icons";
@@ -30,6 +34,8 @@ import LifeCounter from "@/components/LifeCounter";
 import Scribble from "@/components/Scribble";
 import {
 	experience,
+	aiPrinciples,
+	aiTools,
 	profile,
 	projects,
 	services,
@@ -39,21 +45,23 @@ import {
 const stackList = [
 	{ svg: iconReact, title: "React" },
 	{ svg: iconJavaScript, title: "JavaScript" },
+	{ svg: iconVite, title: "Vite" },
+	{ svg: iconShopify, title: "Shopify" },
 	{ svg: iconTailwindCSS, title: "Tailwind CSS" },
 	{ svg: iconCSS, title: "CSS3" },
 	{ svg: iconNodeJS, title: "Node.js" },
-	{ svg: iconNPM, title: "npm" },
 	{ svg: iconGIT, title: "Git" },
-	{ svg: iconPHP, title: "PHP" },
-	{ svg: iconMysql, title: "MySQL" },
 	{ svg: iconFigma, title: "Figma" },
+	{ svg: iconPHP, title: "PHP" },
+	{ svg: iconClaude, title: "Claude" },
+	{ svg: iconCursor, title: "Cursor" },
 ];
 
 const serviceIcons = {
 	frontend: iconCode,
 	performance: iconGauge,
 	design: iconLayout,
-	fullstack: iconStack,
+	shopify: iconShopify,
 };
 
 // Soft colour tints (pink, violet, teal, yellow) cycled across cards
@@ -106,14 +114,17 @@ const ServiceVisual = ({ id }) => {
 		return (
 			<pre className="mt-6 overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
 				<code>
-					<span className="text-violet-600">&lt;Button</span>{" "}
-					<span className="text-zinc-400">variant</span>=
-					<span className="text-emerald-700">
-						&quot;primary&quot;
+					<span className="text-zinc-400">$</span> npm run dev
+					{"\n\n  "}
+					<span className="font-semibold text-violet-600">
+						VITE
+					</span>{" "}
+					<span className="text-zinc-400">ready in</span> 184 ms
+					{"\n\n  "}
+					<span className="text-emerald-600">➜</span> Local:{" "}
+					<span className="text-teal-700">
+						http://localhost:5173/
 					</span>
-					<span className="text-violet-600">&gt;</span>
-					{"\n  Ship it\n"}
-					<span className="text-violet-600">&lt;/Button&gt;</span>
 				</code>
 			</pre>
 		);
@@ -164,20 +175,23 @@ const ServiceVisual = ({ id }) => {
 			</div>
 		);
 	}
+	// Shopify: mini product card
 	return (
-		<div className="mt-6 flex flex-wrap items-center gap-2">
-			{["MongoDB", "Express", "React", "Node.js"].map(
-				(item, idx, arr) => (
-					<span key={item} className="flex items-center gap-2">
-						<span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 font-mono text-xs text-zinc-700 shadow-sm">
-							{item}
-						</span>
-						{idx < arr.length - 1 ? (
-							<span className="h-px w-4 bg-zinc-300" />
-						) : null}
+		<div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+			<span className="tint-teal block h-16 rounded-md border" />
+			<div className="mt-3 flex items-center justify-between gap-3">
+				<span className="min-w-0">
+					<span className="block truncate text-sm font-medium text-zinc-900">
+						Everyday Tote
 					</span>
-				),
-			)}
+					<span className="block font-mono text-xs text-zinc-500">
+						€49.00
+					</span>
+				</span>
+				<span className="shrink-0 rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white">
+					Add to cart
+				</span>
+			</div>
 		</div>
 	);
 };
@@ -237,11 +251,12 @@ export default function Home() {
 								and convert.
 							</h1>
 							<p className="mt-6 max-w-xl text-lg leading-relaxed">
-								A creative front-end developer from{" "}
-								{profile.location}, on a mission to make digital
-								products fancier and more valuable. Deeply
-								passionate about web performance, the MERN stack
-								and user interface design.
+								A front-end developer from {profile.location}{" "}
+								building fast Shopify storefronts and interfaces
+								with Vite — together with a team of AI agents. I
+								work daily with Claude and Cursor, so I can
+								spend more time on the details users actually
+								notice.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
@@ -325,9 +340,18 @@ export default function Home() {
 											</span>
 											{": ["}
 											<span className="text-emerald-700">
-												&quot;React&quot;,
-												&quot;Node&quot;,
-												&quot;Tailwind&quot;
+												&quot;Vite&quot;,
+												&quot;Shopify&quot;,
+												&quot;React&quot;
+											</span>
+											{"],\n  "}
+											<span className="text-zinc-400">
+												&quot;agents&quot;
+											</span>
+											{": ["}
+											<span className="text-violet-600">
+												&quot;Claude&quot;,
+												&quot;Cursor&quot;
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-400">
@@ -385,9 +409,10 @@ export default function Home() {
 								>
 									LA TEVA WEB
 								</a>
-								, where I develop optimized web platforms for
-								clients to better communicate and sell on the
-								Internet.
+								, where I build Shopify storefronts and web
+								platforms with Vite. AI agents are part of my
+								everyday toolkit: they take care of the
+								repetitive work so I can focus on craft.
 							</p>
 							<p>
 								In my spare time you&apos;ll either find me up
@@ -503,42 +528,163 @@ export default function Home() {
 				</div>
 			</Section>
 
-			{/* Stack — dark section */}
-			<Section id="stack" dark>
+			{/* AI — dark section */}
+			<Section id="ai" dark>
 				<div className="dark-glow" aria-hidden="true" />
 				<div className="relative">
 					<SectionHeader
 						index="03"
-						eyebrow="Stack"
-						title="Tools I use every day."
-						lead="A pragmatic toolbox: the right technology for each project, not the trendiest one."
-						note="my daily toolbox"
+						eyebrow="AI workflow"
+						title="Built with AI agents, reviewed by a human."
+						lead="I work with AI every day. Agents handle the repetitive, multi-step work; I focus on architecture, UX and quality."
+						note="my AI teammates"
 					/>
+
+					<div className="grid gap-4 lg:grid-cols-3">
+						{/* Agent session mock */}
+						<div
+							data-reveal
+							className="relative overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900/60 lg:col-span-2 lg:row-span-2"
+						>
+							<div className="flex items-center justify-between border-b border-zinc-800 px-4 py-2.5">
+								<div className="flex gap-1.5">
+									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
+									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
+									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
+								</div>
+								<span className="font-mono text-xs text-zinc-500">
+									claude — ~/shopify-theme
+								</span>
+								<span className="w-12" />
+							</div>
+							<pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-zinc-300">
+								<code>
+									<span className="text-quartiary-300">
+										&gt;
+									</span>{" "}
+									Add a size selector to the product section,
+									{"\n  "}
+									following our theme conventions{"\n\n"}
+									<span className="text-violet-300">
+										●
+									</span>{" "}
+									<span className="text-zinc-500">Read</span>{" "}
+									sections/main-product.liquid{"\n"}
+									<span className="text-violet-300">
+										●
+									</span>{" "}
+									<span className="text-zinc-500">Read</span>{" "}
+									src/components/variant-picker.js{"\n"}
+									<span className="text-violet-300">
+										●
+									</span>{" "}
+									<span className="text-zinc-500">Edit</span>{" "}
+									src/components/variant-picker.js{"\n"}
+									<span className="text-violet-300">
+										●
+									</span>{" "}
+									<span className="text-zinc-500">Run</span>{" "}
+									npm run build{" "}
+									<span className="text-emerald-400">✓</span>
+									{"\n\n"}
+									<span className="text-emerald-400">
+										✓
+									</span>{" "}
+									2 files changed · ready for review
+								</code>
+							</pre>
+							<span className="handwritten-note absolute bottom-4 right-5 flex items-end gap-1">
+								<Scribble className="h-7 w-9 -scale-x-100" />
+								then I review every diff
+							</span>
+						</div>
+
+						{/* Tools */}
+						{aiTools.map((tool) => (
+							<div
+								key={tool.id}
+								data-reveal
+								className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-6"
+							>
+								<div className="flex items-center gap-3">
+									<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-900 text-white">
+										<Icon classList="h-5 w-5">
+											{tool.id === "claude"
+												? iconClaude
+												: iconCursor}
+										</Icon>
+									</span>
+									<h3 className="text-lg">{tool.name}</h3>
+								</div>
+								<p className="mt-4 text-sm leading-relaxed text-zinc-400">
+									{tool.description}
+								</p>
+								<ul className="mt-4 flex flex-wrap gap-2">
+									{tool.tags.map((tag) => (
+										<li key={tag} className="tag-dark">
+											{tag}
+										</li>
+									))}
+								</ul>
+							</div>
+						))}
+					</div>
+
+					{/* Principles */}
 					<ul
 						data-reveal
-						className="grid-cells-dark grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+						className="grid-cells-dark mt-4 md:grid-cols-3"
 					>
-						{stackList.map((tool) => (
-							<li
-								key={tool.title}
-								className="group flex flex-col items-center justify-center gap-3 px-4 py-9 transition-colors hover:bg-zinc-900"
-							>
-								<Icon classList="h-8 w-8 text-zinc-500 transition-colors group-hover:text-white">
-									{tool.svg}
+						{aiPrinciples.map((principle, idx) => (
+							<li key={principle.id} className="p-6">
+								<Icon classList="h-5 w-5 text-quartiary-300">
+									{[iconSparkles, iconEye, iconRobot][idx]}
 								</Icon>
-								<span className="text-sm text-zinc-400 transition-colors group-hover:text-zinc-200">
-									{tool.title}
-								</span>
+								<h3 className="mt-4 text-base">
+									{principle.title}
+								</h3>
+								<p className="mt-2 text-sm leading-relaxed text-zinc-400">
+									{principle.description}
+								</p>
 							</li>
 						))}
 					</ul>
 				</div>
 			</Section>
 
-			{/* Experience */}
-			<Section id="experience">
+			{/* Stack */}
+			<Section id="stack">
 				<SectionHeader
 					index="04"
+					eyebrow="Stack"
+					title="Tools I use every day."
+					lead="A pragmatic toolbox: the right technology for each project, not the trendiest one."
+					note="my daily toolbox"
+				/>
+				<ul
+					data-reveal
+					className="grid-cells grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+				>
+					{stackList.map((tool) => (
+						<li
+							key={tool.title}
+							className="group flex flex-col items-center justify-center gap-3 px-4 py-8 transition-colors hover:bg-zinc-50"
+						>
+							<Icon classList="h-8 w-8 text-zinc-500 transition-colors group-hover:text-zinc-900">
+								{tool.svg}
+							</Icon>
+							<span className="text-sm text-zinc-700">
+								{tool.title}
+							</span>
+						</li>
+					))}
+				</ul>
+			</Section>
+
+			{/* Experience */}
+			<Section id="experience" className="bg-zinc-50/60">
+				<SectionHeader
+					index="05"
 					eyebrow="Experience"
 					title="Where I've been building."
 				/>
@@ -596,9 +742,9 @@ export default function Home() {
 			</Section>
 
 			{/* Projects */}
-			<Section id="projects" className="bg-zinc-50/60">
+			<Section id="projects">
 				<SectionHeader
-					index="05"
+					index="06"
 					eyebrow="Projects"
 					title="Featured projects."
 					lead="A selection of things I've designed, built and keep improving."
@@ -648,12 +794,12 @@ export default function Home() {
 			</Section>
 
 			{/* Connect */}
-			<Section id="contact">
+			<Section id="contact" className="bg-zinc-50/60">
 				<div data-reveal className="gradient-border shadow-sm">
 					<div className="grid overflow-hidden rounded-[15px] bg-white lg:grid-cols-[1.4fr_1fr]">
 						<div className="p-8 md:p-12">
 							<span className="eyebrow">
-								<span className="opacity-60">06</span>
+								<span className="opacity-60">07</span>
 								<span className="h-px w-6 bg-brand-gradient" />
 								Connect
 							</span>
@@ -670,9 +816,10 @@ export default function Home() {
 							<ul className="mt-6 flex flex-wrap gap-2">
 								{[
 									"Front-end",
+									"Shopify",
+									"AI agents",
 									"Web performance",
 									"UI design",
-									"Side projects",
 								].map((topic) => (
 									<li key={topic} className="tag">
 										{topic}

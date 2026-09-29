@@ -20,7 +20,12 @@ export const iconReact = (
 );
 
 export const iconJavaScript = (
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+	>
 		<g fill="none" fillRule="evenodd">
 			<path d="M0 0h24v24H0z" />
 			<path
@@ -40,7 +45,12 @@ export const iconJavaScript = (
 );
 
 export const iconCSS = (
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+	>
 		<g fill="none" fillRule="evenodd">
 			<path d="M0 0h24v24H0z" />
 			<path
@@ -60,7 +70,12 @@ export const iconCSS = (
 );
 
 export const iconTailwindCSS = (
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+	>
 		<g fill="none" fillRule="evenodd">
 			<path d="M0 0h24v24H0z" />
 			<path
@@ -74,7 +89,12 @@ export const iconTailwindCSS = (
 );
 
 export const iconNodeJS = (
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+	>
 		<g fill="none" fillRule="evenodd">
 			<path d="M0 0h24v24H0z" />
 			<path
@@ -94,7 +114,12 @@ export const iconNodeJS = (
 );
 
 export const iconNPM = (
-	<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+	>
 		<g fill="none" fillRule="evenodd">
 			<path d="M0 0h24v24H0z" />
 			<path
@@ -231,9 +256,16 @@ export const iconX = outline([
 
 export const iconArrowUpRight = outline(["M17 7l-10 10", "M8 7l9 0l0 9"], 2);
 
-export const iconArrowRight = outline(["M5 12l14 0", "M13 18l6 -6", "M13 6l6 6"], 2);
+export const iconArrowRight = outline(
+	["M5 12l14 0", "M13 18l6 -6", "M13 6l6 6"],
+	2,
+);
 
-export const iconCode = outline(["M7 8l-4 4l4 4", "M17 8l4 4l-4 4", "M14 4l-4 16"]);
+export const iconCode = outline([
+	"M7 8l-4 4l4 4",
+	"M17 8l4 4l-4 4",
+	"M14 4l-4 16",
+]);
 
 export const iconGauge = outline([
 	"M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0",
@@ -257,3 +289,55 @@ export const iconStack = outline([
 export const iconMenu = outline(["M4 8l16 0", "M4 16l16 0"], 2);
 
 export const iconClose = outline(["M18 6l-12 12", "M6 6l12 12"], 2);
+
+export const iconVite = outline(
+	[
+		"M10 4.5l6 -1.5l-2 6.5l2 -.5l-4 7v-5l-3 1z",
+		"M15 6.5l7 -1.5l-10 17l-10 -17l7.741 1.5",
+	],
+	1.25,
+);
+
+// Shopping bag (Shopify)
+export const iconShopify = outline(
+	[
+		"M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z",
+		"M9 11v-5a3 3 0 0 1 6 0v5",
+	],
+	1.25,
+);
+
+// Radiating asterisk (Claude)
+export const iconClaude = outline(
+	["M12 3v18", "M3 12h18", "M5.6 5.6l12.8 12.8", "M18.4 5.6l-12.8 12.8"],
+	1.5,
+);
+
+// Pointer (Cursor)
+export const iconCursor = outline(
+	[
+		"M7.904 17.563a1.2 1.2 0 0 0 2.228 .308l2.09 -3.093l4.907 4.907a1.067 1.067 0 0 0 1.509 0l1.047 -1.047a1.067 1.067 0 0 0 0 -1.509l-4.907 -4.907l3.113 -2.09a1.2 1.2 0 0 0 -.309 -2.228l-13.582 -3.904l3.904 13.563z",
+	],
+	1.25,
+);
+
+export const iconSparkles = outline([
+	"M16 18a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm0 -12a2 2 0 0 1 2 2a2 2 0 0 1 2 -2a2 2 0 0 1 -2 -2a2 2 0 0 1 -2 2zm-7 12a6 6 0 0 1 6 -6a6 6 0 0 1 -6 -6a6 6 0 0 1 -6 6a6 6 0 0 1 6 6z",
+]);
+
+export const iconRobot = outline([
+	"M6 4m0 2a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-8a2 2 0 0 1 -2 -2z",
+	"M12 2v2",
+	"M9 12v9",
+	"M15 12v9",
+	"M5 16l4 -2",
+	"M15 14l4 2",
+	"M9 18h6",
+	"M10 8v.01",
+	"M14 8v.01",
+]);
+
+export const iconEye = outline([
+	"M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0",
+	"M21 12c-2.4 4 -5.4 6 -9 6c-3.6 0 -6.6 -2 -9 -6c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6",
+]);

@@ -34,6 +34,7 @@ export const socials = [
 export const navLinks = [
 	{ id: "about", text: "About" },
 	{ id: "services", text: "Services" },
+	{ id: "ai", text: "AI" },
 	{ id: "stack", text: "Stack" },
 	{ id: "experience", text: "Experience" },
 	{ id: "projects", text: "Projects" },
@@ -44,7 +45,13 @@ export const services = [
 		id: "frontend",
 		title: "Front-end development",
 		description:
-			"Pixel-perfect, accessible interfaces built with React and Next.js, with components designed to scale with the product.",
+			"Fast, accessible interfaces built with modern JavaScript and a Vite-powered workflow, with components designed to scale with the product.",
+	},
+	{
+		id: "shopify",
+		title: "Shopify development",
+		description:
+			"Custom Shopify storefronts and theme sections that are easy for merchants to manage and quick for customers to shop.",
 	},
 	{
 		id: "performance",
@@ -58,11 +65,44 @@ export const services = [
 		description:
 			"From Figma to production: clear layouts, consistent design systems and small details that make an interface feel crafted.",
 	},
+];
+
+// How I work with AI: tools + principles
+export const aiTools = [
 	{
-		id: "fullstack",
-		title: "MERN stack",
+		id: "claude",
+		name: "Claude agents",
 		description:
-			"APIs with Node.js and Express, data with MongoDB or MySQL, and everything wired together end-to-end.",
+			"My main companion. I delegate multi-step tasks to Claude agents — scaffolding sections, refactors, migrations, tests — and review every diff before it ships.",
+		tags: ["Agents", "Claude Code", "Refactors"],
+	},
+	{
+		id: "cursor",
+		name: "Cursor",
+		description:
+			"My editor. Codebase-aware chat and inline edits for the small, fast iterations that happen between bigger agent tasks.",
+		tags: ["Editor", "Inline edits"],
+	},
+];
+
+export const aiPrinciples = [
+	{
+		id: "context",
+		title: "Context first",
+		description:
+			"Clear specs, project conventions and examples in, so agents produce code that fits the codebase.",
+	},
+	{
+		id: "review",
+		title: "Human in the loop",
+		description:
+			"AI writes drafts; I own the result. Every change is reviewed, tested and understood.",
+	},
+	{
+		id: "craft",
+		title: "More time for craft",
+		description:
+			"Less boilerplate means more time for UX details, performance and the things users actually notice.",
 	},
 ];
 
@@ -74,8 +114,8 @@ export const experience = [
 		role: "Front-End Developer · Web artisan",
 		period: "Present",
 		description:
-			"I use a wide range of technologies to develop optimized web platforms that help clients communicate better and sell on the Internet.",
-		tags: ["React", "JavaScript", "Performance"],
+			"I build Shopify storefronts and web platforms with a modern Vite workflow, helping clients communicate better and sell on the Internet. AI agents with Claude and Cursor are part of my daily workflow.",
+		tags: ["Shopify", "Vite", "JavaScript", "AI agents", "Performance"],
 	},
 	{
 		id: "escapades",
@@ -103,18 +143,18 @@ export const projects = [
 		id: "latevaweb",
 		title: "Client platforms at LA TEVA WEB",
 		description:
-			"Websites and e-commerce platforms for small businesses, focused on speed, clarity and conversion.",
+			"Shopify stores and web platforms for businesses, focused on speed, clarity and conversion.",
 		href: "https://latevaweb.com",
 		linkText: "latevaweb.com",
-		tags: ["E-commerce", "Websites", "UI"],
+		tags: ["Shopify", "Vite", "E-commerce"],
 	},
 	{
 		id: "portfolio",
 		title: "This portfolio",
 		description:
-			"A personal site built as a playground for layout, typography and scroll animations.",
+			"A personal site built as a playground for layout, typography and scroll animations — pair-programmed with Claude.",
 		href: "https://github.com/juliramon",
 		linkText: "github.com/juliramon",
-		tags: ["Next.js", "Tailwind CSS", "GSAP"],
+		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude"],
 	},
 ];
