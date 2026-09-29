@@ -54,18 +54,23 @@ module.exports = {
 		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	theme: {
-		container: {
-			center: true,
-			padding: "1.5rem",
-		},
 		extend: {
 			fontSize: {
+				10: "10px",
 				base: "16px",
 			},
 			fontFamily: {
-				heading: ["Circular", "sans-serif"],
-				body: ["Circular", "sans-serif"],
+				heading: ["Circular", "ui-sans-serif", "system-ui", "sans-serif"],
+				body: ["Circular", "ui-sans-serif", "system-ui", "sans-serif"],
 				handwritten: ["Shadows Into Light", "cursive"],
+				mono: [
+					"ui-monospace",
+					"SFMono-Regular",
+					"Menlo",
+					"Monaco",
+					"Consolas",
+					"monospace",
+				],
 			},
 			colors: {
 				...customColors,

@@ -2,75 +2,189 @@
 @tailwind components
 @tailwind utilities
 
-@import 'layout/nav'
 @import 'components/buttons'
-@import 'utils/animations'
-
-@import 'node_modules/locomotive-scroll/src/locomotive-scroll'
+@import 'components/cards'
 
 @layer base
 
 	@font-face
 		font-family: 'Circular'
-		src: url('../../fonts/circular-medium.woff2')
+		src: url('../../fonts/circular-book.woff2') format('woff2'), url('../../fonts/circular-book.woff') format('woff')
+		font-weight: 400
+		font-display: swap
+
+	@font-face
+		font-family: 'Circular'
+		src: url('../../fonts/circular-medium.woff2') format('woff2'), url('../../fonts/circular-medium.woff') format('woff')
 		font-weight: 500
 		font-display: swap
 
 	@font-face
 		font-family: 'Circular'
-		src: url('../../fonts/circular-book.woff2')
-		font-weight: 400
+		src: url('../../fonts/circular-bold.woff2') format('woff2'), url('../../fonts/circular-bold.woff') format('woff')
+		font-weight: 700
 		font-display: swap
 
 	@font-face
 		font-family: 'Shadows Into Light'
-		src: url('../../fonts/shadowsintolight-regular-webfont.ttf') type('truetype'), url('../../fonts/shadowsintolight-regular-webfont.woff') type('woff'), url('../../fonts/shadowsintolight-regular-webfont.woff2') type('woff2')
+		src: url('../../fonts/shadowsintolight-regular-webfont.woff2') format('woff2'), url('../../fonts/shadowsintolight-regular-webfont.woff') format('woff')
 		font-weight: 400
 		font-display: swap
 
 	html
-		@apply font-body antialiased
+		@apply font-body antialiased scroll-smooth
+		scroll-padding-top: 5rem
 
 	body
-		@apply font-body bg-primary-200 text-primary-800 font-normal text-base relative
+		@apply bg-white text-zinc-600 font-normal text-base relative
 
 	::selection
-		@apply bg-primary-900 text-quartiary-500
-
-	.bg-dark
-		background-image: url('../../public/grid-pattern.svg')
-		@apply bg-primary-800 text-primary-200 font-normal text-base relative
-
-	.bg-white
-		background-image: url('../../public/grid-pattern.svg')
-		@apply bg-primary-200 text-primary-800 font-normal text-base relative
+		@apply bg-quartiary-100 text-zinc-900
 
 	h1, h2, h3, h4
-		@apply font-heading
+		@apply font-heading text-zinc-900 font-medium tracking-tight
 
-	h1
-		font-size: clamp(50px, 3vw, 100px)
-		line-height: clamp(32px, 3vw, 80px)
+	p
+		text-wrap: pretty
 
-	p, .text-block
-		font-size: clamp(24px, 3vw, 30px)
-		line-height: clamp(24px, 3vw, 24px)
-		@apply mb-5 leading-normal
+@layer components
 
-	a:not(header a, footer a, .button)a
-		@apply border-b border-dotted hover:text-secondary-500 transition-all duration-300 ease-in-out
+	// Page frame: vertical guide lines on both sides, Tailwind-site style
+	.frame
+		@apply relative mx-auto w-full max-w-6xl border-x border-zinc-200
 
-	.container-xs
-		@apply w-full max-w-[700px] mx-auto px-6
+	.frame-inner
+		@apply px-6 md:px-10
 
-	.bg-supercolor
-		background: linear-gradient(35deg, hsl(30deg 86% 97%) 0%, hsl(71deg 34% 96%) 12%, hsl(145deg 33% 96%) 22%, hsl(182deg 33% 96%) 31%, hsl(204deg 47% 96%) 40%, hsl(239deg 53% 96%) 48%, hsl(318deg 53% 95%) 57%,hsl(360deg 100% 95%) 65%,hsl(348deg 83% 94%) 74%, hsl(284deg 38% 93%) 83%, hsl(219deg 52% 92%) 91%, hsl(194deg 40% 90%) 100%)
+	// Full-bleed horizontal rule that crosses the frame lines
+	.rule
+		@apply relative border-t border-zinc-200
 
-	.h-adaptative
-		@apply h-screen
+	.section
+		@apply py-16 md:py-24
 
-	.scroll-overlay
-		@apply relative after:fixed after:inset-0 after:w-full after:h-full after:bg-quartiary-900 after:transition-all after:duration-700 after:ease-in-out after:z-50
+	.eyebrow
+		@apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-zinc-500
 
-		&.active
-			@apply after:-translate-y-full
+	.section-title
+		@apply mt-3 text-3xl md:text-4xl text-zinc-900
+
+	.section-lead
+		@apply mt-4 max-w-2xl text-lg leading-relaxed text-zinc-600
+
+	.tag
+		@apply inline-flex items-center rounded-md border border-zinc-200 bg-zinc-50 px-2 py-0.5 font-mono text-xs text-zinc-600
+
+	.text-link
+		@apply font-medium text-zinc-900 underline decoration-zinc-300 underline-offset-4 transition-colors hover:decoration-zinc-900
+
+	// Small "+" markers at the frame intersections
+	.cross
+		@apply pointer-events-none absolute z-10 hidden h-3 w-3 text-zinc-300 md:block
+		&::before, &::after
+			content: ""
+			@apply absolute bg-current
+		&::before
+			@apply left-1/2 top-0 h-full w-px -translate-x-1/2
+		&::after
+			@apply left-0 top-1/2 h-px w-full -translate-y-1/2
+
+	.cross-tl
+		@apply -left-1.5 -top-1.5
+
+	.cross-tr
+		@apply -right-1.5 -top-1.5
+
+	// ---- Colour accents ----
+
+	// Brand gradient: muted pink → violet, close to the text colour
+	.text-gradient
+		background-image: linear-gradient(90deg, #be185d 0%, #7c3aed 100%)
+		@apply bg-clip-text text-transparent
+
+	.bg-brand-gradient
+		background-image: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #99f6e4 100%)
+
+	// Very soft colour wash behind the hero
+	.hero-glow
+		@apply pointer-events-none absolute inset-0 overflow-hidden
+		&::before, &::after
+			content: ""
+			@apply absolute rounded-full opacity-40 blur-3xl
+		&::before
+			width: 38rem
+			height: 26rem
+			right: -8rem
+			top: -6rem
+			background: radial-gradient(closest-side, #fce7f3, transparent), radial-gradient(closest-side at 70% 70%, #ede9fe, transparent)
+		&::after
+			width: 30rem
+			height: 22rem
+			right: 18%
+			top: 12rem
+			background: radial-gradient(closest-side, #ccfbf1, transparent), radial-gradient(closest-side at 30% 60%, #fef9c3, transparent)
+
+	// 1px border that fades from a pastel tint into the regular zinc border
+	.gradient-border
+		@apply relative rounded-2xl p-px
+		background-image: linear-gradient(135deg, #fbcfe8, theme('colors.zinc.200') 40%, theme('colors.zinc.200') 60%, #ddd6fe)
+
+	// Pastel tints for icon badges and project previews; borders stay near zinc-200
+	.tint-pink
+		background-image: linear-gradient(135deg, #fdf2f8, #ffffff)
+		@apply text-pink-700 border-pink-100
+	.tint-violet
+		background-image: linear-gradient(135deg, #f5f3ff, #ffffff)
+		@apply text-violet-700 border-violet-100
+	.tint-teal
+		background-image: linear-gradient(135deg, #f0fdfa, #ffffff)
+		@apply text-teal-700 border-teal-100
+	.tint-yellow
+		background-image: linear-gradient(135deg, #fefce8, #ffffff)
+		@apply text-amber-700 border-amber-100
+
+	// ---- Personality ----
+
+	// Handwritten annotations in the brand pink
+	.handwritten-note
+		@apply font-handwritten text-xl leading-none text-quartiary-600
+
+	// Subtle dotted background (location card)
+	.dot-grid
+		background-image: radial-gradient(theme('colors.zinc.300') 1px, transparent 1px)
+		background-size: 14px 14px
+		background-position: 0 0
+
+	// ---- Dark section ----
+
+	.section-dark
+		@apply border-zinc-800 bg-zinc-950 text-zinc-400
+
+		h2, h3, .section-title
+			@apply text-white
+
+		.section-lead
+			@apply text-zinc-400
+
+		.eyebrow
+			@apply text-zinc-500
+
+		.cross
+			@apply text-zinc-700
+
+		.handwritten-note
+			@apply text-quartiary-300
+
+	// Faint colour wash at the top of the dark section
+	.dark-glow
+		@apply pointer-events-none absolute inset-x-0 top-0 h-80 opacity-20
+		background: radial-gradient(40% 70% at 25% 0%, #db2777, transparent), radial-gradient(35% 70% at 75% 0%, #7c3aed, transparent)
+
+	.grid-cells-dark
+		@apply grid gap-px overflow-hidden rounded-xl border border-zinc-800 bg-zinc-800
+
+	.grid-cells-dark > *
+		@apply bg-zinc-950
+
+	.tag-dark
+		@apply inline-flex items-center rounded-md border border-zinc-700 bg-zinc-900 px-2 py-0.5 font-mono text-xs text-zinc-400
