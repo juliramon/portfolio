@@ -53,7 +53,7 @@ The site is a single-page portfolio. `src/app/page.js` renders every section, an
 
 ## Content positioning
 
-Juli is a **Front-End Team Lead** in Barcelona who builds websites and e-commerce and works daily with AI agents (mainly Claude, plus Cursor). Shopify, WordPress, PHP, MySQL, React, Next.js, Vite, Tailwind and Sass are tools on the list, not the headline message. The closing "Connect" block is about networking and following Juli on social networks, not about finding new client projects. Site copy is in English.
+Juli is a **front-end developer and team lead** in Barcelona who builds websites and e-commerce and manages a front-end team. The tone should be personal, not salesy. Juli works daily with AI tools (mainly Claude, plus Cursor); call them "AI tools", not "agents". Shopify, WordPress, PHP, MySQL, React, Next.js, Vite, Tailwind and Sass are tools on the list, not the headline message. The closing "Connect" block is about networking and following Juli on social networks, not about finding new client projects. Site copy is in English.
 
 ## Conventions
 

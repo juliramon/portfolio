@@ -71,16 +71,16 @@ export const services = [
 export const aiTools = [
 	{
 		id: "claude",
-		name: "Claude agents",
+		name: "Claude",
 		description:
-			"My main companion. I delegate multi-step tasks to Claude agents — scaffolding components, refactors, migrations, tests — and review every diff before it ships.",
-		tags: ["Agents", "Claude Code", "Refactors"],
+			"My main AI assistant. I hand Claude well-scoped, multi-step tasks — scaffolding components, refactors, migrations, tests — and review every diff before it ships.",
+		tags: ["Claude Code", "Refactors", "Tests"],
 	},
 	{
 		id: "cursor",
 		name: "Cursor",
 		description:
-			"My editor. Codebase-aware chat and inline edits for the small, fast iterations that happen between bigger agent tasks.",
+			"My editor. Codebase-aware chat and inline edits for the small, fast iterations that happen between bigger tasks.",
 		tags: ["Editor", "Inline edits"],
 	},
 ];
@@ -90,7 +90,7 @@ export const aiPrinciples = [
 		id: "context",
 		title: "Context first",
 		description:
-			"Clear specs, project conventions and examples in, so agents produce code that fits the codebase.",
+			"Clear specs, project conventions and examples in, so AI produces code that fits the codebase.",
 	},
 	{
 		id: "review",
@@ -102,7 +102,7 @@ export const aiPrinciples = [
 		id: "team",
 		title: "Team adoption",
 		description:
-			"I help my team work with agents too: shared conventions, reusable prompts and review practices.",
+			"I help my team work with AI too: shared conventions, reusable prompts and review practices.",
 	},
 	{
 		id: "craft",
@@ -117,17 +117,18 @@ export const experience = [
 		id: "latevaweb",
 		company: "LA TEVA WEB",
 		href: "https://latevaweb.com",
+		logo: "/logo-ltw.svg",
 		role: "Front-End Team Lead",
 		period: "Present",
 		description:
-			"I lead the front-end team building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI agents (Claude and Cursor) into our daily workflow, review code and keep quality and performance high.",
+			"I lead the front-end team building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI tools like Claude and Cursor into our daily workflow, review code and keep quality and performance high.",
 		tags: [
 			"Team lead",
 			"E-commerce",
 			"Shopify",
 			"WordPress",
 			"React",
-			"AI agents",
+			"AI tools",
 		],
 	},
 	{

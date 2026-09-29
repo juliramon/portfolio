@@ -6,7 +6,7 @@ import "../styles/app.sass";
 export const metadata = {
 	title: "Juli Ramon · Front-End Team Lead",
 	description:
-		"Juli Ramon is a front-end team lead in Barcelona building websites and e-commerce, working daily with AI agents like Claude and Cursor.",
+		"Juli Ramon is a front-end team lead in Barcelona building websites and e-commerce, working daily with AI tools like Claude and Cursor.",
 };
 
 export default function RootLayout({ children }) {

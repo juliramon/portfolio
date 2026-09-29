@@ -103,45 +103,45 @@
 		@apply bg-clip-text text-transparent
 
 	.bg-brand-gradient
-		background-image: linear-gradient(90deg, #f9a8d4 0%, #c4b5fd 50%, #99f6e4 100%)
+		background-image: linear-gradient(90deg, #f472b6 0%, #a78bfa 50%, #2dd4bf 100%)
 
-	// Very soft colour wash behind the hero
+	// Soft colour wash behind the hero (visible on low-contrast monitors too)
 	.hero-glow
 		@apply pointer-events-none absolute inset-0 overflow-hidden
 		&::before, &::after
 			content: ""
-			@apply absolute rounded-full opacity-40 blur-3xl
+			@apply absolute rounded-full opacity-70 blur-3xl
 		&::before
-			width: 38rem
-			height: 26rem
+			width: 40rem
+			height: 28rem
 			right: -8rem
 			top: -6rem
-			background: radial-gradient(closest-side, #fce7f3, transparent), radial-gradient(closest-side at 70% 70%, #ede9fe, transparent)
+			background: radial-gradient(closest-side, #fbcfe8, transparent), radial-gradient(closest-side at 70% 70%, #ddd6fe, transparent)
 		&::after
-			width: 30rem
-			height: 22rem
+			width: 32rem
+			height: 24rem
 			right: 18%
 			top: 12rem
-			background: radial-gradient(closest-side, #ccfbf1, transparent), radial-gradient(closest-side at 30% 60%, #fef9c3, transparent)
+			background: radial-gradient(closest-side, #99f6e4, transparent), radial-gradient(closest-side at 30% 60%, #fef08a, transparent)
 
 	// 1px border that fades from a pastel tint into the regular zinc border
 	.gradient-border
 		@apply relative rounded-2xl p-px
-		background-image: linear-gradient(135deg, #fbcfe8, theme('colors.zinc.200') 40%, theme('colors.zinc.200') 60%, #ddd6fe)
+		background-image: linear-gradient(135deg, #f9a8d4, #e4e4e7 45%, #e4e4e7 55%, #c4b5fd)
 
-	// Pastel tints for icon badges and project previews; borders stay near zinc-200
+	// Pastel tints for icon badges and project previews
 	.tint-pink
-		background-image: linear-gradient(135deg, #fdf2f8, #ffffff)
-		@apply text-pink-700 border-pink-100
+		background-image: linear-gradient(135deg, #fce7f3, #fdf2f8 60%, #ffffff)
+		@apply text-pink-700 border-pink-200
 	.tint-violet
-		background-image: linear-gradient(135deg, #f5f3ff, #ffffff)
-		@apply text-violet-700 border-violet-100
+		background-image: linear-gradient(135deg, #ede9fe, #f5f3ff 60%, #ffffff)
+		@apply text-violet-700 border-violet-200
 	.tint-teal
-		background-image: linear-gradient(135deg, #f0fdfa, #ffffff)
-		@apply text-teal-700 border-teal-100
+		background-image: linear-gradient(135deg, #ccfbf1, #f0fdfa 60%, #ffffff)
+		@apply text-teal-700 border-teal-200
 	.tint-yellow
-		background-image: linear-gradient(135deg, #fefce8, #ffffff)
-		@apply text-amber-700 border-amber-100
+		background-image: linear-gradient(135deg, #fef9c3, #fefce8 60%, #ffffff)
+		@apply text-amber-700 border-amber-200
 
 	// ---- Personality ----
 
@@ -177,7 +177,7 @@
 
 	// Faint colour wash at the top of the dark section
 	.dark-glow
-		@apply pointer-events-none absolute inset-x-0 top-0 h-80 opacity-20
+		@apply pointer-events-none absolute inset-x-0 top-0 h-80 opacity-[0.35]
 		background: radial-gradient(40% 70% at 25% 0%, #db2777, transparent), radial-gradient(35% 70% at 75% 0%, #7c3aed, transparent)
 
 	.grid-cells-dark

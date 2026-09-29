@@ -193,7 +193,7 @@ const ServiceVisual = ({ id }) => {
 			</ul>
 		);
 	}
-	// Front-end: palette + component snippet
+	// Front-end: palette + Vite dev server
 	return (
 		<div className="mt-6 grid gap-3 sm:grid-cols-[auto_1fr]">
 			<div className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
@@ -214,14 +214,15 @@ const ServiceVisual = ({ id }) => {
 			</div>
 			<pre className="overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
 				<code>
-					<span className="text-violet-600">&lt;Button</span>{" "}
-					<span className="text-zinc-400">variant</span>=
-					<span className="text-emerald-700">
-						&quot;primary&quot;
+					<span className="text-zinc-400">$</span> npm run dev{"\n"}
+					<span className="font-semibold text-violet-600">
+						VITE
+					</span>{" "}
+					<span className="text-zinc-400">ready in</span> 184 ms{"\n"}
+					<span className="text-emerald-600">➜</span> Local:{" "}
+					<span className="text-teal-700">
+						http://localhost:5173/
 					</span>
-					<span className="text-violet-600">&gt;</span>
-					Ship it
-					<span className="text-violet-600">&lt;/Button&gt;</span>
 				</code>
 			</pre>
 		</div>
@@ -275,23 +276,22 @@ export default function Home() {
 					<div className="frame-inner grid items-center gap-16 py-16 md:py-28 lg:grid-cols-[1.1fr_1fr]">
 						<div data-reveal className="min-w-0">
 							<span className="handwritten-note mb-3 inline-block -rotate-3 text-2xl">
-								hi there, I&apos;m Juli!
+								nice to meet you!
 							</span>
-							<h1 className="text-4xl leading-[1.05] tracking-tighter md:text-6xl">
-								Websites &amp;{" "}
-								<span className="whitespace-nowrap">
-									e-commerce
-								</span>{" "}
-								that{" "}
-								<span className="text-gradient">engage</span>{" "}
-								and convert.
+							<h1 className="text-4xl leading-[1.08] tracking-tighter md:text-[3.25rem]">
+								Hi, I&apos;m Juli. I make the web a little{" "}
+								<span className="text-gradient">better</span>,
+								one site at a time.
 							</h1>
 							<p className="mt-6 max-w-xl text-lg leading-relaxed">
-								I&apos;m a front-end team lead from{" "}
-								{profile.location}. I lead a team building
-								websites and online stores, and I work hand in
-								hand with AI agents — mostly Claude, plus Cursor
-								— to ship faster without cutting corners.
+								Front-end developer and team lead in{" "}
+								{profile.location}. I build websites and{" "}
+								<span className="whitespace-nowrap">
+									e-commerce
+								</span>
+								, and lead the front-end team at LA TEVA WEB.
+								Lately, a lot of that work happens alongside AI
+								tools like Claude and Cursor.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
@@ -314,11 +314,6 @@ export default function Home() {
 
 						{/* Profile "file" card with handwritten annotations */}
 						<div data-reveal className="relative min-w-0">
-							<span className="handwritten-note absolute -top-12 left-2 flex items-end gap-1 md:-left-10">
-								that&apos;s me, in JSON
-								<Scribble className="h-8 w-10 translate-y-3" />
-							</span>
-
 							<div className="gradient-border shadow-sm">
 								<div className="overflow-hidden rounded-[15px] bg-white">
 									<div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2.5">
@@ -375,13 +370,14 @@ export default function Home() {
 											</span>
 											{": ["}
 											<span className="text-emerald-700">
-												&quot;React&quot;,
+												&quot;Next.js&quot;,
 												&quot;Shopify&quot;,
-												&quot;WordPress&quot;
+												&quot;WordPress&quot;,
+												&quot;PHP&quot;
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-400">
-												&quot;agents&quot;
+												&quot;aiTools&quot;
 											</span>
 											{": ["}
 											<span className="text-violet-600">
@@ -403,7 +399,7 @@ export default function Home() {
 							</div>
 
 							<span className="handwritten-note absolute -bottom-14 left-6 flex items-end gap-1">
-								my age, updating live
+								that&apos;s me, in JSON
 								<Scribble
 									variant="down"
 									className="mb-1 h-10 w-12 -scale-y-100"
@@ -445,8 +441,8 @@ export default function Home() {
 									LA TEVA WEB
 								</a>
 								, where my team and I build websites and
-								e-commerce for clients. AI agents are part of
-								how we work every day: they take care of the
+								e-commerce for clients. AI tools are part of how
+								we work every day: they take care of the
 								repetitive work so we can focus on craft.
 							</p>
 							<p>
@@ -467,6 +463,8 @@ export default function Home() {
 					</div>
 
 					{/* Photo */}
+					{/* The source is only 740px wide: request the largest
+					    variant so the crop isn't upscaled from a smaller one */}
 					<figure
 						data-reveal
 						className="card group relative min-h-[320px] overflow-hidden md:row-span-2 lg:col-span-2"
@@ -475,8 +473,9 @@ export default function Home() {
 							src={profile.cover}
 							alt={`Portrait picture of ${profile.name}`}
 							fill
-							sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
-							className="object-cover object-[78%_center] grayscale transition duration-500 group-hover:grayscale-0"
+							quality={95}
+							sizes="(min-width: 768px) 740px, 100vw"
+							className="object-cover object-right grayscale transition duration-500 group-hover:grayscale-0"
 						/>
 						<figcaption className="handwritten-note absolute bottom-4 left-4 rounded-md bg-white/90 px-2.5 py-1 backdrop-blur">
 							hover me for colour
@@ -570,8 +569,8 @@ export default function Home() {
 					<SectionHeader
 						index="03"
 						eyebrow="AI workflow"
-						title="Built with AI agents, reviewed by a human."
-						lead="I work with AI every day. Agents handle the repetitive, multi-step work; I focus on architecture, UX and quality."
+						title="Built with AI, reviewed by a human."
+						lead="I work with AI every day. It handles the repetitive, multi-step work; I focus on architecture, UX and quality."
 						note="my AI teammates"
 					/>
 
@@ -736,9 +735,34 @@ export default function Home() {
 							key={job.id}
 							className="grid gap-4 p-6 md:grid-cols-[180px_1fr] md:p-8"
 						>
-							<span className="font-mono text-xs uppercase tracking-widest text-zinc-500 md:pt-1">
-								{job.period}
-							</span>
+							<div className="flex items-center gap-4 md:flex-col md:items-start">
+								<span className="inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-zinc-200 bg-white p-2.5 shadow-sm">
+									{job.logo ? (
+										<Image
+											src={job.logo}
+											alt={`${job.company} logo`}
+											width={40}
+											height={40}
+											unoptimized
+											className="h-full w-full object-contain"
+										/>
+									) : (
+										<span className="font-medium text-zinc-900">
+											{job.company
+												.split(" ")
+												.filter(
+													(word) => word.length > 2,
+												)
+												.map((word) => word[0])
+												.join("")
+												.slice(0, 2)}
+										</span>
+									)}
+								</span>
+								<span className="font-mono text-xs uppercase tracking-widest text-zinc-500">
+									{job.period}
+								</span>
+							</div>
 							<div>
 								<h3 className="text-lg">
 									<a
@@ -859,7 +883,7 @@ export default function Home() {
 								{[
 									"Front-end",
 									"E-commerce",
-									"AI agents",
+									"AI tools",
 									"Team leadership",
 									"Web performance",
 								].map((topic) => (
