@@ -14,12 +14,17 @@ import {
 	iconGauge,
 	iconGithub,
 	iconJavaScript,
-	iconLayout,
 	iconLinkedin,
 	iconNodeJS,
 	iconPHP,
 	iconReact,
 	iconShopify,
+	iconNextjs,
+	iconWordpress,
+	iconSass,
+	iconUsers,
+	iconShoppingCart,
+	iconMysql,
 	iconVite,
 	iconClaude,
 	iconCursor,
@@ -44,24 +49,26 @@ import {
 
 const stackList = [
 	{ svg: iconReact, title: "React" },
+	{ svg: iconNextjs, title: "Next.js" },
 	{ svg: iconJavaScript, title: "JavaScript" },
 	{ svg: iconVite, title: "Vite" },
-	{ svg: iconShopify, title: "Shopify" },
 	{ svg: iconTailwindCSS, title: "Tailwind CSS" },
-	{ svg: iconCSS, title: "CSS3" },
-	{ svg: iconNodeJS, title: "Node.js" },
+	{ svg: iconSass, title: "Sass" },
+	{ svg: iconShopify, title: "Shopify" },
+	{ svg: iconWordpress, title: "WordPress" },
+	{ svg: iconPHP, title: "PHP" },
+	{ svg: iconMysql, title: "MySQL" },
 	{ svg: iconGIT, title: "Git" },
 	{ svg: iconFigma, title: "Figma" },
-	{ svg: iconPHP, title: "PHP" },
 	{ svg: iconClaude, title: "Claude" },
 	{ svg: iconCursor, title: "Cursor" },
 ];
 
 const serviceIcons = {
-	frontend: iconCode,
+	ecommerce: iconShoppingCart,
+	lead: iconUsers,
 	performance: iconGauge,
-	design: iconLayout,
-	shopify: iconShopify,
+	frontend: iconCode,
 };
 
 // Soft colour tints (pink, violet, teal, yellow) cycled across cards
@@ -110,23 +117,55 @@ const SectionHeader = ({ index, eyebrow, title, lead, note }) => (
 
 // Small visuals shown inside each service card of the bento grid
 const ServiceVisual = ({ id }) => {
-	if (id === "frontend") {
+	if (id === "ecommerce") {
 		return (
-			<pre className="mt-6 overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
-				<code>
-					<span className="text-zinc-400">$</span> npm run dev
-					{"\n\n  "}
-					<span className="font-semibold text-violet-600">
-						VITE
-					</span>{" "}
-					<span className="text-zinc-400">ready in</span> 184 ms
-					{"\n\n  "}
-					<span className="text-emerald-600">➜</span> Local:{" "}
-					<span className="text-teal-700">
-						http://localhost:5173/
+			<div className="mt-6 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+				<div className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
+					<span className="tint-teal h-14 w-14 shrink-0 rounded-md border" />
+					<span className="min-w-0 flex-1">
+						<span className="block truncate text-sm font-medium text-zinc-900">
+							Everyday Tote
+						</span>
+						<span className="block font-mono text-xs text-zinc-500">
+							€49.00 · In stock
+						</span>
 					</span>
-				</code>
-			</pre>
+					<span className="shrink-0 rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white">
+						Add to cart
+					</span>
+				</div>
+				<ul className="flex flex-wrap gap-2 sm:flex-col">
+					{["Shopify", "WordPress", "Next.js"].map((platform) => (
+						<li key={platform} className="tag">
+							{platform}
+						</li>
+					))}
+				</ul>
+			</div>
+		);
+	}
+	if (id === "lead") {
+		return (
+			<ul className="mt-6 space-y-2 rounded-lg border border-zinc-200 bg-zinc-50 p-3 font-mono text-xs">
+				{[
+					["Code review", "approved"],
+					["Standards", "shared"],
+					["Sprint plan", "on track"],
+				].map(([item, status]) => (
+					<li
+						key={item}
+						className="flex items-center justify-between gap-3"
+					>
+						<span className="flex items-center gap-2 text-zinc-700">
+							<span className="text-emerald-600">✓</span>
+							{item}
+						</span>
+						<span className="rounded bg-emerald-50 px-1.5 py-0.5 text-emerald-700">
+							{status}
+						</span>
+					</li>
+				))}
+			</ul>
 		);
 	}
 	if (id === "performance") {
@@ -154,15 +193,15 @@ const ServiceVisual = ({ id }) => {
 			</ul>
 		);
 	}
-	if (id === "design") {
-		return (
-			<div className="mt-6 flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+	// Front-end: palette + component snippet
+	return (
+		<div className="mt-6 grid gap-3 sm:grid-cols-[auto_1fr]">
+			<div className="flex items-center gap-4 rounded-lg border border-zinc-200 bg-zinc-50 p-4">
 				<div className="flex -space-x-2">
 					{[
 						"bg-pink-300",
 						"bg-violet-300",
 						"bg-teal-300",
-						"bg-amber-200",
 						"bg-zinc-900",
 					].map((color) => (
 						<span
@@ -171,27 +210,20 @@ const ServiceVisual = ({ id }) => {
 						/>
 					))}
 				</div>
-				<span className="text-3xl font-medium text-zinc-900">Aa</span>
+				<span className="text-2xl font-medium text-zinc-900">Aa</span>
 			</div>
-		);
-	}
-	// Shopify: mini product card
-	return (
-		<div className="mt-6 rounded-lg border border-zinc-200 bg-zinc-50 p-3">
-			<span className="tint-teal block h-16 rounded-md border" />
-			<div className="mt-3 flex items-center justify-between gap-3">
-				<span className="min-w-0">
-					<span className="block truncate text-sm font-medium text-zinc-900">
-						Everyday Tote
+			<pre className="overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
+				<code>
+					<span className="text-violet-600">&lt;Button</span>{" "}
+					<span className="text-zinc-400">variant</span>=
+					<span className="text-emerald-700">
+						&quot;primary&quot;
 					</span>
-					<span className="block font-mono text-xs text-zinc-500">
-						€49.00
-					</span>
-				</span>
-				<span className="shrink-0 rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-medium text-white">
-					Add to cart
-				</span>
-			</div>
+					<span className="text-violet-600">&gt;</span>
+					Ship it
+					<span className="text-violet-600">&lt;/Button&gt;</span>
+				</code>
+			</pre>
 		</div>
 	);
 };
@@ -246,17 +278,20 @@ export default function Home() {
 								hi there, I&apos;m Juli!
 							</span>
 							<h1 className="text-4xl leading-[1.05] tracking-tighter md:text-6xl">
-								I build web interfaces that{" "}
+								Websites &amp;{" "}
+								<span className="whitespace-nowrap">
+									e-commerce
+								</span>{" "}
+								that{" "}
 								<span className="text-gradient">engage</span>{" "}
 								and convert.
 							</h1>
 							<p className="mt-6 max-w-xl text-lg leading-relaxed">
-								A front-end developer from {profile.location}{" "}
-								building fast Shopify storefronts and interfaces
-								with Vite — together with a team of AI agents. I
-								work daily with Claude and Cursor, so I can
-								spend more time on the details users actually
-								notice.
+								I&apos;m a front-end team lead from{" "}
+								{profile.location}. I lead a team building
+								websites and online stores, and I work hand in
+								hand with AI agents — mostly Claude, plus Cursor
+								— to ship faster without cutting corners.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
@@ -340,9 +375,9 @@ export default function Home() {
 											</span>
 											{": ["}
 											<span className="text-emerald-700">
-												&quot;Vite&quot;,
+												&quot;React&quot;,
 												&quot;Shopify&quot;,
-												&quot;React&quot;
+												&quot;WordPress&quot;
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-400">
@@ -400,7 +435,7 @@ export default function Home() {
 								feel fast, clear and honest.
 							</p>
 							<p>
-								Currently a happy web artisan at{" "}
+								Currently front-end team lead at{" "}
 								<a
 									href="https://latevaweb.com"
 									target="_blank"
@@ -409,10 +444,10 @@ export default function Home() {
 								>
 									LA TEVA WEB
 								</a>
-								, where I build Shopify storefronts and web
-								platforms with Vite. AI agents are part of my
-								everyday toolkit: they take care of the
-								repetitive work so I can focus on craft.
+								, where my team and I build websites and
+								e-commerce for clients. AI agents are part of
+								how we work every day: they take care of the
+								repetitive work so we can focus on craft.
 							</p>
 							<p>
 								In my spare time you&apos;ll either find me up
@@ -553,7 +588,7 @@ export default function Home() {
 									<span className="h-2.5 w-2.5 rounded-full border border-zinc-700" />
 								</div>
 								<span className="font-mono text-xs text-zinc-500">
-									claude — ~/shopify-theme
+									claude — ~/client-store
 								</span>
 								<span className="w-12" />
 							</div>
@@ -562,24 +597,24 @@ export default function Home() {
 									<span className="text-quartiary-300">
 										&gt;
 									</span>{" "}
-									Add a size selector to the product section,
+									Add a size selector to the product page,
 									{"\n  "}
-									following our theme conventions{"\n\n"}
+									following our project conventions{"\n\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
 									<span className="text-zinc-500">Read</span>{" "}
-									sections/main-product.liquid{"\n"}
+									src/components/ProductForm.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
 									<span className="text-zinc-500">Read</span>{" "}
-									src/components/variant-picker.js{"\n"}
+									src/components/VariantPicker.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
 									<span className="text-zinc-500">Edit</span>{" "}
-									src/components/variant-picker.js{"\n"}
+									src/components/VariantPicker.jsx{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
@@ -633,12 +668,19 @@ export default function Home() {
 					{/* Principles */}
 					<ul
 						data-reveal
-						className="grid-cells-dark mt-4 md:grid-cols-3"
+						className="grid-cells-dark mt-4 sm:grid-cols-2 lg:grid-cols-4"
 					>
 						{aiPrinciples.map((principle, idx) => (
 							<li key={principle.id} className="p-6">
 								<Icon classList="h-5 w-5 text-quartiary-300">
-									{[iconSparkles, iconEye, iconRobot][idx]}
+									{
+										[
+											iconSparkles,
+											iconEye,
+											iconUsers,
+											iconRobot,
+										][idx]
+									}
 								</Icon>
 								<h3 className="mt-4 text-base">
 									{principle.title}
@@ -663,7 +705,7 @@ export default function Home() {
 				/>
 				<ul
 					data-reveal
-					className="grid-cells grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+					className="grid-cells grid-cols-2 sm:grid-cols-4 lg:grid-cols-7"
 				>
 					{stackList.map((tool) => (
 						<li
@@ -816,10 +858,10 @@ export default function Home() {
 							<ul className="mt-6 flex flex-wrap gap-2">
 								{[
 									"Front-end",
-									"Shopify",
+									"E-commerce",
 									"AI agents",
+									"Team leadership",
 									"Web performance",
-									"UI design",
 								].map((topic) => (
 									<li key={topic} className="tag">
 										{topic}

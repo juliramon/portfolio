@@ -3,7 +3,7 @@
 
 export const profile = {
 	name: "Juli Ramon",
-	role: "Front-End Developer",
+	role: "Front-End Team Lead",
 	location: "Barcelona",
 	avatar: "/images/avatar-juli-ramon.jpg",
 	cover: "/images/cover-juli-ramon.jpg",
@@ -42,16 +42,16 @@ export const navLinks = [
 
 export const services = [
 	{
-		id: "frontend",
-		title: "Front-end development",
+		id: "ecommerce",
+		title: "Websites & e-commerce",
 		description:
-			"Fast, accessible interfaces built with modern JavaScript and a Vite-powered workflow, with components designed to scale with the product.",
+			"Corporate sites, online stores and everything in between. Shopify, WordPress or a custom React / Next.js build — whatever fits the business best.",
 	},
 	{
-		id: "shopify",
-		title: "Shopify development",
+		id: "lead",
+		title: "Front-end team lead",
 		description:
-			"Custom Shopify storefronts and theme sections that are easy for merchants to manage and quick for customers to shop.",
+			"I lead a front-end team: code reviews, shared standards, mentoring and planning, so we ship consistently good work.",
 	},
 	{
 		id: "performance",
@@ -60,10 +60,10 @@ export const services = [
 			"Core Web Vitals audits, image and bundle optimization and rendering strategies that make sites feel instant.",
 	},
 	{
-		id: "design",
-		title: "UI design",
+		id: "frontend",
+		title: "Front-end development",
 		description:
-			"From Figma to production: clear layouts, consistent design systems and small details that make an interface feel crafted.",
+			"From Figma to production: accessible, maintainable interfaces with modern JavaScript, clean components and a design system that scales.",
 	},
 ];
 
@@ -73,7 +73,7 @@ export const aiTools = [
 		id: "claude",
 		name: "Claude agents",
 		description:
-			"My main companion. I delegate multi-step tasks to Claude agents — scaffolding sections, refactors, migrations, tests — and review every diff before it ships.",
+			"My main companion. I delegate multi-step tasks to Claude agents — scaffolding components, refactors, migrations, tests — and review every diff before it ships.",
 		tags: ["Agents", "Claude Code", "Refactors"],
 	},
 	{
@@ -99,6 +99,12 @@ export const aiPrinciples = [
 			"AI writes drafts; I own the result. Every change is reviewed, tested and understood.",
 	},
 	{
+		id: "team",
+		title: "Team adoption",
+		description:
+			"I help my team work with agents too: shared conventions, reusable prompts and review practices.",
+	},
+	{
 		id: "craft",
 		title: "More time for craft",
 		description:
@@ -111,11 +117,18 @@ export const experience = [
 		id: "latevaweb",
 		company: "LA TEVA WEB",
 		href: "https://latevaweb.com",
-		role: "Front-End Developer · Web artisan",
+		role: "Front-End Team Lead",
 		period: "Present",
 		description:
-			"I build Shopify storefronts and web platforms with a modern Vite workflow, helping clients communicate better and sell on the Internet. AI agents with Claude and Cursor are part of my daily workflow.",
-		tags: ["Shopify", "Vite", "JavaScript", "AI agents", "Performance"],
+			"I lead the front-end team building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI agents (Claude and Cursor) into our daily workflow, review code and keep quality and performance high.",
+		tags: [
+			"Team lead",
+			"E-commerce",
+			"Shopify",
+			"WordPress",
+			"React",
+			"AI agents",
+		],
 	},
 	{
 		id: "escapades",
@@ -141,12 +154,12 @@ export const projects = [
 	},
 	{
 		id: "latevaweb",
-		title: "Client platforms at LA TEVA WEB",
+		title: "Client work at LA TEVA WEB",
 		description:
-			"Shopify stores and web platforms for businesses, focused on speed, clarity and conversion.",
+			"Websites and online stores for businesses, focused on speed, clarity and conversion.",
 		href: "https://latevaweb.com",
 		linkText: "latevaweb.com",
-		tags: ["Shopify", "Vite", "E-commerce"],
+		tags: ["E-commerce", "Shopify", "WordPress"],
 	},
 	{
 		id: "portfolio",
