@@ -1,0 +1,16 @@
+@layer components
+    .card
+        @apply rounded-xl border border-zinc-200 bg-white
+
+    .card-muted
+        @apply rounded-xl border border-zinc-200 bg-zinc-50
+
+    .card-hover
+        @apply transition-colors duration-200 hover:border-zinc-300 hover:bg-zinc-50/60
+
+    // Grid whose cells share 1px borders (Stripe / Tailwind feature grids)
+    .grid-cells
+        @apply grid gap-px overflow-hidden rounded-xl border border-zinc-200 bg-zinc-200
+
+    .grid-cells > *
+        @apply bg-white

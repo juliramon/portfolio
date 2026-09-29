@@ -1,295 +1,742 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useRef } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import {
+	iconArrowRight,
+	iconArrowUpRight,
+	iconCSS,
+	iconCode,
+	iconFigma,
+	iconGIT,
+	iconGauge,
+	iconGithub,
+	iconJavaScript,
+	iconLayout,
+	iconLinkedin,
+	iconMysql,
+	iconNPM,
+	iconNodeJS,
+	iconPHP,
+	iconReact,
+	iconStack,
+	iconTailwindCSS,
+	iconX,
+} from "@/utils/icons";
+import Icon from "@/components/Icon";
+import LifeCounter from "@/components/LifeCounter";
+import Scribble from "@/components/Scribble";
+import {
+	experience,
+	profile,
+	projects,
+	services,
+	socials,
+} from "@/data/content";
+
+const stackList = [
+	{ svg: iconReact, title: "React" },
+	{ svg: iconJavaScript, title: "JavaScript" },
+	{ svg: iconTailwindCSS, title: "Tailwind CSS" },
+	{ svg: iconCSS, title: "CSS3" },
+	{ svg: iconNodeJS, title: "Node.js" },
+	{ svg: iconNPM, title: "npm" },
+	{ svg: iconGIT, title: "Git" },
+	{ svg: iconPHP, title: "PHP" },
+	{ svg: iconMysql, title: "MySQL" },
+	{ svg: iconFigma, title: "Figma" },
+];
+
+const serviceIcons = {
+	frontend: iconCode,
+	performance: iconGauge,
+	design: iconLayout,
+	fullstack: iconStack,
+};
+
+// Soft colour tints (pink, violet, teal, yellow) cycled across cards
+const tints = ["tint-pink", "tint-violet", "tint-teal", "tint-yellow"];
+
+const socialIcons = {
+	github: iconGithub,
+	linkedin: iconLinkedin,
+	x: iconX,
+};
+
+const linkedinUrl = socials.find((s) => s.id === "linkedin").href;
+const githubUrl = socials.find((s) => s.id === "github").href;
+
+// Section wrapper: full-bleed top rule + framed content with corner markers
+const Section = ({ id, className = "", dark = false, children }) => (
+	<section
+		id={id}
+		className={`rule ${dark ? "section-dark" : ""} ${className}`}
+	>
+		<div className={`frame ${dark ? "border-zinc-800" : ""}`}>
+			<span className="cross cross-tl" aria-hidden="true" />
+			<span className="cross cross-tr" aria-hidden="true" />
+			<div className="frame-inner section relative">{children}</div>
+		</div>
+	</section>
+);
+
+const SectionHeader = ({ index, eyebrow, title, lead, note }) => (
+	<div data-reveal className="relative mb-10 md:mb-14">
+		<span className="eyebrow">
+			<span className="opacity-60">{index}</span>
+			<span className="h-px w-6 bg-brand-gradient" />
+			{eyebrow}
+		</span>
+		<h2 className="section-title">{title}</h2>
+		{lead ? <p className="section-lead">{lead}</p> : null}
+		{note ? (
+			<span className="handwritten-note absolute right-0 top-0 hidden rotate-[4deg] md:flex md:items-start md:gap-1">
+				{note}
+				<Scribble variant="down" className="mt-3 h-10 w-12" />
+			</span>
+		) : null}
+	</div>
+);
+
+// Small visuals shown inside each service card of the bento grid
+const ServiceVisual = ({ id }) => {
+	if (id === "frontend") {
+		return (
+			<pre className="mt-6 overflow-x-auto rounded-lg border border-zinc-200 bg-zinc-50 p-4 font-mono text-[13px] leading-6 text-zinc-600">
+				<code>
+					<span className="text-violet-600">&lt;Button</span>{" "}
+					<span className="text-zinc-400">variant</span>=
+					<span className="text-emerald-700">
+						&quot;primary&quot;
+					</span>
+					<span className="text-violet-600">&gt;</span>
+					{"\n  Ship it\n"}
+					<span className="text-violet-600">&lt;/Button&gt;</span>
+				</code>
+			</pre>
+		);
+	}
+	if (id === "performance") {
+		return (
+			<ul className="mt-6 space-y-3">
+				{[
+					["LCP", "w-[88%]"],
+					["INP", "w-[94%]"],
+					["CLS", "w-[97%]"],
+				].map(([metric, width]) => (
+					<li key={metric} className="flex items-center gap-3">
+						<span className="w-8 font-mono text-xs text-zinc-500">
+							{metric}
+						</span>
+						<span className="h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100">
+							<span
+								className={`block h-full rounded-full bg-emerald-400 ${width}`}
+							/>
+						</span>
+						<span className="font-mono text-xs text-emerald-700">
+							good
+						</span>
+					</li>
+				))}
+			</ul>
+		);
+	}
+	if (id === "design") {
+		return (
+			<div className="mt-6 flex items-center justify-between rounded-lg border border-zinc-200 bg-zinc-50 p-4">
+				<div className="flex -space-x-2">
+					{[
+						"bg-pink-300",
+						"bg-violet-300",
+						"bg-teal-300",
+						"bg-amber-200",
+						"bg-zinc-900",
+					].map((color) => (
+						<span
+							key={color}
+							className={`h-7 w-7 rounded-full border-2 border-white ${color}`}
+						/>
+					))}
+				</div>
+				<span className="text-3xl font-medium text-zinc-900">Aa</span>
+			</div>
+		);
+	}
+	return (
+		<div className="mt-6 flex flex-wrap items-center gap-2">
+			{["MongoDB", "Express", "React", "Node.js"].map(
+				(item, idx, arr) => (
+					<span key={item} className="flex items-center gap-2">
+						<span className="rounded-md border border-zinc-200 bg-white px-2.5 py-1 font-mono text-xs text-zinc-700 shadow-sm">
+							{item}
+						</span>
+						{idx < arr.length - 1 ? (
+							<span className="h-px w-4 bg-zinc-300" />
+						) : null}
+					</span>
+				),
+			)}
+		</div>
+	);
+};
+
+// Bento layout for services: wide, narrow / narrow, wide
+const serviceSpans = [
+	"lg:col-span-2",
+	"lg:col-span-1",
+	"lg:col-span-1",
+	"lg:col-span-2",
+];
 
 export default function Home() {
-	const firstSectionContainer = useRef();
-	const firstSectionHeading = useRef();
-	const firstSectionTextBlock = useRef();
-	const firstSectionImage = useRef();
-	const firstSectionImageDetail = useRef();
-	const firstSectionTextBlock2 = useRef();
-	const sectionContainerArticles = useRef();
+	const pageRef = useRef();
 
 	useEffect(() => {
+		const prefersReducedMotion = window.matchMedia(
+			"(prefers-reduced-motion: reduce)",
+		).matches;
+		if (prefersReducedMotion) return;
+
 		gsap.registerPlugin(ScrollTrigger);
 
-		const timeline = gsap.timeline({
-			scrollTrigger: {
-				trigger: firstSectionContainer.current,
-				ease: "power1.linear",
-			},
-		});
+		const ctx = gsap.context(() => {
+			gsap.set("[data-reveal]", { opacity: 0, y: 16 });
+			ScrollTrigger.batch("[data-reveal]", {
+				start: "top 90%",
+				once: true,
+				onEnter: (elements) =>
+					gsap.to(elements, {
+						opacity: 1,
+						y: 0,
+						duration: 0.6,
+						ease: "power2.out",
+						stagger: 0.08,
+					}),
+			});
+		}, pageRef);
 
-		timeline.to(firstSectionHeading.current, {
-			top: "50%",
-			duration: 0.7,
-			delay: 0.3,
-		});
-
-		let fromFontSize = "";
-		let toScale = 0;
-
-		const initScrollTrigger = () => {
-			gsap.fromTo(
-				firstSectionHeading.current,
-				{
-					fontSize: fromFontSize,
-				},
-				{
-					scrollTrigger: {
-						trigger: firstSectionContainer.current,
-						start: "top 0%",
-						scrub: 1,
-						pin: true,
-						end: `+=${window.innerHeight / 2}`,
-						// toggleClass: "show",
-						markers: false,
-						ease: "power1.linear",
-						duration: 0.7,
-					},
-					scale: toScale,
-				}
-			);
-		};
-
-		ScrollTrigger.matchMedia({
-			"(min-width:768px)": () => {
-				fromFontSize = "8vw";
-				toScale = 160;
-				initScrollTrigger();
-			},
-			"(max-width:767px)": () => {
-				fromFontSize = "15vw";
-				toScale = 180;
-				initScrollTrigger();
-			},
-		});
-
-		gsap.to(firstSectionTextBlock.current, {
-			opacity: 1,
-			translateY: 0,
-			scrollTrigger: {
-				trigger: firstSectionTextBlock.current,
-				start: "top 70%",
-				scrub: 1,
-				pin: false,
-				end: `+=${firstSectionTextBlock.current.offsetHeight}`,
-				// toggleClass: "show",
-				markers: false,
-				ease: "power1.linear",
-				duration: 0.7,
-			},
-		});
-
-		gsap.to(firstSectionImage.current, {
-			opacity: 1,
-			translateY: 0,
-			scrollTrigger: {
-				trigger: firstSectionImage.current,
-				start: "top 70%",
-				scrub: 1,
-				pin: false,
-				end: `+=${firstSectionImage.current.offsetHeight}`,
-				// toggleClass: "show",
-				markers: false,
-				ease: "power1.linear",
-				duration: 0.7,
-			},
-		});
-
-		gsap.to(firstSectionImageDetail.current, {
-			scrollTrigger: {
-				trigger: firstSectionImage.current,
-				start: "top 70%",
-				ease: "power1.linear",
-			},
-			translateX: 0,
-			opacity: 1,
-			duration: 0.6,
-			delay: 0.3,
-		});
-
-		gsap.to(firstSectionTextBlock2.current, {
-			opacity: 1,
-			translateY: 0,
-			scrollTrigger: {
-				trigger: firstSectionTextBlock2.current,
-				start: "top 70%",
-				scrub: 1,
-				pin: false,
-				end: `+=${firstSectionTextBlock2.current.offsetHeight}`,
-				// toggleClass: "show",
-				markers: false,
-				ease: "power1.linear",
-				duration: 0.7,
-			},
-		});
-
-		gsap.to(sectionContainerArticles.current, {
-			opacity: 1,
-			translateY: 0,
-			scrollTrigger: {
-				trigger: sectionContainerArticles.current,
-				start: "top 70%",
-				// scrub: 1,
-				pin: false,
-				end: `+=${sectionContainerArticles.current.offsetHeight}`,
-				// toggleClass: "show",
-				markers: false,
-				ease: "power1.linear",
-				duration: 0.7,
-			},
-		});
-	});
+		return () => ctx.revert();
+	}, []);
 
 	return (
-		<>
-			{/* Section heading h1 */}
-			<section
-				className="h-adaptative relative overflow-hidden bg-dark"
-				ref={firstSectionContainer}
-			>
-				<h1
-					className="absolute inset-x-0 top-full -translate-y-1/2 text-center"
-					ref={firstSectionHeading}
-				>
-					Hi, it&apos;s <span>Juli</span>.
-				</h1>
-			</section>
-
-			{/* Section about */}
-			<section className="bg-primary-200 text-primary-800 py-12 md:py-24">
-				<div className="container-xs">
-					<div ref={firstSectionTextBlock} className="opacity-0">
-						<p>
-							I&apos;m a{" "}
-							<span className="bg-primary-900 text-quartiary-500 inline-block px-2.5">
-								creative front-end developer
-							</span>{" "}
-							on a mission to make digital products fancier and
-							valuable. Very passionate about web performance
-							optimization and user interface design.
-						</p>
-						<a
-							href={"mailto:julideramon@gmail.com"}
-							title={"Want to say hi? Drop me an email"}
-							className="button button-primary mt-4"
-							target="_blank"
-							rel="nofollow noreferrer"
-						>
-							Want to say hi? Drop me an email
-						</a>
-					</div>
-					<div
-						className="relative mt-12 md:mt-16 opacity-0 translate-y-12"
-						ref={firstSectionImage}
-					>
-						<picture className="block w-full h-full rounded-md overflow-hidden ">
-							<img
-								src="/images/cover-juli-ramon.jpg"
-								alt="Portrait picture of Juli Ramon"
-								className="w-full h-full object-cover grayscale"
-							/>
-						</picture>
-						<div
-							className="absolute top-[5vh] md:top-[8vh] md:-left-[12vh] w-auto h-auto -rotate-[20deg] flex flex-col max-w-[190px] md:max-w-[390px] -translate-x-36 opacity-0"
-							ref={firstSectionImageDetail}
-						>
-							<span className="inline-block mb-2 font-handwritten text-secondary-500 text-2xl">
-								The motto.
+		<div ref={pageRef} id="top">
+			{/* Hero */}
+			<section className="relative overflow-hidden">
+				<div className="hero-glow" aria-hidden="true" />
+				<div className="frame">
+					<div className="frame-inner grid items-center gap-16 py-16 md:py-28 lg:grid-cols-[1.1fr_1fr]">
+						<div data-reveal className="min-w-0">
+							<span className="handwritten-note mb-3 inline-block -rotate-3 text-2xl">
+								hi there, I&apos;m Juli!
 							</span>
-							<span className="font-handwritten inline-block text-[3vh] md:text-[5vh] leading-[1.1] text-quartiary-500">
-								Do what you love and to it{" "}
-								<span className="line-through">often</span>{" "}
-								always.
+							<h1 className="text-4xl leading-[1.05] tracking-tighter md:text-6xl">
+								I build web interfaces that{" "}
+								<span className="text-gradient">engage</span>{" "}
+								and convert.
+							</h1>
+							<p className="mt-6 max-w-xl text-lg leading-relaxed">
+								A creative front-end developer from{" "}
+								{profile.location}, on a mission to make digital
+								products fancier and more valuable. Deeply
+								passionate about web performance, the MERN stack
+								and user interface design.
+							</p>
+							<div className="mt-8 flex flex-wrap gap-3">
+								<a
+									href="#projects"
+									className="button button-primary"
+								>
+									See my work
+									<Icon classList="h-4 w-4">
+										{iconArrowRight}
+									</Icon>
+								</a>
+								<a
+									href="#contact"
+									className="button button-secondary"
+								>
+									Let&apos;s connect
+								</a>
+							</div>
+						</div>
+
+						{/* Profile "file" card with handwritten annotations */}
+						<div data-reveal className="relative min-w-0">
+							<span className="handwritten-note absolute -top-12 left-2 flex items-end gap-1 md:-left-10">
+								that&apos;s me, in JSON
+								<Scribble className="h-8 w-10 translate-y-3" />
+							</span>
+
+							<div className="gradient-border shadow-sm">
+								<div className="overflow-hidden rounded-[15px] bg-white">
+									<div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2.5">
+										<div className="flex gap-1.5">
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
+											<span className="h-2.5 w-2.5 rounded-full border border-zinc-300 bg-white" />
+										</div>
+										<span className="font-mono text-xs text-zinc-500">
+											juli.json
+										</span>
+										<span className="w-12" />
+									</div>
+									<pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-zinc-700">
+										<code>
+											{"{\n"}
+											{"  "}
+											<span className="text-zinc-400">
+												&quot;name&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700">
+												&quot;{profile.name}&quot;
+											</span>
+											{",\n  "}
+											<span className="text-zinc-400">
+												&quot;version&quot;
+											</span>
+											{": "}
+											<span className="text-quartiary-600">
+												&quot;
+												<LifeCounter />
+												&quot;
+											</span>
+											{",\n  "}
+											<span className="text-zinc-400">
+												&quot;role&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700">
+												&quot;{profile.role}&quot;
+											</span>
+											{",\n  "}
+											<span className="text-zinc-400">
+												&quot;location&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700">
+												&quot;{profile.location}&quot;
+											</span>
+											{",\n  "}
+											<span className="text-zinc-400">
+												&quot;stack&quot;
+											</span>
+											{": ["}
+											<span className="text-emerald-700">
+												&quot;React&quot;,
+												&quot;Node&quot;,
+												&quot;Tailwind&quot;
+											</span>
+											{"],\n  "}
+											<span className="text-zinc-400">
+												&quot;motto&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700">
+												&quot;{profile.motto}&quot;
+											</span>
+											{"\n}"}
+										</code>
+									</pre>
+								</div>
+							</div>
+
+							<span className="handwritten-note absolute -bottom-14 left-6 flex items-end gap-1">
+								my age, updating live
+								<Scribble
+									variant="down"
+									className="mb-1 h-10 w-12 -scale-y-100"
+								/>
 							</span>
 						</div>
 					</div>
-					<div
-						className="relative mt-12 md:mt-16 opacity-0 translate-y-12"
-						ref={firstSectionTextBlock2}
-					>
-						<p>
-							Currently a happy{" "}
-							<span className="bg-primary-800 text-secondary-500 px-2.5">
-								web artisan
-							</span>{" "}
-							at{" "}
-							<a
-								href="https://latevaweb.com"
-								title="LA TEVA WEB"
-								rel="nofollow noreferrer"
-								target="_blank"
-							>
-								LA TEVA WEB
-							</a>
-							, where I develop optimized web platforms for
-							clients to better communicate and sale on the
-							Internet.
-						</p>
-						<p className="mt-7 mb-0">
-							On my spare time you will either find me up in the
-							mountains or exploring and documenting my
-							surroundings{" "}
-							<a
-								href="https://escapadesenparella.cat"
-								title="Escapades en parella a Catalunya"
-								rel="follow"
-								target="_blank"
-							>
-								one post at a time
-							</a>
-							.
-						</p>
-					</div>
 				</div>
 			</section>
 
-			{/* Section articles */}
-			<section
-				className="pt-12 pb-24 md:pt-24 md:pb-32 opacity-0 translate-y-12"
-				ref={sectionContainerArticles}
-			>
-				<div className="container-xs">
-					<h2 className="text-block max-w-lg">
-						I code, and occasionaly I also write. Have a look at my
-						latest articles.
-					</h2>
-				</div>
-				<div className="container">
-					<div className="flex items-start mt-8 md:mt-12 justify-center">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="mr-2.5"
-							width={24}
-							height={24}
-							viewBox="0 0 24 24"
-							strokeWidth={1.2}
-							stroke="currentColor"
-							fill="none"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						>
-							<path
-								stroke="none"
-								d="M0 0h24v24H0z"
-								fill="none"
-							></path>
-							<path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
-							<path d="M14.5 16.05a3.5 3.5 0 0 0 -5 0"></path>
-							<path d="M8.5 11.5l1.5 -1.5l-1.5 -1.5"></path>
-							<path d="M15.5 11.5l-1.5 -1.5l1.5 -1.5"></path>
-						</svg>
-						<p className="font-mono text-sm max-w-md mb-0 flex-1">
-							No articles imported yet. Please try again later.
+			{/* About — bento grid */}
+			<Section id="about">
+				<SectionHeader
+					index="01"
+					eyebrow="About"
+					title="A creative developer, curious by nature."
+				/>
+				<div className="grid auto-rows-[minmax(0,auto)] gap-4 md:grid-cols-2 lg:grid-cols-6">
+					{/* Story */}
+					<div
+						data-reveal
+						className="card p-6 md:col-span-2 md:p-8 lg:col-span-4 lg:row-span-2"
+					>
+						<div className="space-y-5 text-lg leading-relaxed">
+							<p>
+								I&apos;m a front-end developer on a mission to
+								make digital products fancier and more valuable.
+								I care about the details that make an interface
+								feel fast, clear and honest.
+							</p>
+							<p>
+								Currently a happy web artisan at{" "}
+								<a
+									href="https://latevaweb.com"
+									target="_blank"
+									rel="noreferrer"
+									className="text-link"
+								>
+									LA TEVA WEB
+								</a>
+								, where I develop optimized web platforms for
+								clients to better communicate and sell on the
+								Internet.
+							</p>
+							<p>
+								In my spare time you&apos;ll either find me up
+								in the mountains or exploring and documenting my
+								surroundings,{" "}
+								<a
+									href="https://escapadesenparella.cat"
+									target="_blank"
+									rel="noreferrer"
+									className="text-link"
+								>
+									one post at a time
+								</a>
+								.
+							</p>
+						</div>
+					</div>
+
+					{/* Photo */}
+					<figure
+						data-reveal
+						className="card group relative min-h-[320px] overflow-hidden md:row-span-2 lg:col-span-2"
+					>
+						<Image
+							src={profile.cover}
+							alt={`Portrait picture of ${profile.name}`}
+							fill
+							sizes="(min-width: 1024px) 360px, (min-width: 768px) 50vw, 100vw"
+							className="object-cover object-[78%_center] grayscale transition duration-500 group-hover:grayscale-0"
+						/>
+						<figcaption className="handwritten-note absolute bottom-4 left-4 rounded-md bg-white/90 px-2.5 py-1 backdrop-blur">
+							hover me for colour
+						</figcaption>
+					</figure>
+
+					{/* Life counter */}
+					<div data-reveal className="card p-6 lg:col-span-2">
+						<span className="eyebrow">Currently running</span>
+						<p className="mt-3 font-mono text-2xl text-zinc-900 md:text-3xl">
+							v<LifeCounter />
+						</p>
+						<p className="mt-2 text-sm text-zinc-500">
+							Years of age, updated every few milliseconds.
+						</p>
+					</div>
+
+					{/* Location */}
+					<div
+						data-reveal
+						className="card dot-grid relative overflow-hidden p-6 lg:col-span-2"
+					>
+						<span className="eyebrow">Based in</span>
+						<p className="mt-3 text-2xl text-zinc-900 md:text-3xl">
+							{profile.location}
+						</p>
+						<p className="mt-2 font-mono text-xs text-zinc-500">
+							41.3874° N, 2.1686° E
+						</p>
+						<span className="absolute right-8 top-1/2 flex h-4 w-4 -translate-y-1/2">
+							<span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-quartiary-400 opacity-40" />
+							<span className="relative inline-flex h-4 w-4 rounded-full border-2 border-white bg-quartiary-500 shadow" />
+						</span>
+					</div>
+
+					{/* Motto */}
+					<div
+						data-reveal
+						className="card tint-pink flex flex-col justify-between p-6 md:col-span-2 lg:col-span-2"
+					>
+						<span className="eyebrow">The motto</span>
+						<p className="mt-3 font-handwritten text-3xl leading-tight text-zinc-900">
+							Do what you love and do it{" "}
+							<span className="text-zinc-400 line-through">
+								often
+							</span>{" "}
+							<span className="text-quartiary-600">always.</span>
 						</p>
 					</div>
 				</div>
-			</section>
-		</>
+			</Section>
+
+			{/* Services — bento grid */}
+			<Section id="services" className="bg-zinc-50/60">
+				<SectionHeader
+					index="02"
+					eyebrow="Services"
+					title="What I can help you with."
+					lead="From the first sketch in Figma to a fast, maintainable interface in production."
+				/>
+				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+					{services.map((service, idx) => (
+						<div
+							key={service.id}
+							data-reveal
+							className={`card card-hover flex flex-col p-6 md:p-8 ${serviceSpans[idx]}`}
+						>
+							<span
+								className={`inline-flex h-10 w-10 items-center justify-center rounded-lg border shadow-sm ${tints[idx % tints.length]}`}
+							>
+								<Icon classList="h-5 w-5">
+									{serviceIcons[service.id]}
+								</Icon>
+							</span>
+							<h3 className="mt-5 text-lg">{service.title}</h3>
+							<p className="mt-2 leading-relaxed">
+								{service.description}
+							</p>
+							<div className="mt-auto">
+								<ServiceVisual id={service.id} />
+							</div>
+						</div>
+					))}
+				</div>
+			</Section>
+
+			{/* Stack — dark section */}
+			<Section id="stack" dark>
+				<div className="dark-glow" aria-hidden="true" />
+				<div className="relative">
+					<SectionHeader
+						index="03"
+						eyebrow="Stack"
+						title="Tools I use every day."
+						lead="A pragmatic toolbox: the right technology for each project, not the trendiest one."
+						note="my daily toolbox"
+					/>
+					<ul
+						data-reveal
+						className="grid-cells-dark grid-cols-2 sm:grid-cols-3 lg:grid-cols-5"
+					>
+						{stackList.map((tool) => (
+							<li
+								key={tool.title}
+								className="group flex flex-col items-center justify-center gap-3 px-4 py-9 transition-colors hover:bg-zinc-900"
+							>
+								<Icon classList="h-8 w-8 text-zinc-500 transition-colors group-hover:text-white">
+									{tool.svg}
+								</Icon>
+								<span className="text-sm text-zinc-400 transition-colors group-hover:text-zinc-200">
+									{tool.title}
+								</span>
+							</li>
+						))}
+					</ul>
+				</div>
+			</Section>
+
+			{/* Experience */}
+			<Section id="experience">
+				<SectionHeader
+					index="04"
+					eyebrow="Experience"
+					title="Where I've been building."
+				/>
+				<ol data-reveal className="card divide-y divide-zinc-200">
+					{experience.map((job) => (
+						<li
+							key={job.id}
+							className="grid gap-4 p-6 md:grid-cols-[180px_1fr] md:p-8"
+						>
+							<span className="font-mono text-xs uppercase tracking-widest text-zinc-500 md:pt-1">
+								{job.period}
+							</span>
+							<div>
+								<h3 className="text-lg">
+									<a
+										href={job.href}
+										target="_blank"
+										rel="noreferrer"
+										className="group inline-flex items-center gap-1.5 hover:underline hover:underline-offset-4"
+									>
+										{job.company}
+										<Icon classList="h-4 w-4 text-zinc-400 transition-colors group-hover:text-zinc-900">
+											{iconArrowUpRight}
+										</Icon>
+									</a>
+								</h3>
+								<p className="text-sm text-zinc-500">
+									{job.role}
+								</p>
+								<p className="mt-3 leading-relaxed">
+									{job.description}
+								</p>
+								<ul className="mt-4 flex flex-wrap gap-2">
+									{job.tags.map((tag) => (
+										<li key={tag} className="tag">
+											{tag}
+										</li>
+									))}
+								</ul>
+							</div>
+						</li>
+					))}
+				</ol>
+				<div data-reveal className="mt-6">
+					<a
+						href={linkedinUrl}
+						target="_blank"
+						rel="noreferrer"
+						className="button button-secondary"
+					>
+						Full resume on LinkedIn
+						<Icon classList="h-4 w-4">{iconArrowUpRight}</Icon>
+					</a>
+				</div>
+			</Section>
+
+			{/* Projects */}
+			<Section id="projects" className="bg-zinc-50/60">
+				<SectionHeader
+					index="05"
+					eyebrow="Projects"
+					title="Featured projects."
+					lead="A selection of things I've designed, built and keep improving."
+					note="some favourites"
+				/>
+				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+					{projects.map((project, idx) => (
+						<a
+							key={project.id}
+							data-reveal
+							href={project.href}
+							target="_blank"
+							rel="noreferrer"
+							className="card card-hover group flex flex-col overflow-hidden"
+						>
+							<div
+								className={`flex h-36 items-end justify-between border-b p-5 ${tints[idx % tints.length]}`}
+							>
+								<span className="font-mono text-5xl opacity-40 transition-opacity group-hover:opacity-70">
+									{String(idx + 1).padStart(2, "0")}
+								</span>
+								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-white text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
+									<Icon classList="h-4 w-4">
+										{iconArrowUpRight}
+									</Icon>
+								</span>
+							</div>
+							<div className="flex flex-1 flex-col p-5">
+								<h3 className="text-lg">{project.title}</h3>
+								<p className="mt-2 flex-1 leading-relaxed">
+									{project.description}
+								</p>
+								<ul className="mt-4 flex flex-wrap gap-2">
+									{project.tags.map((tag) => (
+										<li key={tag} className="tag">
+											{tag}
+										</li>
+									))}
+								</ul>
+								<span className="mt-5 border-t border-zinc-200 pt-4 font-mono text-xs text-zinc-500">
+									{project.linkText}
+								</span>
+							</div>
+						</a>
+					))}
+				</div>
+			</Section>
+
+			{/* Connect */}
+			<Section id="contact">
+				<div data-reveal className="gradient-border shadow-sm">
+					<div className="grid overflow-hidden rounded-[15px] bg-white lg:grid-cols-[1.4fr_1fr]">
+						<div className="p-8 md:p-12">
+							<span className="eyebrow">
+								<span className="opacity-60">06</span>
+								<span className="h-px w-6 bg-brand-gradient" />
+								Connect
+							</span>
+							<h2 className="section-title">
+								Let&apos;s{" "}
+								<span className="text-gradient">connect</span>.
+							</h2>
+							<p className="section-lead">
+								I enjoy meeting people who care about the web.
+								Follow along, swap ideas about front-end,
+								performance or design, or just say hi — I&apos;m
+								always up for a good conversation.
+							</p>
+							<ul className="mt-6 flex flex-wrap gap-2">
+								{[
+									"Front-end",
+									"Web performance",
+									"UI design",
+									"Side projects",
+								].map((topic) => (
+									<li key={topic} className="tag">
+										{topic}
+									</li>
+								))}
+							</ul>
+							<div className="mt-8 flex flex-wrap items-center gap-3">
+								<a
+									href={linkedinUrl}
+									target="_blank"
+									rel="noreferrer"
+									className="button button-primary"
+								>
+									Connect on LinkedIn
+									<Icon classList="h-4 w-4">
+										{iconArrowUpRight}
+									</Icon>
+								</a>
+								<a
+									href={githubUrl}
+									target="_blank"
+									rel="noreferrer"
+									className="button button-secondary"
+								>
+									Follow on GitHub
+								</a>
+								<span className="handwritten-note hidden items-center gap-1 sm:flex">
+									<Scribble className="h-7 w-9 -scale-x-100" />
+									don&apos;t be shy!
+								</span>
+							</div>
+						</div>
+						<ul className="divide-y divide-zinc-200 border-t border-zinc-200 bg-zinc-50 lg:border-l lg:border-t-0">
+							{socials.map((social) => (
+								<li key={social.id}>
+									<a
+										href={social.href}
+										target="_blank"
+										rel="noreferrer"
+										className="group flex items-center gap-4 px-8 py-5 transition-colors hover:bg-white"
+									>
+										<span className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-700 shadow-sm">
+											<Icon classList="h-5 w-5">
+												{socialIcons[social.id]}
+											</Icon>
+										</span>
+										<span className="flex-1">
+											<span className="block text-sm font-medium text-zinc-900">
+												{social.label}
+											</span>
+											<span className="block font-mono text-xs text-zinc-500">
+												{social.handle}
+											</span>
+										</span>
+										<Icon classList="h-4 w-4 text-zinc-400 transition-colors group-hover:text-zinc-900">
+											{iconArrowUpRight}
+										</Icon>
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				</div>
+			</Section>
+		</div>
 	);
 }

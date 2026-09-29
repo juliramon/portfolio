@@ -1,10 +1,22 @@
-import React from "react";
+"use client";
 
-const ScrollOverlay = ({ isVisible }) => {
-	const activeClass = isVisible ? "translate-y-0" : "-translate-y-full";
+import { useEffect, useState } from "react";
+
+const ScrollOverlay = () => {
+	const [isVisible, setIsVisible] = useState(true);
+
+	useEffect(() => {
+		const timeout = setTimeout(() => setIsVisible(false), 400);
+		return () => clearTimeout(timeout);
+	}, []);
+
+	const activeClass = isVisible
+		? "opacity-100 z-[60] pointer-events-auto"
+		: "opacity-0 -z-10 pointer-events-none";
+
 	return (
 		<div
-			className={`fixed inset-0 w-full h-full bg-quartiary-900 transition-all duration-500 ease-in-out z-[60] ${activeClass}`}
+			className={`fixed inset-0 w-full h-full bg-white transition-opacity duration-500 ease-in-out ${activeClass}`}
 		></div>
 	);
 };
