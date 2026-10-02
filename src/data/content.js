@@ -171,3 +171,19 @@ export const projects = [
 		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude"],
 	},
 ];
+
+// Headline numbers shown above the featured projects
+export const projectStats = [
+	{ value: "200+", label: "Projects developed" },
+	{ value: "5", label: "Core technologies" },
+];
+
+// Share of projects per technology, in %.
+// TODO(Juli): placeholder equal split until the exact percentages are confirmed.
+export const techDistribution = [
+	{ name: "PHP", share: 20 },
+	{ name: "WordPress", share: 20 },
+	{ name: "Shopify", share: 20 },
+	{ name: "Laravel", share: 20 },
+	{ name: "PrestaShop", share: 20 },
+];

@@ -43,7 +43,9 @@ import {
 	aiTools,
 	profile,
 	projects,
+	projectStats,
 	services,
+	techDistribution,
 	socials,
 } from "@/data/content";
 
@@ -792,6 +794,52 @@ export default function Home() {
 					lead="A selection of things I've designed, built and keep improving."
 					note="some favourites"
 				/>
+				<div
+					data-reveal
+					className="grid-cells mb-6 sm:grid-cols-2 lg:grid-cols-3"
+				>
+					{projectStats.map((stat) => (
+						<div key={stat.label} className="p-6 md:p-8">
+							<span className="block text-sm text-zinc-500">
+								{stat.label}
+							</span>
+							<span className="mt-2 block text-5xl font-medium tracking-tight text-zinc-900 tabular-nums">
+								{stat.value}
+							</span>
+						</div>
+					))}
+					<figure className="p-6 sm:col-span-2 md:p-8 lg:col-span-1">
+						<figcaption className="text-sm text-zinc-500">
+							Projects by technology
+						</figcaption>
+						<ul className="mt-4 space-y-3">
+							{[...techDistribution]
+								.sort((a, b) => b.share - a.share)
+								.map((tech) => (
+									<li
+										key={tech.name}
+										className="grid grid-cols-[6rem_1fr_2.5rem] items-center gap-3"
+										title={`${tech.name}: ${tech.share}% of projects`}
+									>
+										<span className="truncate text-sm text-zinc-900">
+											{tech.name}
+										</span>
+										<span className="relative h-2 rounded-full bg-zinc-100">
+											<span
+												className="absolute inset-y-0 left-0 rounded-full bg-zinc-900"
+												style={{
+													width: `${tech.share}%`,
+												}}
+											/>
+										</span>
+										<span className="text-right font-mono text-xs text-zinc-500 tabular-nums">
+											{tech.share}%
+										</span>
+									</li>
+								))}
+						</ul>
+					</figure>
+				</div>
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{projects.map((project, idx) => (
 						<a
