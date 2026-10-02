@@ -2,8 +2,6 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
 	iconArrowRight,
 	iconArrowUpRight,
@@ -37,6 +35,7 @@ import {
 import Icon from "@/components/Icon";
 import LifeCounter from "@/components/LifeCounter";
 import Scribble from "@/components/Scribble";
+import ProjectStats from "@/components/ProjectStats";
 import {
 	experience,
 	aiPrinciples,
@@ -248,31 +247,33 @@ const serviceSpans = [
 export default function Home() {
 	const pageRef = useRef();
 
+	// [data-reveal] elements start hidden via CSS (html.js, set before first
+	// paint in layout.js) and fade in with a CSS transition once they enter
+	// the viewport. The "is-revealed" class persists, so React Strict Mode's
+	// double effect run never replays an animation.
 	useEffect(() => {
-		const prefersReducedMotion = window.matchMedia(
-			"(prefers-reduced-motion: reduce)",
-		).matches;
-		if (prefersReducedMotion) return;
+		const elements = Array.from(
+			pageRef.current.querySelectorAll("[data-reveal]:not(.is-revealed)"),
+		);
 
-		gsap.registerPlugin(ScrollTrigger);
+		const observer = new IntersectionObserver(
+			(entries) => {
+				const visible = entries.filter((entry) => entry.isIntersecting);
+				visible.forEach((entry, idx) => {
+					// Stagger elements that appear together
+					entry.target.style.setProperty(
+						"--reveal-delay",
+						`${idx * 80}ms`,
+					);
+					entry.target.classList.add("is-revealed");
+					observer.unobserve(entry.target);
+				});
+			},
+			{ rootMargin: "0px 0px -10% 0px" },
+		);
 
-		const ctx = gsap.context(() => {
-			gsap.set("[data-reveal]", { opacity: 0, y: 16 });
-			ScrollTrigger.batch("[data-reveal]", {
-				start: "top 90%",
-				once: true,
-				onEnter: (elements) =>
-					gsap.to(elements, {
-						opacity: 1,
-						y: 0,
-						duration: 0.6,
-						ease: "power2.out",
-						stagger: 0.08,
-					}),
-			});
-		}, pageRef);
-
-		return () => ctx.revert();
+		elements.forEach((element) => observer.observe(element));
+		return () => observer.disconnect();
 	}, []);
 
 	return (
@@ -282,7 +283,7 @@ export default function Home() {
 				<div className="hero-glow" aria-hidden="true" />
 				<div className="frame">
 					<div className="frame-inner grid items-center gap-16 py-16 md:py-28 lg:grid-cols-[1.1fr_1fr]">
-						<div data-reveal className="min-w-0">
+						<div className="reveal-on-load min-w-0">
 							<span className="handwritten-note mb-3 inline-block -rotate-3 text-2xl">
 								nice to meet you!
 							</span>
@@ -321,7 +322,10 @@ export default function Home() {
 						</div>
 
 						{/* Profile "file" card with handwritten annotations */}
-						<div data-reveal className="relative min-w-0">
+						<div
+							className="reveal-on-load relative min-w-0"
+							style={{ "--reveal-delay": "120ms" }}
+						>
 							<div className="gradient-border shadow-sm">
 								<div className="overflow-hidden rounded-[15px] bg-surface">
 									<div className="flex items-center justify-between border-b border-zinc-200 bg-zinc-50 px-4 py-2.5">
@@ -838,6 +842,7 @@ export default function Home() {
 					lead="A selection of things I've designed, built and keep improving."
 					note="some favourites"
 				/>
+				<ProjectStats />
 				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 					{projects.map((project, idx) => (
 						<a

@@ -92,14 +92,20 @@ module.exports = {
 				base: "16px",
 			},
 			fontFamily: {
+				// Font variables come from next/font/local in layout.js
 				heading: [
-					"Circular",
+					"var(--font-circular)",
 					"ui-sans-serif",
 					"system-ui",
 					"sans-serif",
 				],
-				body: ["Circular", "ui-sans-serif", "system-ui", "sans-serif"],
-				handwritten: ["Shadows Into Light", "cursive"],
+				body: [
+					"var(--font-circular)",
+					"ui-sans-serif",
+					"system-ui",
+					"sans-serif",
+				],
+				handwritten: ["var(--font-handwritten)", "cursive"],
 				mono: [
 					"ui-monospace",
 					"SFMono-Regular",

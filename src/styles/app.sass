@@ -7,30 +7,6 @@
 
 @layer base
 
-	@font-face
-		font-family: 'Circular'
-		src: url('../../fonts/circular-book.woff2') format('woff2'), url('../../fonts/circular-book.woff') format('woff')
-		font-weight: 400
-		font-display: swap
-
-	@font-face
-		font-family: 'Circular'
-		src: url('../../fonts/circular-medium.woff2') format('woff2'), url('../../fonts/circular-medium.woff') format('woff')
-		font-weight: 500
-		font-display: swap
-
-	@font-face
-		font-family: 'Circular'
-		src: url('../../fonts/circular-bold.woff2') format('woff2'), url('../../fonts/circular-bold.woff') format('woff')
-		font-weight: 700
-		font-display: swap
-
-	@font-face
-		font-family: 'Shadows Into Light'
-		src: url('../../fonts/shadowsintolight-regular-webfont.woff2') format('woff2'), url('../../fonts/shadowsintolight-regular-webfont.woff') format('woff')
-		font-weight: 400
-		font-display: swap
-
 	// Theme tokens (RGB channels). zinc-* and surface utilities read these,
 	// so the dark theme is mostly a matter of swapping the values.
 	:root
@@ -68,7 +44,7 @@
 		scroll-padding-top: 5rem
 
 	body
-		@apply bg-surface text-zinc-600 font-normal text-base relative
+		@apply font-body bg-surface text-zinc-600 font-normal text-base relative
 
 	::selection
 		@apply bg-quartiary-100 text-night-900
@@ -199,17 +175,45 @@
 	.skip-link
 		@apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-lg focus:bg-zinc-900 focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-surface
 
-	// Intro fade: pure CSS, so the page is never hidden when JS is off
-	.intro-overlay
-		@apply pointer-events-none fixed inset-0 z-[60] bg-surface
-		animation: intro-fade 0.5s ease-in-out 0.3s forwards
+	// Scroll reveal: elements start hidden only when JS is running (the "js"
+	// class is added before first paint) and fade in when page.js adds
+	// "is-revealed". Never hidden without JS or with reduced motion.
+	html.js [data-reveal]
+		opacity: 0
+		transform: translateY(16px)
+		transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1)
+		transition-delay: var(--reveal-delay, 0ms)
+		&.is-revealed
+			opacity: 1
+			transform: none
 		@media (prefers-reduced-motion: reduce)
-			display: none
+			opacity: 1
+			transform: none
+			transition: none
 
-	@keyframes intro-fade
-		to
+	// Chart bars grow from the baseline when their card is revealed
+	html.js [data-reveal] .chart-bar
+		transform: scaleX(0)
+		transform-origin: left
+	html.js [data-reveal].is-revealed .chart-bar
+		transform: none
+		transition: transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s, filter 0.2s
+	@media (prefers-reduced-motion: reduce)
+		html.js [data-reveal] .chart-bar
+			transform: none
+
+	// Above-the-fold content animates on first paint with pure CSS, so it
+	// doesn't wait for JavaScript (better LCP, no jump after hydration).
+	.reveal-on-load
+		animation: reveal-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both
+		animation-delay: var(--reveal-delay, 0ms)
+		@media (prefers-reduced-motion: reduce)
+			animation: none
+
+	@keyframes reveal-in
+		from
 			opacity: 0
-			visibility: hidden
+			transform: translateY(16px)
 
 	// ---- Always-dark section (fixed "night" palette, not theme-inverted) ----
 

@@ -14,11 +14,11 @@ npx prettier --write <files>   # formatting: tabs, tabWidth 4 (.prettierrc)
 
 There is no test suite. Verify changes with `npm run build` and by looking at the rendered page.
 
-When taking headless screenshots, pass `--force-prefers-reduced-motion`. Otherwise every `[data-reveal]` element stays at `opacity: 0`, because the GSAP reveal only runs on scroll. Chrome's headless window can't go narrower than about 500px, so check mobile widths by loading the page in a 390px `<iframe>`.
+When taking headless screenshots, pass `--force-prefers-reduced-motion`. Otherwise `[data-reveal]` elements below the fold stay hidden, because they only reveal on scroll. Use `--timeout=<ms>` (real time) rather than `--virtual-time-budget` if you want to watch animations play. Chrome's headless window can't go narrower than about 500px, so check mobile widths by loading the page in a 390px `<iframe>`.
 
 ## Stack
 
-Next.js 13.4 (App Router, JavaScript, no TypeScript) · React 18 · Tailwind CSS 3.3 written through Sass (`.sass` indented syntax) · GSAP + ScrollTrigger. Deployed on Vercel. Local Node is v16; production and previews build on Vercel.
+Next.js 13.4 (App Router, JavaScript, no TypeScript) · React 18 · Tailwind CSS 3.3 written through Sass (`.sass` indented syntax) · fonts via `next/font/local`. Deployed on Vercel. Local Node is v16; production and previews build on Vercel.
 
 ## Architecture
 
@@ -30,7 +30,11 @@ The site is a single-page portfolio. `src/app/page.js` renders every section, an
   - `Section` draws the full-bleed top rule and the framed content with "+" corner markers. Pass `dark` for the dark variant.
   - `SectionHeader` renders the eyebrow index, title, lead and an optional handwritten `note`.
   - `ServiceVisual` switches on the service `id`. It must stay in sync with the service ids in `content.js` and with `serviceIcons`.
-- **Animation:** add `data-reveal` to any element you want to fade in on scroll. A single `ScrollTrigger.batch` in `page.js` handles all of them, and it is skipped entirely under `prefers-reduced-motion`.
+- **Animation (no GSAP):**
+  - Below-the-fold elements get `data-reveal`. CSS hides them only when `html.js` is set (by the inline script in `layout.js`, before first paint). An `IntersectionObserver` in `page.js` adds `.is-revealed` once, and a CSS transition fades them in, staggered via `--reveal-delay`.
+  - Above-the-fold elements use `.reveal-on-load`, a pure CSS keyframe animation that doesn't wait for hydration.
+  - Both are disabled under `prefers-reduced-motion`.
+  - Don't hide content from JS on mount (the visible → hidden flash was the original bug), and don't replay animations in effects: Strict Mode runs effects twice in development.
 - **Icons:** `src/utils/icons.js` exports JSX SVGs, most created with the `outline()` helper (Tabler-style paths drawn with `stroke="currentColor"`). Render them through `<Icon classList="h-5 w-5 ...">`, which sizes the child SVG. Use `currentColor`, never a hard-coded stroke color, or icons disappear on light backgrounds.
 - **Handwritten accents:** use the `.handwritten-note` class together with `<Scribble variant="curve|loop|down">` (hand-drawn arrows that point right; flip or rotate them with classes).
 
@@ -56,7 +60,7 @@ The site is a single-page portfolio. `src/app/page.js` renders every section, an
   - An inline script in `layout.js` applies the theme before paint (stored in `localStorage` "theme", falling back to the OS preference). `ThemeToggle.jsx` switches it.
   - Tailwind 3.3 has no `/15` or `/35` opacity steps: use `/10`, `/20` and so on, or arbitrary values.
 - **Colors:** neutrals are Tailwind's `zinc`. `tailwind.config.js` adds brand scales `primary` (grays), `secondary` (yellow), `tertiary` (teal) and `quartiary` (pink, used for accents and the handwritten notes).
-- **Fonts:** self-hosted in `/fonts` (Circular, plus Shadows Into Light for `font-handwritten`) and loaded with `@font-face` from `app.sass` via `../../fonts/...`. `font-mono` is the system monospace stack.
+- **Fonts:** self-hosted in `/fonts` (Circular, plus Shadows Into Light for `font-handwritten`) and loaded with `next/font/local` in `layout.js`, which preloads them and generates a metric-matched fallback. The CSS variables (`--font-circular`, `--font-handwritten`) are set on `<html>`, because the `html` rule already uses them. `font-mono` is the system monospace stack.
 
 ## SEO & metadata
 
@@ -75,4 +79,4 @@ Juli is a **front-end developer and team lead** in Barcelona who builds websites
   - Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
   - Write the subject in the imperative and lowercase, with no trailing period. Examples: `feat(ai): add team adoption principle`, `fix(nav): highlight active section on mobile`.
   - Older commits use the `add: front --> …` format; don't copy it.
-- `src/utils/animations.js`, `src/utils/helpers.js` and the `locomotive-scroll` dependency are leftovers from the original version and are no longer used.
+- `src/utils/animations.js`, `src/utils/helpers.js` and the `gsap` and `locomotive-scroll` dependencies are no longer used.

@@ -200,3 +200,18 @@ export const projects = [
 		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude"],
 	},
 ];
+
+// Project metrics shown above the featured projects.
+// TODO: the percentages are PLACEHOLDERS until the exact figures arrive.
+// Keep `isApproximate: true` (shows an "Approximate" tag) until they're real.
+export const projectStats = {
+	total: 200,
+	isApproximate: true,
+	technologies: [
+		{ name: "WordPress", share: 35 },
+		{ name: "PHP", share: 25 },
+		{ name: "Shopify", share: 20 },
+		{ name: "PrestaShop", share: 12 },
+		{ name: "Laravel", share: 8 },
+	],
+};
