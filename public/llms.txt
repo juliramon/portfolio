@@ -1,0 +1,41 @@
+# Juli Ramon
+
+> Front-end developer and team lead based in Barcelona. Builds websites and e-commerce, leads the front-end team at LA TEVA WEB, and works day to day with AI tools like Claude and Cursor.
+
+This is the personal site and portfolio of Juli Ramon. The site is a single page; each section below is available as an anchor on https://juliramon.dev.
+
+## About
+
+- Role: Front-End Team Lead at [LA TEVA WEB](https://latevaweb.com), recognised as the second-best SEO agency in Spain, building websites and e-commerce for clients.
+- Location: Barcelona, Spain.
+- Focus: websites and online stores, front-end team leadership (code review, shared standards, mentoring, planning), web performance (Core Web Vitals) and UI craft from Figma to production.
+- Motto: "Do what you love and do it always."
+
+## Skills and tools
+
+- Front-end: React, Next.js, JavaScript, Vite, Tailwind CSS, Sass
+- E-commerce and CMS: Shopify, WordPress
+- Back-end: PHP, MySQL, Node.js
+- Other: Git, Figma
+- AI tools: Claude (main AI assistant, including Claude Code for multi-step tasks) and Cursor (editor). Every AI-generated change is reviewed by a human.
+
+## Experience
+
+- [LA TEVA WEB](https://latevaweb.com) — Front-End Team Lead (present). Leads the front-end team building websites and e-commerce for clients, from Shopify and WordPress to custom React and Next.js builds; brought AI tools into the team's daily workflow.
+- [Escapades en parella](https://escapadesenparella.cat) — Founder & developer (side project). A guide to getaways for couples in Catalonia that has been featured on TV.
+
+## Pages
+
+- [Home](https://juliramon.dev/): introduction and overview
+- [About](https://juliramon.dev/#about)
+- [Services](https://juliramon.dev/#services)
+- [AI workflow](https://juliramon.dev/#ai)
+- [Stack](https://juliramon.dev/#stack)
+- [Experience](https://juliramon.dev/#experience)
+- [Projects](https://juliramon.dev/#projects)
+
+## Contact
+
+- [LinkedIn](https://www.linkedin.com/in/juliramon)
+- [GitHub](https://github.com/juliramon)
+- [X / Twitter](https://twitter.com/juligoodie)
