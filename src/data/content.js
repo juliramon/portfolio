@@ -202,16 +202,19 @@ export const projects = [
 ];
 
 // Project metrics shown above the featured projects.
-// TODO: the percentages are PLACEHOLDERS until the exact figures arrive.
+// The ranking is Juli's; the percentages are approximate estimates of it.
 // Keep `isApproximate: true` (shows an "Approximate" tag) until they're real.
 export const projectStats = {
 	total: 200,
 	isApproximate: true,
+	// `color` is the brand color; `colorDark` overrides it in the dark theme
+	// where the light-theme shade is too dim (or vice versa).
 	technologies: [
-		{ name: "WordPress", share: 35 },
-		{ name: "PHP", share: 25 },
-		{ name: "Shopify", share: 20 },
-		{ name: "PrestaShop", share: 12 },
-		{ name: "Laravel", share: 8 },
+		{ name: "PHP", share: 30, color: "#777BB4" },
+		{ name: "WordPress", share: 25, color: "#21759B", colorDark: "#3E9BCB" },
+		{ name: "Shopify", share: 18, color: "#5E8E3E", colorDark: "#95BF47" },
+		{ name: "PrestaShop", share: 12, color: "#DF0067" },
+		{ name: "Laravel", share: 9, color: "#FF2D20" },
+		{ name: "React", share: 6, color: "#087EA4", colorDark: "#61DAFB" },
 	],
 };
