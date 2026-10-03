@@ -163,6 +163,8 @@ export const experience = [
 		id: "innoget",
 		company: "Innoget",
 		href: "https://www.innoget.com",
+		logo: "/logo-innoget-icon.svg",
+		logoInvertDark: true,
 		role: "Front-End Developer",
 		period: "2024 – 2025",
 		description:

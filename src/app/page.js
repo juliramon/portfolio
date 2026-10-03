@@ -774,7 +774,11 @@ export default function Home() {
 											width={40}
 											height={40}
 											unoptimized
-											className="h-full w-full object-contain"
+											className={`h-full w-full object-contain${
+												job.logoInvertDark
+													? " dark:invert"
+													: ""
+											}`}
 										/>
 									) : (
 										<span
