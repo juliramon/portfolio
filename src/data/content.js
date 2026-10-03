@@ -160,6 +160,16 @@ export const experience = [
 		],
 	},
 	{
+		id: "innoget",
+		company: "Innoget",
+		href: "https://www.innoget.com",
+		role: "Front-End Developer",
+		period: "2024 – 2025",
+		description:
+			"Open innovation platform that connects companies with innovators. I built landing pages and challenge portals for clients like Metalsa and Nomad Foods.",
+		tags: ["Next.js", "React", "Tailwind CSS", "Open innovation"],
+	},
+	{
 		id: "escapades",
 		company: "Escapadesenparella.cat",
 		href: "https://escapadesenparella.cat",
