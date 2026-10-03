@@ -8,10 +8,10 @@ export const siteUrl = (
 ).replace(/\/$/, "");
 
 export const seo = {
-	title: "Juli Ramon · Front-End Developer & Team Lead",
+	title: "Juli Ramon · Front-End Lead making the web a little better",
 	shortTitle: "Juli Ramon",
 	description:
-		"Front-end developer and team lead in Barcelona. I build websites and e-commerce, lead the front-end team at LA TEVA WEB and work day to day with AI tools like Claude and Cursor.",
+		"200+ websites and online stores shipped. I'm Juli, a front-end team lead in Barcelona building fast, polished sites with Shopify, WordPress and React.",
 	keywords: [
 		"Juli Ramon",
 		"front-end developer",
