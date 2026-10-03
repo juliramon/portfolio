@@ -1,8 +1,8 @@
 import { projectStats } from "@/data/content";
 
 // KPI tiles + a ranked horizontal bar chart of projects by technology.
-// Single series in brand violet (validated: #7c3aed on light, #8b5cf6 on dark),
-// value at each bar tip, per-row hover/focus tooltip, and a real <table>
+// Each bar uses its technology's brand color (from content.js), with the
+// name and value always shown as text so color is never the only label, per-row hover/focus tooltip, and a real <table>
 // underneath so the data never depends on color or hover.
 const ProjectStats = () => {
 	const { total, technologies, isApproximate } = projectStats;
@@ -83,9 +83,13 @@ const ProjectStats = () => {
 											aria-hidden="true"
 										>
 											<div
-												className="chart-bar h-full rounded-r-[4px] bg-[#7c3aed] transition-[filter] group-hover:brightness-110 group-focus-visible:brightness-110 dark:bg-[#8b5cf6]"
+												className="chart-bar h-full rounded-r-[4px] bg-[var(--bar)] transition-[filter] group-hover:brightness-110 group-focus-visible:brightness-110 dark:bg-[var(--bar-dark)]"
 												style={{
 													width: `${(tech.share / max) * 100}%`,
+													"--bar": tech.color,
+													"--bar-dark":
+														tech.colorDark ||
+														tech.color,
 												}}
 											/>
 										</div>

@@ -1,6 +1,6 @@
 # Juli Ramon
 
-> Front-end developer and team lead based in Barcelona. Builds websites and e-commerce, leads the front-end team at LA TEVA WEB, and works day to day with AI tools like Claude and Cursor.
+> Front-end developer and team lead based in Barcelona. Builds websites and e-commerce, leads the front-end team at LA TEVA WEB, and works day to day with Claude Code and Cursor, orchestrating AI agents and reviewing every diff.
 
 This is the personal site and portfolio of Juli Ramon. The site is a single page; each section below is available as an anchor on https://juliramon.dev.
 
@@ -17,11 +17,11 @@ This is the personal site and portfolio of Juli Ramon. The site is a single page
 - E-commerce and CMS: Shopify, WordPress
 - Back-end: PHP, MySQL, Node.js
 - Other: Git, Figma
-- AI tools: Claude (main AI assistant, including Claude Code for multi-step tasks) and Cursor (editor). Every AI-generated change is reviewed by a human.
+- AI workflow: Claude Code (main tool, used to orchestrate agents on multi-step tasks) and Cursor (editor). Every AI-generated diff is reviewed by a human.
 
 ## Experience
 
-- [LA TEVA WEB](https://latevaweb.com) — Front-End Team Lead (present). Leads the front-end team building websites and e-commerce for clients, from Shopify and WordPress to custom React and Next.js builds; brought AI tools into the team's daily workflow.
+- [LA TEVA WEB](https://latevaweb.com) — Front-End Team Lead (present). Leads the front-end team building websites and e-commerce for clients, from Shopify and WordPress to custom React and Next.js builds; brought Claude Code and Cursor into the team's daily workflow.
 - [Escapades en parella](https://escapadesenparella.cat) — Founder & developer (side project). A guide to getaways for couples in Catalonia that has been featured on TV.
 
 ## Pages
