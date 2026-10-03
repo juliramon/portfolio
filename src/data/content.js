@@ -166,7 +166,7 @@ export const experience = [
 		role: "Front-End Developer",
 		period: "2024 – 2025",
 		description:
-			"Open innovation platform that connects companies with innovators. I built landing pages and challenge portals for clients like Metalsa and Nomad Foods.",
+			"Open innovation platform that connects companies with research centres, technology transfer offices and innovators. I developed the user and company profile system, and built landing pages and challenge portals for clients like Metalsa and Nomad Foods.",
 		tags: ["Next.js", "React", "Tailwind CSS", "Open innovation"],
 	},
 	{
