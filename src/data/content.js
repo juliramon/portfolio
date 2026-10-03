@@ -165,7 +165,7 @@ export const experience = [
 		href: "https://www.innoget.com",
 		logo: "/logo-innoget-icon.svg",
 		logoInvertDark: true,
-		role: "Front-End Developer",
+		role: "COO & Front-End Developer",
 		period: "2017 – 2021",
 		description:
 			"Open innovation platform that connects companies with research centres, technology transfer offices and innovators. I developed the user and company profile system, and built landing pages and challenge portals for clients like Metalsa and Nomad Foods.",
