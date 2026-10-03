@@ -181,6 +181,27 @@ export const projects = [
 		href: "https://escapadesenparella.cat",
 		linkText: "escapadesenparella.cat",
 		tags: ["Featured on TV", "Web platform", "SEO"],
+		stack: [],
+	},
+	{
+		id: "favicon-generator",
+		title: "Favicon Generator",
+		description:
+			"Drop in one image and get every favicon a modern site needs: PNGs from 16 to 512 px, a multi-size .ico, the HTML tags and a web manifest, zipped and ready to ship.",
+		page: "/projects/favicon-generator",
+		linkText: "Try it here",
+		tags: ["Side project", "Tool"],
+		stack: ["React", "Tailwind CSS", "Canvas API", "JSZip"],
+	},
+	{
+		id: "svg-animated",
+		title: "Trazo · SVG animator",
+		description:
+			"Turns any static icon into an animated SVG. Combine stroke drawing with motion, tweak it and copy a self-contained SVG with embedded CSS. Built for Tabler, Lucide and Feather icons.",
+		page: "/projects/svg-animated",
+		linkText: "Try it here",
+		tags: ["Side project", "Tool"],
+		stack: ["HTML", "CSS animations", "JavaScript", "SVG"],
 	},
 	{
 		id: "latevaweb",
@@ -189,16 +210,18 @@ export const projects = [
 			"Websites and online stores built with the team at the second-best SEO agency in Spain, focused on speed, clarity and conversion.",
 		href: "https://latevaweb.com",
 		linkText: "latevaweb.com",
-		tags: ["#2 SEO agency in Spain", "E-commerce", "Shopify"],
+		tags: ["#2 SEO agency in Spain", "E-commerce"],
+		stack: ["Shopify", "WordPress", "PHP", "Laravel", "React"],
 	},
 	{
 		id: "portfolio",
 		title: "This portfolio",
 		description:
-			"A personal site built as a playground for layout, typography and scroll animations — pair-programmed with Claude Code.",
+			"A personal site built as a playground for layout, typography and animation — pair-programmed with Claude Code.",
 		href: "https://github.com/juliramon",
 		linkText: "github.com/juliramon",
-		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude Code"],
+		tags: ["Personal site", "Claude Code"],
+		stack: ["Next.js", "React", "Tailwind CSS", "Sass"],
 	},
 ];
 

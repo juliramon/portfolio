@@ -857,9 +857,10 @@ export default function Home() {
 						<a
 							key={project.id}
 							data-reveal
-							href={project.href}
-							target="_blank"
-							rel="noreferrer"
+							href={project.page || project.href}
+							{...(project.page
+								? {}
+								: { target: "_blank", rel: "noreferrer" })}
 							className="card card-hover group flex flex-col overflow-hidden"
 						>
 							<div
@@ -870,7 +871,9 @@ export default function Home() {
 								</span>
 								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-surface text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
 									<Icon classList="h-4 w-4">
-										{iconArrowUpRight}
+										{project.page
+											? iconArrowRight
+											: iconArrowUpRight}
 									</Icon>
 								</span>
 							</div>
@@ -886,6 +889,16 @@ export default function Home() {
 										</li>
 									))}
 								</ul>
+								{project.stack.length > 0 && (
+									<div className="mt-4">
+										<span className="font-mono text-[11px] uppercase tracking-widest text-zinc-500">
+											Built with
+										</span>
+										<p className="mt-1.5 text-sm text-zinc-700">
+											{project.stack.join(" · ")}
+										</p>
+									</div>
+								)}
 								<span className="mt-5 border-t border-zinc-200 pt-4 font-mono text-xs text-zinc-500">
 									{project.linkText}
 								</span>

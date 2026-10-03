@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import Icon from "@/components/Icon";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -10,6 +11,8 @@ import { iconClose, iconMenu } from "@/utils/icons";
 const Nav = () => {
 	const [activeLink, setActiveLink] = useState(null);
 	const [menuOpen, setMenuOpen] = useState(false);
+	// Section anchors live on the home page; from /projects/* go back to it
+	const base = usePathname() === "/" ? "" : "/";
 
 	// Highlight the link of the section currently in view
 	useEffect(() => {
@@ -37,7 +40,7 @@ const Nav = () => {
 			<div className="frame">
 				<div className="frame-inner flex h-16 items-center justify-between">
 					<a
-						href="#top"
+						href={`${base}#top`}
 						title={`${profile.name} - ${profile.role}`}
 						className="flex items-center gap-3"
 						onClick={closeMenu}
@@ -61,7 +64,7 @@ const Nav = () => {
 						{navLinks.map((link) => (
 							<a
 								key={link.id}
-								href={`#${link.id}`}
+								href={`${base}#${link.id}`}
 								aria-current={
 									activeLink === link.id ? "true" : undefined
 								}
@@ -79,7 +82,7 @@ const Nav = () => {
 					<div className="flex items-center gap-2">
 						<ThemeToggle />
 						<a
-							href="#contact"
+							href={`${base}#contact`}
 							className="button button-primary button-sm hidden sm:inline-flex"
 						>
 							Let&apos;s connect
@@ -112,7 +115,7 @@ const Nav = () => {
 							].map((link) => (
 								<li key={link.id}>
 									<a
-										href={`#${link.id}`}
+										href={`${base}#${link.id}`}
 										onClick={closeMenu}
 										className="block rounded-md px-3 py-2.5 text-zinc-700 hover:bg-zinc-50 hover:text-zinc-900"
 									>

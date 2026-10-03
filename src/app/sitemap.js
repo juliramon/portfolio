@@ -1,4 +1,4 @@
-import { siteUrl } from "@/data/content";
+import { projects, siteUrl } from "@/data/content";
 
 export default function sitemap() {
 	return [
@@ -14,5 +14,13 @@ export default function sitemap() {
 			changeFrequency: "monthly",
 			priority: 0.5,
 		},
+		...projects
+			.filter((project) => project.page)
+			.map((project) => ({
+				url: `${siteUrl}${project.page}`,
+				lastModified: new Date(),
+				changeFrequency: "monthly",
+				priority: 0.7,
+			})),
 	];
 }
