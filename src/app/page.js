@@ -339,7 +339,7 @@ export default function Home() {
 										</span>
 										<span className="w-12" />
 									</div>
-									<pre className="overflow-x-auto whitespace-pre-wrap p-4 font-mono text-[11px] leading-7 text-zinc-700 sm:whitespace-pre sm:p-5 sm:text-[13px]">
+									<pre className="overflow-x-auto whitespace-pre-wrap p-4 font-mono text-[11px] leading-7 text-zinc-700 sm:p-5 sm:text-[13px]">
 										<code>
 											{"{\n"}
 											{"  "}
@@ -399,20 +399,12 @@ export default function Home() {
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-500">
-												&quot;aiTools&quot;
-											</span>
-											{": ["}
-											<span className="text-violet-600 dark:text-violet-400">
-												&quot;Claude Code&quot;,
-												&quot;Cursor&quot;
-											</span>
-											{"],\n  "}
-											<span className="text-zinc-500">
 												&quot;workflow&quot;
 											</span>
 											{": "}
 											<span className="text-emerald-700 dark:text-emerald-400">
-												&quot;agents + diff review&quot;
+												&quot;Orchestrating AI agents
+												and reviewing every diff&quot;
 											</span>
 											{",\n  "}
 											<span className="text-zinc-500">

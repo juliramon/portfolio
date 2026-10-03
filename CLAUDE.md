@@ -71,7 +71,7 @@ The site is a single-page portfolio. `src/app/page.js` renders every section, an
 
 ## Content positioning
 
-Juli is a **front-end developer and team lead** in Barcelona who builds websites and e-commerce and manages a front-end team. The tone should be personal, not salesy. Juli works daily with Claude Code, orchestrating agents and reviewing their diffs, plus Cursor. Name the tools and say "agents" and "diff review"; this matches the LinkedIn and GitHub banners (`"aiTools": ["Claude Code", "Cursor"]`, `"workflow": "agents + diff review"`). Shopify, WordPress, PHP, MySQL, React, Next.js, Vite, Tailwind and Sass are tools on the list, not the headline message. The closing "Connect" block is about networking and following Juli on social networks, not about finding new client projects. Site copy is in English.
+Juli is a **front-end developer and team lead** in Barcelona who builds websites and e-commerce and manages a front-end team. The tone should be personal, not salesy. Juli works daily with Claude Code, orchestrating agents and reviewing their diffs, plus Cursor. Name the tools and say "agents" and "diff review"; this matches the LinkedIn and GitHub banners (`"workflow": "Orchestrating AI agents and reviewing every diff"`, no `aiTools` key in `juli.json`). Shopify, WordPress, PHP, MySQL, React, Next.js, Vite, Tailwind and Sass are tools on the list, not the headline message. The closing "Connect" block is about networking and following Juli on social networks, not about finding new client projects. Site copy is in English.
 
 ## Conventions
 
