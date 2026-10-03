@@ -294,14 +294,10 @@ export default function Home() {
 								one site at a time.
 							</h1>
 							<p className="mt-6 max-w-xl text-lg leading-relaxed">
-								Front-end developer and team lead in{" "}
-								{profile.location}. I build websites and{" "}
-								<span className="whitespace-nowrap">
-									e-commerce
-								</span>
-								, and lead the front-end team at LA TEVA WEB.
-								Day to day I orchestrate agents with Claude Code
-								and Cursor, and review every diff they produce.
+								Front-end developer and team lead at LA TEVA
+								WEB, in {profile.location}. Every day I work
+								with AI to build websites on a modern stack:
+								accessible, fast and designed to convert.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
