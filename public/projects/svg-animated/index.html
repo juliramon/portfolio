@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Static SVG Animator</title>
+<style>
+:root{
+  --paper:#EBECEF;
+  --panel:#FFFFFF;
+  --ink:#15171C;
+  --ink-soft:#5A5F6B;
+  --line:#DEE0E5;
+  --line-strong:#C6C9D0;
+  --accent:#2242E8;
+  --accent-600:#1a34c4;
+  --accent-weak:rgba(34,66,232,.10);
+  --accent-weaker:rgba(34,66,232,.055);
+  --danger:#b42318;
+  --radius:6px;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:'Space Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--sans);
+  background:var(--paper);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+  line-height:1.45;
+  min-height:100vh;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:26px 22px 40px}
+
+/* ---------- header ---------- */
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:22px}
+.brand{display:flex;flex-direction:column;gap:4px}
+.mark{font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1;display:inline-flex;align-items:baseline;gap:2px}
+.mark .cur{position:relative}
+.mark .cur::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:3px;background:var(--accent);border-radius:2px}
+.tag{color:var(--ink-soft);font-size:13.5px;font-weight:400;max-width:54ch}
+.head-note{font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-soft);text-align:right;line-height:1.6}
+.head-note b{color:var(--ink);font-weight:500}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:minmax(340px,400px) 1fr;gap:20px;align-items:start}
+.col{display:flex;flex-direction:column;gap:16px;min-width:0}
+
+/* ---------- panels ---------- */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px}
+.eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.eyebrow::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--accent)}
+
+/* ---------- input ---------- */
+textarea#svgin{
+  width:100%;min-height:132px;resize:vertical;
+  font-family:var(--mono);font-size:12.5px;line-height:1.55;
+  color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--radius);
+  padding:11px 12px;outline:none;tab-size:2;
+}
+textarea#svgin:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
+textarea#svgin::placeholder{color:var(--ink-faint)}
+.examples{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px}
+.ex-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.ex{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px;cursor:pointer}
+.ex:hover{border-color:var(--line-strong);background:var(--accent-weaker)}
+
+/* ---------- chips ---------- */
+.grp{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px}
+.chips+.grp{margin-top:15px}
+.chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);cursor:pointer;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);text-align:left}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--line-strong);flex:none}
+.chip:hover{border-color:var(--line-strong)}
+.chip.is-active{border-color:var(--accent);background:var(--accent-weak)}
+.chip.is-active .dot{background:var(--accent)}
+.hint{font-size:11.5px;color:var(--ink-soft);margin:13px 0 0;line-height:1.45;padding:9px 11px;background:var(--accent-weaker);border-radius:var(--radius);border:1px solid var(--accent-weak)}
+.hint code{font-family:var(--mono);font-size:10.5px;background:var(--panel);border:1px solid var(--accent-weak);border-radius:4px;padding:1px 4px}
+
+/* ---------- controles ---------- */
+.ctrl{margin-top:15px}
+.ctrl:first-child{margin-top:0}
+.ctrl-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ctrl-hd label{font-size:13px;font-weight:500;color:var(--ink)}
+.val{font-family:var(--mono);font-size:11.5px;color:var(--accent);background:var(--accent-weaker);padding:2px 7px;border-radius:20px}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:var(--line);outline:none;cursor:pointer;accent-color:var(--accent)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);border:2.5px solid var(--panel);box-shadow:0 0 0 1px var(--line-strong)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--accent);border:2.5px solid var(--panel)}
+input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--accent-weaker)}
+
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel)}
+.seg button{flex:1;padding:8px 6px;font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink-soft);background:transparent;border:0;border-right:1px solid var(--line);cursor:pointer;white-space:nowrap}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--accent-weaker);color:var(--ink)}
+.seg button.is-active{background:var(--accent);color:var(--on-accent)}
+.seg-sm button{padding:6px 8px;font-size:11.5px}
+
+select.sel{width:100%;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;cursor:pointer;outline:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A5F6B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6l6 -6'/></svg>");
+  background-repeat:no-repeat;background-position:right 10px center;padding-right:34px;-webkit-appearance:none;appearance:none}
+select.sel:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
+input.num{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;outline:none}
+input.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
+.hide{display:none !important}
+
+.size-row{display:flex;align-items:center;gap:8px}
+.size-field{display:flex;align-items:center;gap:7px;flex:1;min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:0 10px}
+.size-field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
+.size-cap{font-family:var(--mono);font-size:13px;color:var(--ink-soft);flex:none;cursor:default;user-select:none}
+.size-num{width:100%;min-width:0;border:0;outline:none;background:transparent;font-family:var(--mono);font-size:13px;color:var(--ink);padding:8px 0;-moz-appearance:textfield}
+.size-num::-webkit-outer-spin-button,.size-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.link{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);color:var(--ink-soft);cursor:pointer;padding:0}
+.link:hover{border-color:var(--line-strong)}
+.link.is-on{border-color:var(--accent);background:var(--accent-weak);color:var(--accent)}
+.size-unit{font-family:var(--mono);font-size:11px;color:var(--ink-soft);flex:none}
+.mini-reset{background:none;border:0;font-family:var(--mono);font-size:10.5px;letter-spacing:.03em;color:var(--accent);cursor:pointer;padding:0}
+.mini-reset:hover{text-decoration:underline}
+
+.rand-row{display:flex;align-items:center;gap:10px;margin-top:10px}
+.toggle{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.toggle::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line-strong)}
+.toggle:hover{border-color:var(--line-strong)}
+.toggle.is-on{border-color:var(--accent);background:var(--accent-weak);color:var(--ink)}
+.toggle.is-on::before{background:var(--accent)}
+
+.color-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.swatch{flex:none;width:38px;height:38px;border-radius:var(--radius);border:1px solid var(--line);overflow:hidden;cursor:pointer;display:block;position:relative}
+.swatch input[type=color]{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);padding:0;border:0;background:none;cursor:pointer}
+#colorHex{flex:1;text-transform:uppercase}
+
+/* ---------- stage ---------- */
+.stage-panel{padding:0;overflow:hidden}
+.stage{position:relative;height:360px;display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background-color .2s}
+.stage.bg-light{background:#fff}
+.stage.bg-dark{background:#14161B;color:#EDEEF0}
+.stage svg{width:clamp(120px,56%,200px);height:auto;min-width:120px;display:block;overflow:visible}
+.stage .empty{font-size:14px;color:var(--ink-soft);text-align:center;max-width:24ch;padding:0 20px}
+.stage .empty.is-error{color:var(--danger)}
+
+.mk{position:absolute;width:13px;height:13px;border-color:var(--line-strong);border-style:solid;border-width:0;pointer-events:none}
+.mk.tl{top:9px;left:9px;border-top-width:1.5px;border-left-width:1.5px}
+.mk.tr{top:9px;right:9px;border-top-width:1.5px;border-right-width:1.5px}
+.mk.bl{bottom:9px;left:9px;border-bottom-width:1.5px;border-left-width:1.5px}
+.mk.br{bottom:9px;right:9px;border-bottom-width:1.5px;border-right-width:1.5px}
+.stage.bg-dark .mk{border-color:rgba(255,255,255,.22)}
+
+.stage-eyebrow{position:absolute;top:11px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);pointer-events:none;white-space:nowrap;max-width:90%;overflow:hidden;text-overflow:ellipsis}
+.dim{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:10px;letter-spacing:.04em;color:var(--ink-soft);opacity:.85;pointer-events:none}
+.hoverhint{position:absolute;top:11px;right:12px;font-family:var(--mono);font-size:10px;letter-spacing:.03em;color:var(--accent);display:flex;align-items:center;gap:5px}
+.hoverhint::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);animation:hh 1.4s ease-in-out infinite}
+@keyframes hh{0%,100%{opacity:.35}50%{opacity:1}}
+.stage.bg-dark .stage-eyebrow,.stage.bg-dark .dim{color:rgba(255,255,255,.55)}
+
+.stage-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
+
+/* ---------- output ---------- */
+.code-wrap{border:1px solid var(--line);border-radius:var(--radius);background:var(--field);overflow:hidden}
+pre.code{margin:0;padding:13px 14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink);white-space:pre;overflow:auto;max-height:240px;tab-size:2}
+pre.code:empty::before{content:"The animated SVG will appear here.";color:var(--ink-faint)}
+.out-bar{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+
+/* ---------- buttons ---------- */
+.btn{font-family:var(--sans);font-weight:600;font-size:13px;border-radius:var(--radius);padding:9px 16px;cursor:pointer;border:1px solid transparent;transition:background .12s,border-color .12s}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover{background:var(--accent-600)}
+.btn-secondary{background:var(--panel);color:var(--ink);border-color:var(--line)}
+.btn-secondary:hover{border-color:var(--line-strong)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);font-weight:500}
+.btn-ghost:hover{background:var(--accent-weaker);border-color:var(--line-strong)}
+
+.foot{margin-top:26px;font-family:var(--mono);font-size:11px;letter-spacing:.02em;color:var(--ink-soft);text-align:center}
+.foot b{color:var(--ink);font-weight:500}
+
+/* ---------- responsive ---------- */
+@media (max-width:880px){
+  .app{grid-template-columns:1fr}
+  .stage{height:300px}
+  .stage svg{width:clamp(120px,62%,160px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important}
+  .hoverhint::before{animation:none}
+}
+
+/* ---------- portfolio theme ----------
+   Restyles the tool with juliramon.dev's tokens (zinc neutrals, Circular,
+   near-black primary, pink focus accent) and follows the site's light/dark
+   theme, which the script below syncs from the parent page. */
+@font-face{font-family:'Circular';src:url('/projects/fonts/circular-book.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Circular';src:url('/projects/fonts/circular-medium.woff2') format('woff2');font-weight:500 700;font-display:swap}
+:root{
+  --paper:transparent;
+  --panel:#FFFFFF;
+  --field:#FAFAFA;
+  --ink:#18181B;
+  --ink-soft:#71717A;
+  --ink-faint:#A1A1AA;
+  --line:#E4E4E7;
+  --line-strong:#D4D4D8;
+  --accent:#18181B;
+  --accent-600:#3F3F46;
+  --accent-weak:#F4F4F5;
+  --accent-weaker:#FAFAFA;
+  --on-accent:#FFFFFF;
+  --focus:rgba(255,0,142,.25);
+  --dot:#FF008E;
+  --radius:8px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:'Circular',ui-sans-serif,system-ui,sans-serif;
+}
+:root.dark{
+  color-scheme:dark;
+  --panel:#0A0A0C;
+  --field:#161619;
+  --ink:#F4F4F5;
+  --ink-soft:#9696A0;
+  --ink-faint:#71717A;
+  --line:#2C2C31;
+  --line-strong:#3F3F46;
+  --accent:#F4F4F5;
+  --accent-600:#D4D4D8;
+  --accent-weak:#242428;
+  --accent-weaker:#161619;
+  --on-accent:#0A0A0C;
+}
+body{background:transparent}
+.wrap{max-width:none;padding:0}
+.head{display:none}
+.panel{border-radius:12px;padding:18px}
+.eyebrow::before{background:var(--dot)}
+.btn{font-weight:500}
+textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{border-color:var(--line-strong);box-shadow:0 0 0 3px var(--focus)}
+.btn:focus-visible{outline-color:var(--dot)}
+.val,.mini-reset,.hoverhint{color:var(--ink)}
+.hoverhint::before{background:var(--dot)}
+.stage.bg-light{color:#18181B}
+.stage.bg-dark{color:#F4F4F5}
+</style>
+<script>
+// Follow the portfolio's light/dark theme when embedded in it
+(function(){
+  try{
+    var root=window.parent.document.documentElement;
+    var apply=function(){document.documentElement.classList.toggle('dark',root.classList.contains('dark'))};
+    apply();
+    new MutationObserver(apply).observe(root,{attributes:true,attributeFilter:['class']});
+  }catch(e){}
+})();
+</script>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="head">
+    <div class="brand">
+      <span class="mark">Tra<span class="cur">zo</span></span>
+      <span class="tag">Turn any static icon into an animated SVG. Combine stroke drawing with motion, tweak it and copy the result.</span>
+    </div>
+    <div class="head-note">
+      output: <b>standalone SVG</b> · embedded CSS<br>
+      no JS · no dependencies<br>
+      made for <b>Tabler · Lucide · Feather</b>
+    </div>
+  </header>
+
+  <main class="app">
+    <!-- COLUMNA IZQUIERDA -->
+    <section class="col">
+      <div class="panel">
+        <p class="eyebrow">Input · SVG</p>
+        <textarea id="svgin" spellcheck="false" placeholder="Paste the full icon code here, e.g. <svg …>…</svg>"></textarea>
+        <div class="examples">
+          <span class="ex-label">Examples</span>
+          <button class="ex" data-ex="act">Activity</button>
+          <button class="ex" data-ex="bell">Bell</button>
+          <button class="ex" data-ex="gear">Settings</button>
+          <button class="ex" data-ex="user">User</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Animation</p>
+        <p class="grp">Stroke · the drawing</p>
+        <div class="chips" id="strokeChips"></div>
+        <p class="grp">Motion · the whole icon</p>
+        <div class="chips" id="motionChips"></div>
+        <div id="scopeRow" class="ctrl hide">
+          <div class="ctrl-hd"><label>Motion scope</label></div>
+          <div class="seg" id="scope">
+            <button data-v="whole">Whole</button>
+            <button data-v="parts">By parts</button>
+          </div>
+        </div>
+        <p class="hint hide" id="partsHint">Each element and sub-path animates on its own, with a small offset. That way, for example, the head and body of an icon move independently.</p>
+        <p class="hint hide" id="comboHint">Stroke and motion combined: the stroke draws once and the repeat applies to the motion.</p>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Settings</p>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label>Size</label><button class="mini-reset" id="sizeReset" type="button">reset</button></div>
+          <div class="size-row">
+            <div class="size-field">
+              <span class="size-cap" title="Width">↔</span>
+              <input type="number" id="w" class="size-num" min="1" max="2000" value="44">
+            </div>
+            <button class="link is-on" id="link" type="button" aria-pressed="true" title="Aspect ratio locked">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/></svg>
+            </button>
+            <div class="size-field">
+              <span class="size-cap" title="Height">↕</span>
+              <input type="number" id="h" class="size-num" min="1" max="2000" value="44">
+            </div>
+            <span class="size-unit">px</span>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label>Stroke color</label></div>
+          <div class="seg" id="colorMode">
+            <button data-v="inherit">Inherit</button>
+            <button data-v="custom">Custom</button>
+          </div>
+          <div class="color-row hide" id="colorRow">
+            <label class="swatch"><input type="color" id="colorPick" value="#2242E8"></label>
+            <input type="text" id="colorHex" class="num" value="#2242E8" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label for="vb">viewBox</label><button class="mini-reset" id="vbReset" type="button">reset</button></div>
+          <input type="text" id="vb" class="num" value="0 0 24 24" spellcheck="false" placeholder="0 0 24 24">
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label for="dur">Duration</label><span class="val" id="durVal">1.2 s</span></div>
+          <input type="range" id="dur" min="0.1" max="5" step="0.1" value="1.2">
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label for="delay">Delay</label><span class="val" id="delayVal">0 s</span></div>
+          <input type="range" id="delay" min="0" max="3" step="0.05" value="0">
+        </div>
+
+        <div class="ctrl hide" id="stagRow">
+          <div class="ctrl-hd"><label for="stag">Delay between strokes</label><span class="val" id="stagVal">0.15 s</span></div>
+          <input type="range" id="stag" min="0" max="0.6" step="0.01" value="0.15">
+        </div>
+
+        <div class="ctrl hide" id="phaseRow">
+          <div class="ctrl-hd"><label for="phase">Offset between parts</label><span class="val" id="phaseVal">0.12 s</span></div>
+          <input type="range" id="phase" min="0" max="0.6" step="0.01" value="0.12">
+          <div class="rand-row">
+            <button type="button" class="toggle" id="randToggle" aria-pressed="false">Random order</button>
+            <button type="button" class="mini-reset hide" id="shuffle">↻ shuffle</button>
+          </div>
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label for="easing">Easing</label></div>
+          <select class="sel" id="easing">
+            <option value="suave">Smooth (ease in and out)</option>
+            <option value="salida">Ease out</option>
+            <option value="entrada">Ease in</option>
+            <option value="lineal">Linear</option>
+            <option value="estandar">Standard</option>
+            <option value="elastico">Elastic (overshoot)</option>
+          </select>
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label>Repeat</label></div>
+          <div class="seg" id="repeat">
+            <button data-v="once">Once</button>
+            <button data-v="loop">Loop</button>
+            <button data-v="custom">N times</button>
+          </div>
+        </div>
+
+        <div class="ctrl hide" id="countRow">
+          <div class="ctrl-hd"><label for="count">Number of repeats</label></div>
+          <input type="number" class="num" id="count" min="1" max="50" value="3">
+        </div>
+
+        <div class="ctrl">
+          <div class="ctrl-hd"><label>Trigger</label></div>
+          <div class="seg" id="trigger">
+            <button data-v="load">On load</button>
+            <button data-v="hover" title="When hovering the icon">Hover</button>
+            <button data-v="container" title="When hovering the container (e.g. a button)">Container</button>
+          </div>
+        </div>
+        <p class="hint hide" id="containerHint">Container mode: the animation is triggered from the parent element. The exported SVG includes the CSS line to add to your page (swap the <code>.container</code> selector for your button's). In the preview, hover the canvas.</p>
+      </div>
+    </section>
+
+    <!-- COLUMNA DERECHA -->
+    <section class="col">
+      <div class="panel stage-panel">
+        <div class="stage bg-light" id="stage">
+          <span class="mk tl"></span><span class="mk tr"></span><span class="mk bl"></span><span class="mk br"></span>
+          <span class="stage-eyebrow" id="stageEyebrow">DRAW + WIGGLE · LOOP</span>
+          <span class="hoverhint hide" id="hoverHint">hover the icon</span>
+          <span class="dim" id="dim">44 × 44</span>
+          <div id="stageInner"><div class="empty">Paste an SVG to see the animation</div></div>
+        </div>
+        <div class="stage-bar">
+          <button class="btn btn-ghost" id="replay">↻ Replay</button>
+          <div class="seg seg-sm" id="bg">
+            <button data-v="light">Light</button>
+            <button data-v="dark">Dark</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <p class="eyebrow">Output · animated SVG</p>
+        <div class="code-wrap"><pre class="code" id="code"></pre></div>
+        <div class="out-bar">
+          <button class="btn btn-primary" id="copy">Copy SVG</button>
+          <button class="btn btn-secondary" id="download">Download .svg</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <p class="foot"><b>Static SVG Animator</b> · combines stroke and motion · drawing needs <b>stroke</b> icons (Tabler, Lucide, Feather); motion works with any SVG.</p>
+</div>
+
+<script>
+"use strict";
+const SVGNS='http://www.w3.org/2000/svg';
+const NON_RENDER=new Set(['defs','style','title','desc','metadata','symbol','clippath','lineargradient','radialgradient','filter','mask','pattern']);
+const VB_RE=/^\s*-?[\d.]+([\s,]+-?[\d.]+){3}\s*$/;
+const DEF_SIZE=44;
+
+/* ---- capa TRAZO (dibujado) ---- */
+const STROKE_DEF={name:'t-draw',base:'stroke-dasharray:1;',kf:'@keyframes t-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}'};
+const STROKE_ORDER=[['none','None'],['draw','Draw'],['drawSeq','In sequence']];
+const STROKE_LABEL={draw:'Draw',drawSeq:'Draw in sequence'};
+
+/* ---- capa MOVIMIENTO (transform sobre todo el icono) ---- */
+const MOTION_DEF={
+  rotate:{name:'t-rot',  base:'transform-box:fill-box;transform-origin:center;', kf:'@keyframes t-rot{to{transform:rotate(360deg)}}'},
+  pulse: {name:'t-pulse',base:'transform-box:fill-box;transform-origin:center;', kf:'@keyframes t-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.16)}}'},
+  bounce:{name:'t-bounce',base:'transform-box:fill-box;transform-origin:center;', kf:'@keyframes t-bounce{0%,15%,45%,75%,100%{transform:translateY(0)}30%{transform:translateY(-20%)}60%{transform:translateY(-9%)}85%{transform:translateY(-3%)}}'},
+  wiggle:{name:'t-wig', base:'transform-box:fill-box;transform-origin:center;', kf:'@keyframes t-wig{0%,100%{transform:rotate(0)}12%{transform:rotate(-11deg)}28%{transform:rotate(9deg)}42%{transform:rotate(-7deg)}56%{transform:rotate(5deg)}70%{transform:rotate(-3deg)}84%{transform:rotate(1.5deg)}}'},
+  float: {name:'t-float',base:'transform-box:fill-box;transform-origin:center;', kf:'@keyframes t-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10%)}}'},
+  appear:{name:'t-appear',base:'', kf:'@keyframes t-appear{from{opacity:0}to{opacity:1}}'},
+  slide: {name:'t-slide',base:'transform-box:fill-box;', kf:'@keyframes t-slide{from{opacity:0;transform:translateY(14%)}to{opacity:1;transform:translateY(0)}}'},
+};
+const MOTION_ORDER=[['none','None'],['rotate','Rotate'],['pulse','Pulse'],['bounce','Bounce'],['wiggle','Wiggle'],['float','Float'],['appear','Appear'],['slide','Slide']];
+const MOTION_LABEL={rotate:'Rotate',pulse:'Pulse',bounce:'Bounce',wiggle:'Wiggle',float:'Float',appear:'Appear',slide:'Slide'};
+
+const EASINGS={suave:'ease-in-out',lineal:'linear',entrada:'ease-in',salida:'ease-out',estandar:'ease',elastico:'cubic-bezier(.34,1.56,.64,1)'};
+
+/* defaults de tiempo según el efecto elegido */
+const DEF_MOTION={
+  rotate:{duration:1.6,easing:'lineal',repeat:'loop'},
+  pulse: {duration:1.2,easing:'suave',repeat:'loop'},
+  bounce:{duration:1.1,easing:'estandar',repeat:'loop'},
+  wiggle:{duration:1.2,easing:'suave',repeat:'loop'},
+  float: {duration:3,easing:'lineal',repeat:'loop'},
+  appear:{duration:0.6,easing:'salida',repeat:'once'},
+  slide: {duration:0.7,easing:'salida',repeat:'once'},
+};
+const DEF_STROKE={
+  draw:   {duration:1.2,easing:'suave',repeat:'once'},
+  drawSeq:{duration:1,easing:'suave',repeat:'once',stagger:0.15},
+};
+
+/* ---- ejemplos (iconos Tabler) ---- */
+const EXAMPLES={
+  act:{stroke:'draw',motion:'float',scope:'whole', svg:`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M3 12h4l3 8l4 -16l3 8h4" />
+</svg>`},
+  bell:{stroke:'draw',motion:'wiggle',scope:'whole', svg:`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 5a2 2 0 1 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+  <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+</svg>`},
+  gear:{stroke:'none',motion:'rotate',scope:'whole', svg:`<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z" />
+  <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+</svg>`},
+  user:{stroke:'draw',motion:'float',scope:'parts', svg:`<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M35.2 36.85V33.55C35.2 31.7996 34.5046 30.1208 33.2669 28.8831C32.0292 27.6454 30.3504 26.95 28.6 26.95H15.4C13.6496 26.95 11.9708 27.6454 10.7331 28.8831C9.49536 30.1208 8.8 31.7996 8.8 33.55V36.85M28.6 13.75C28.6 17.3951 25.6451 20.35 22 20.35C18.3549 20.35 15.4 17.3951 15.4 13.75C15.4 10.1049 18.3549 7.15 22 7.15C25.6451 7.15 28.6 10.1049 28.6 13.75Z" stroke="#232323" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>`},
+};
+
+/* ---- estado ---- */
+const state={stroke:'draw',motion:'wiggle',scope:'whole',phase:0.12,randomize:false,seeds:[],duration:1.2,delay:0,stagger:0.15,easing:'suave',repeat:'loop',count:3,trigger:'load',bg:'light',width:44,height:44,ratio:1,lockRatio:true,sizeTouched:false,colorMode:'inherit',color:'#2242E8',viewBox:'0 0 24 24',vbTouched:false};
+let lastOutput='';
+let lastPreviewHtml='';
+
+/* ---- refs ---- */
+const $=id=>document.getElementById(id);
+const input=$('svgin'), stage=$('stage'), stageInner=$('stageInner'), codePre=$('code');
+const durEl=$('dur'), delayEl=$('delay'), stagEl=$('stag'), easingEl=$('easing'), countEl=$('count');
+
+/* ---- utilidades DOM ---- */
+function addClass(el,c){const cur=el.getAttribute('class');el.setAttribute('class',cur?cur+' '+c:c);}
+function addStyle(el,decl){const cur=el.getAttribute('style');el.setAttribute('style',cur?cur.replace(/;?\s*$/,';')+decl:decl);}
+function indent(str,pre){return str.split('\n').map(l=>l?pre+l:l).join('\n');}
+function formatXml(xml){
+  const parts=xml.replace(/>\s+</g,'><').replace(/></g,'>\n<').split('\n');
+  let pad=0;const out=[];
+  for(const raw of parts){
+    const node=raw.trim();if(!node)continue;
+    const isClose=/^<\/[^>]+>$/.test(node);
+    const isSelf=/\/>$/.test(node);
+    const isOpen=/^<[a-zA-Z][^>]*>$/.test(node)&&!isSelf&&!isClose;
+    if(isClose)pad=Math.max(0,pad-1);
+    out.push('  '.repeat(pad)+node);
+    if(isOpen)pad++;
+  }
+  return out.join('\n');
+}
+function naturalSize(svg){
+  let w=parseFloat(svg.getAttribute('width'));
+  let h=parseFloat(svg.getAttribute('height'));
+  let vbw,vbh;
+  const vb=svg.getAttribute('viewBox');
+  if(vb){const p=vb.trim().split(/[\s,]+/);if(p.length===4){vbw=parseFloat(p[2]);vbh=parseFloat(p[3]);}}
+  if(!w||isNaN(w))w=vbw||24;
+  if(!h||isNaN(h))h=vbh||24;
+  return {w:Math.round(w),h:Math.round(h)};
+}
+function clampSize(v){v=parseInt(v,10);if(isNaN(v))v=1;return Math.min(2000,Math.max(1,v));}
+function reflectSize(){$('w').value=state.width;$('h').value=state.height;}
+function ensureSeeds(n){while(state.seeds.length<n)state.seeds.push(Math.random());}
+function makeUid(){return 'ta'+Math.random().toString(36).slice(2,8)+Date.now().toString(36).slice(-3);}
+function toHex6(h){if(/^#[0-9a-fA-F]{3}$/.test(h))return '#'+h.slice(1).split('').map(c=>c+c).join('');return h;}
+function patchPreview(){
+  const svg=stageInner.querySelector('svg');
+  if(!svg)return;
+  if(VB_RE.test(state.viewBox))svg.setAttribute('viewBox',state.viewBox.trim());
+  if(state.colorMode==='custom')svg.style.color=state.color;else svg.style.removeProperty('color');
+}
+function applySoft(){generate(false);patchPreview();}
+
+/* ---- construir CSS (dos capas) ---- */
+function buildCSS(uid){
+  const doStroke=state.stroke!=='none', doMotion=state.motion!=='none';
+  const seq=state.stroke==='drawSeq';
+  const dur=state.duration+'s', ease=EASINGS[state.easing];
+  const repVal=state.repeat==='loop'?'infinite':(state.repeat==='custom'?String(state.count):'1');
+  const strokeIter=doMotion?'1':repVal;   // combinado: el trazo se dibuja una vez
+  const motionIter=repVal;
+  const delay=state.delay+'s';
+  const trig=state.trigger;               // 'load' | 'hover' | 'container'
+  const S='#'+uid;                        // ámbito: los estilos solo afectan a este SVG
+  const kf=(str,name)=>str.replace('@keyframes '+name,'@keyframes '+name+'-'+uid);
+  const nm=n=>n+'-'+uid;                  // nombre de keyframe con ámbito
+  const anim=(nameStr,iter,includeDelay)=>{
+    includeDelay=(includeDelay!==false);
+    let s=`animation-name:${nameStr};animation-duration:${dur};animation-timing-function:${ease};animation-iteration-count:${iter};animation-fill-mode:both;`;
+    if(includeDelay)s+=`animation-delay:${delay};`;
+    return s;
+  };
+  const sName=nm(STROKE_DEF.name);
+  const mName=doMotion?nm(MOTION_DEF[state.motion].name):'';
+  const L=[];
+  if(doStroke){
+    L.push(kf(STROKE_DEF.kf,STROKE_DEF.name));
+    if(trig==='hover'){
+      L.push(`${S} .t-stroke{${STROKE_DEF.base}}`);
+      L.push(`${S}:hover .t-stroke{${anim(sName,strokeIter,!seq)}}`);
+    }else if(trig==='container'){
+      L.push(`${S} .t-stroke{${STROKE_DEF.base}${anim('none',strokeIter,!seq)}}`);
+    }else{
+      L.push(`${S} .t-stroke{${STROKE_DEF.base}${anim(sName,strokeIter,!seq)}}`);
+    }
+  }
+  if(doMotion){
+    const m=MOTION_DEF[state.motion];
+    L.push(kf(m.kf,m.name));
+    if(trig==='hover'){
+      if(m.base)L.push(`${S} .t-motion{${m.base}}`);
+      L.push(`${S}:hover .t-motion{${anim(mName,motionIter)}}`);
+    }else if(trig==='container'){
+      L.push(`${S} .t-motion{${m.base||''}${anim('none',motionIter)}}`);
+    }else{
+      L.push(`${S} .t-motion{${m.base||''}${anim(mName,motionIter)}}`);
+    }
+  }
+  if(doStroke||doMotion){
+    const sel=[doStroke?`${S} .t-stroke`:null,doMotion?`${S} .t-motion`:null].filter(Boolean).join(',');
+    let rm=`@media (prefers-reduced-motion:reduce){${sel}{animation:none}`;
+    if(doStroke)rm+=`${S} .t-stroke{stroke-dashoffset:0}`;
+    if(doMotion)rm+=`${S} .t-motion{opacity:1;transform:none}`;
+    rm+=`}`;
+    L.push(rm);
+    if(trig==='hover'){
+      const hsel=[doStroke?`${S}:hover .t-stroke`:null,doMotion?`${S}:hover .t-motion`:null].filter(Boolean).join(',');
+      L.push(`@media (prefers-reduced-motion:reduce){${hsel}{animation:none}}`);
+    }
+  }
+  if(trig==='container'){
+    const cl=[];
+    if(doStroke)cl.push(`   .container:hover ${S} .t-stroke{animation-name:${sName}}`);
+    if(doMotion)cl.push(`   .container:hover ${S} .t-motion{animation-name:${mName}}`);
+    L.unshift(`/* Animate when hovering the container: add this to your page's CSS\n   and swap ".container" for your button/element selector.\n${cl.join('\n')} */`);
+  }
+  return L.join('\n');
+}
+
+/* ---- componer SVG final ---- */
+function compose(work,css){
+  let s=new XMLSerializer().serializeToString(work);
+  const m=s.match(/^(<svg[^>]*>)([\s\S]*)(<\/svg>)$/);
+  if(!m)return s;
+  if(!css)return `${m[1]}\n${indent(formatXml(m[2]),'  ')}\n${m[3]}`;
+  const styleBlock='  <style>\n'+indent(css,'    ')+'\n  </style>';
+  const body=indent(formatXml(m[2]),'  ');
+  return `${m[1]}\n${styleBlock}\n${body}\n${m[3]}`;
+}
+
+/* ---- generar ---- */
+function generate(render){
+  render=(render!==false);
+  const src=input.value.trim();
+  if(!src){setEmpty();return;}
+  let doc;
+  try{doc=new DOMParser().parseFromString(src,'image/svg+xml');}
+  catch(e){setError('The code could not be read.');return;}
+  if(doc.querySelector('parsererror')||!doc.querySelector('svg')){
+    setError('No valid <svg> found. Paste the full icon code.');return;
+  }
+  const work=doc.querySelector('svg');
+  if(!work.getAttribute('xmlns'))work.setAttribute('xmlns',SVGNS);
+  const uid=makeUid();
+  work.setAttribute('id',uid);
+
+  // tamaño de salida (por defecto 44 px, respetando la proporción)
+  const ns=naturalSize(work);
+  state.ratio=(ns.w/ns.h)||1;
+  if(!state.sizeTouched){state.width=DEF_SIZE;state.height=Math.round(DEF_SIZE/state.ratio)||DEF_SIZE;reflectSize();}
+  work.setAttribute('width',String(state.width));
+  work.setAttribute('height',String(state.height));
+
+  // viewBox
+  const srcVB=work.getAttribute('viewBox')||'';
+  if(!state.vbTouched){state.viewBox=srcVB||`0 0 ${ns.w} ${ns.h}`;$('vb').value=state.viewBox;}
+  else if(VB_RE.test(state.viewBox)){work.setAttribute('viewBox',state.viewBox.trim());}
+
+  // color del trazo (currentColor → color fijo)
+  if(state.colorMode==='custom')addStyle(work,'color:'+state.color);
+
+  const doStroke=state.stroke!=='none', doMotion=state.motion!=='none', seq=state.stroke==='drawSeq';
+
+  // 1) capa movimiento
+  if(doMotion){
+    if(state.scope==='parts'){
+      // dividir en partes: cada subtrazo de un path se separa; cada elemento se anima aparte
+      const parts=[];
+      Array.from(work.childNodes).forEach(n=>{
+        if(n.nodeType!==1)return;
+        const tag=n.tagName.toLowerCase();
+        if(NON_RENDER.has(tag))return;
+        if(tag==='path'){
+          // dividir solo por subtrazos ABSOLUTOS (M); los relativos (m) dependen
+          // del punto anterior, así que se quedan con su subtrazo para no descolocarse
+          const d=n.getAttribute('d')||'';
+          const subs=d.match(/M[^M]*/g);
+          if(subs&&subs.length>1){subs.forEach(sd=>{const p=n.cloneNode(false);p.setAttribute('d',sd.trim());parts.push(p);});}
+          else parts.push(n);
+        }else parts.push(n);
+      });
+      Array.from(work.childNodes).forEach(n=>{
+        if(n.nodeType===1&&!NON_RENDER.has(n.tagName.toLowerCase()))work.removeChild(n);
+        else if(n.nodeType===3&&!n.data.trim())work.removeChild(n);
+        else if(n.nodeType===8)work.removeChild(n);
+      });
+      const nparts=parts.length;
+      const spread=(nparts>1?nparts-1:1)*state.phase;
+      if(state.randomize)ensureSeeds(nparts);
+      parts.forEach((p,i)=>{
+        const g=doc.createElementNS(SVGNS,'g');
+        g.setAttribute('class','t-motion');
+        const dly=state.randomize?(state.delay+state.seeds[i]*spread):(state.delay+i*state.phase);
+        g.setAttribute('style',`animation-delay:${dly.toFixed(3)}s`);
+        g.appendChild(p);
+        work.appendChild(g);
+      });
+    }else{
+      // conjunto: envolver todo el contenido en un solo <g>
+      const g=doc.createElementNS(SVGNS,'g');
+      g.setAttribute('class','t-motion');
+      Array.from(work.childNodes).forEach(n=>{
+        if(n.nodeType===1&&NON_RENDER.has(n.tagName.toLowerCase()))return;
+        if(n.nodeType===3&&!n.data.trim())return;
+        if(n.nodeType===8)return;
+        g.appendChild(n);
+      });
+      work.appendChild(g);
+    }
+    addStyle(work,'overflow:visible');
+  }
+
+  // 2) capa trazo: marcar cada trazo (aunque esté dentro del grupo)
+  if(doStroke){
+    const els=work.querySelectorAll('path,line,polyline,polygon,rect,circle,ellipse');
+    els.forEach((el,i)=>{
+      el.setAttribute('pathLength','1');
+      addClass(el,'t-stroke');
+      if(seq)addStyle(el,`animation-delay:${(state.delay+i*state.stagger).toFixed(3)}s`);
+    });
+  }
+
+  const css=buildCSS(uid);
+  const out=compose(work,css);
+  lastOutput=out;
+  let previewCss='';
+  if(state.trigger==='container'){
+    const t=[];
+    if(state.stroke!=='none')t.push(`#stage:hover #${uid} .t-stroke{animation-name:${STROKE_DEF.name}-${uid}}`);
+    if(state.motion!=='none')t.push(`#stage:hover #${uid} .t-motion{animation-name:${MOTION_DEF[state.motion].name}-${uid}}`);
+    previewCss='<style>'+t.join('')+'</style>';
+  }
+  lastPreviewHtml=out+previewCss;
+  codePre.textContent=out;
+  if(render)renderPreview();
+  updateStageMeta();
+}
+
+function renderPreview(){stageInner.innerHTML=lastPreviewHtml;}
+function setEmpty(msg){stageInner.innerHTML=`<div class="empty">${msg||'Paste an SVG to see the animation'}</div>`;codePre.textContent='';lastOutput='';lastPreviewHtml='';}
+function setError(m){setEmpty(m);const e=stageInner.querySelector('.empty');if(e)e.classList.add('is-error');}
+
+function comboLabel(){
+  const parts=[];
+  if(state.stroke!=='none')parts.push(STROKE_LABEL[state.stroke]);
+  if(state.motion!=='none')parts.push(MOTION_LABEL[state.motion]);
+  return parts.length?parts.join(' + '):'No animation';
+}
+function updateStageMeta(){
+  $('dim').textContent=`${state.width} × ${state.height}`;
+  const rep=state.repeat==='loop'?'LOOP':(state.repeat==='custom'?`${state.count}×`:'ONCE');
+  let ey=comboLabel().toUpperCase()+' · '+rep;
+  if(state.motion!=='none'&&state.scope==='parts')ey+=' · PARTS';
+  if(state.trigger==='hover')ey+=' · HOVER';
+  else if(state.trigger==='container')ey+=' · CONTAINER';
+  $('stageEyebrow').textContent=ey;
+  const hoverish=(state.trigger==='hover'||state.trigger==='container');
+  $('hoverHint').classList.toggle('hide',!hoverish);
+  $('hoverHint').textContent=state.trigger==='container'?'hover the canvas':'hover the icon';
+  $('containerHint').classList.toggle('hide',state.trigger!=='container');
+  $('comboHint').classList.toggle('hide',!(state.stroke!=='none'&&state.motion!=='none'));
+}
+
+/* ---- reflejar estado en la interfaz ---- */
+function reflect(){
+  durEl.value=state.duration; $('durVal').textContent=state.duration+' s';
+  delayEl.value=state.delay; $('delayVal').textContent=state.delay+' s';
+  stagEl.value=state.stagger; $('stagVal').textContent=state.stagger+' s';
+  easingEl.value=state.easing;
+  countEl.value=state.count;
+  setSeg('repeat',state.repeat); setSeg('trigger',state.trigger); setSeg('bg',state.bg);
+  document.querySelectorAll('#strokeChips .chip').forEach(c=>c.classList.toggle('is-active',c.dataset.val===state.stroke));
+  document.querySelectorAll('#motionChips .chip').forEach(c=>c.classList.toggle('is-active',c.dataset.val===state.motion));
+  $('stagRow').classList.toggle('hide',state.stroke!=='drawSeq');
+  $('countRow').classList.toggle('hide',state.repeat!=='custom');
+  stage.className='stage bg-'+state.bg;
+  reflectSize();
+  $('link').classList.toggle('is-on',state.lockRatio);
+  $('link').setAttribute('aria-pressed',String(state.lockRatio));
+  $('link').title=state.lockRatio?'Aspect ratio locked':'Aspect ratio free';
+  setSeg('colorMode',state.colorMode);
+  $('colorRow').classList.toggle('hide',state.colorMode!=='custom');
+  $('colorPick').value=toHex6(state.color);
+  $('colorHex').value=state.color.toUpperCase();
+  $('vb').value=state.viewBox;
+  $('scopeRow').classList.toggle('hide',state.motion==='none');
+  setSeg('scope',state.scope);
+  const showPhase=(state.motion!=='none'&&state.scope==='parts');
+  $('phaseRow').classList.toggle('hide',!showPhase);
+  $('partsHint').classList.toggle('hide',!showPhase);
+  $('phase').value=state.phase; $('phaseVal').textContent=state.phase+' s';
+  $('randToggle').classList.toggle('is-on',state.randomize);
+  $('randToggle').setAttribute('aria-pressed',String(state.randomize));
+  $('shuffle').classList.toggle('hide',!state.randomize);
+}
+function setSeg(id,v){document.querySelectorAll('#'+id+' button').forEach(b=>b.classList.toggle('is-active',b.dataset.v===v));}
+
+/* elige tiempos por defecto según el efecto que se acaba de tocar */
+function applyDefaults(changed){
+  let d=null;
+  if(changed==='motion'){
+    if(state.motion!=='none')d=DEF_MOTION[state.motion];
+    else if(state.stroke!=='none')d=DEF_STROKE[state.stroke];
+  }else{
+    if(state.motion==='none'&&state.stroke!=='none')d=DEF_STROKE[state.stroke];
+  }
+  if(d){state.duration=d.duration;state.easing=d.easing;state.repeat=d.repeat;if(d.stagger!=null)state.stagger=d.stagger;}
+}
+
+/* ---- construir chips ---- */
+function buildChip(group,id,label){
+  const b=document.createElement('button');
+  b.className='chip';b.dataset.group=group;b.dataset.val=id;
+  b.innerHTML=`<span class="dot"></span>${label}`;
+  b.addEventListener('click',()=>{state[group]=id;applyDefaults(group);reflect();generate();});
+  return b;
+}
+STROKE_ORDER.forEach(([id,l])=>$('strokeChips').appendChild(buildChip('stroke',id,l)));
+MOTION_ORDER.forEach(([id,l])=>$('motionChips').appendChild(buildChip('motion',id,l)));
+
+/* ---- eventos ---- */
+input.addEventListener('input',generate);
+durEl.addEventListener('input',()=>{state.duration=parseFloat(durEl.value);$('durVal').textContent=state.duration+' s';generate();});
+delayEl.addEventListener('input',()=>{state.delay=parseFloat(delayEl.value);$('delayVal').textContent=state.delay+' s';generate();});
+stagEl.addEventListener('input',()=>{state.stagger=parseFloat(stagEl.value);$('stagVal').textContent=state.stagger+' s';generate();});
+easingEl.addEventListener('change',()=>{state.easing=easingEl.value;generate();});
+countEl.addEventListener('input',()=>{let v=parseInt(countEl.value||'1',10);if(isNaN(v))v=1;v=Math.min(50,Math.max(1,v));state.count=v;generate();});
+
+$('repeat').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.repeat=b.dataset.v;reflect();generate();});
+$('trigger').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.trigger=b.dataset.v;reflect();generate();});
+$('bg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.bg=b.dataset.v;stage.className='stage bg-'+state.bg;setSeg('bg',state.bg);});
+$('scope').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.scope=b.dataset.v;reflect();generate();});
+$('phase').addEventListener('input',()=>{state.phase=parseFloat($('phase').value);$('phaseVal').textContent=state.phase+' s';generate();});
+$('randToggle').addEventListener('click',()=>{state.randomize=!state.randomize;if(state.randomize)state.seeds=[];reflect();generate();});
+$('shuffle').addEventListener('click',()=>{state.seeds=[];generate();});
+
+$('w').addEventListener('input',()=>{
+  const v=clampSize($('w').value); state.width=v; state.sizeTouched=true;
+  if(state.lockRatio){state.height=Math.max(1,Math.round(v/state.ratio));$('h').value=state.height;}
+  generate(false);
+});
+$('h').addEventListener('input',()=>{
+  const v=clampSize($('h').value); state.height=v; state.sizeTouched=true;
+  if(state.lockRatio){state.width=Math.max(1,Math.round(v*state.ratio));$('w').value=state.width;}
+  generate(false);
+});
+$('link').addEventListener('click',()=>{
+  state.lockRatio=!state.lockRatio;
+  $('link').classList.toggle('is-on',state.lockRatio);
+  $('link').setAttribute('aria-pressed',String(state.lockRatio));
+  $('link').title=state.lockRatio?'Aspect ratio locked':'Aspect ratio free';
+  if(state.lockRatio){state.height=Math.max(1,Math.round(state.width/state.ratio));$('h').value=state.height;state.sizeTouched=true;generate(false);}
+});
+$('sizeReset').addEventListener('click',()=>{state.sizeTouched=false;generate(false);});
+
+$('vb').addEventListener('input',()=>{state.viewBox=$('vb').value;state.vbTouched=true;applySoft();});
+$('vbReset').addEventListener('click',()=>{state.vbTouched=false;applySoft();});
+$('colorMode').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;state.colorMode=b.dataset.v;setSeg('colorMode',state.colorMode);$('colorRow').classList.toggle('hide',state.colorMode!=='custom');applySoft();});
+$('colorPick').addEventListener('input',()=>{state.color=$('colorPick').value;$('colorHex').value=state.color.toUpperCase();applySoft();});
+$('colorHex').addEventListener('input',()=>{let v=$('colorHex').value.trim();if(v&&!v.startsWith('#'))v='#'+v;if(/^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(v)){state.color=v;$('colorPick').value=toHex6(v);applySoft();}});
+
+document.querySelectorAll('.ex').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const ex=EXAMPLES[btn.dataset.ex];
+    input.value=ex.svg;
+    state.stroke=ex.stroke; state.motion=ex.motion; state.scope=ex.scope||'whole'; applyDefaults('motion');
+    reflect(); generate();
+  });
+});
+
+$('replay').addEventListener('click',()=>{ if(lastPreviewHtml){stageInner.innerHTML='';void stageInner.offsetWidth;stageInner.innerHTML=lastPreviewHtml;} });
+
+$('copy').addEventListener('click',async ()=>{
+  if(!lastOutput)return;
+  try{await navigator.clipboard.writeText(lastOutput);}
+  catch(e){
+    const ta=document.createElement('textarea');ta.value=lastOutput;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(_){}ta.remove();
+  }
+  flash($('copy'),'Copied!');
+});
+$('download').addEventListener('click',()=>{
+  if(!lastOutput)return;
+  const blob=new Blob([lastOutput],{type:'image/svg+xml'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download='animated-icon.svg';
+  document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
+function flash(btn,txt){const o=btn.textContent;btn.textContent=txt;btn.disabled=true;setTimeout(()=>{btn.textContent=o;btn.disabled=false;},1300);}
+
+/* ---- inicio ---- */
+input.value=EXAMPLES.bell.svg;
+state.stroke='draw'; state.motion='wiggle'; applyDefaults('motion');
+reflect();
+generate();
+</script>
+</body>
+</html>

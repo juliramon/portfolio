@@ -10,7 +10,7 @@ const ProjectStats = () => {
 	const max = sorted[0]?.share || 100;
 
 	return (
-		<div className="mb-10 grid gap-4 lg:grid-cols-3">
+		<div className="grid gap-4 lg:grid-cols-3">
 			{/* KPI tiles */}
 			<div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
 				<div data-reveal className="card p-6">

@@ -160,8 +160,28 @@ export const experience = [
 		],
 	},
 	{
+		id: "innoget",
+		company: "Innoget",
+		href: "https://www.innoget.com",
+		logo: "/logo-innoget-icon.svg",
+		logoInvertDark: true,
+		role: "COO & Front-End Developer",
+		period: "2017 – 2021",
+		description:
+			"Open innovation platform that connects companies with research centres, technology transfer offices and innovators. I developed the user and company profile system, and built landing pages and challenge portals for clients like Metalsa and Nomad Foods.",
+		tags: [
+			"Next.js",
+			"React",
+			"Tailwind CSS",
+			"Sass",
+			"jQuery",
+			"Vanilla JS",
+			"Open innovation",
+		],
+	},
+	{
 		id: "escapades",
-		company: "Escapades en parella",
+		company: "Escapadesenparella.cat",
 		href: "https://escapadesenparella.cat",
 		logo: "/logo-escapades-icon.svg",
 		role: "Founder & Developer",
@@ -175,12 +195,46 @@ export const experience = [
 export const projects = [
 	{
 		id: "escapades",
-		title: "Escapades en parella",
+		title: "Escapadesenparella.cat",
 		description:
 			"Content platform to discover getaways, cabins and plans for couples across Catalonia — it has even been featured on TV.",
 		href: "https://escapadesenparella.cat",
 		linkText: "escapadesenparella.cat",
 		tags: ["Featured on TV", "Web platform", "SEO"],
+		stack: [
+			"Next.js",
+			"React",
+			"Tailwind CSS",
+			"Node.js",
+			"Express",
+			"MongoDB",
+			"Stripe",
+			"Google Maps",
+		],
+		logo: "/logo-escapades-icon.svg",
+		logoOnTile: true,
+	},
+	{
+		id: "favicon-generator",
+		title: "Favicon Generator",
+		description:
+			"Drop in one image and get every favicon a modern site needs: PNGs from 16 to 512 px, a multi-size .ico, the HTML tags and a web manifest, zipped and ready to ship.",
+		page: "/projects/favicon-generator",
+		linkText: "Try it here",
+		tags: ["Side project", "Tool"],
+		stack: ["React", "Tailwind CSS", "Canvas API", "JSZip"],
+		logo: "/projects/logos/favicon-generator.svg",
+	},
+	{
+		id: "svg-animated",
+		title: "Static SVG Animator",
+		description:
+			"Turns any static icon into an animated SVG. Combine stroke drawing with motion, tweak it and copy a self-contained SVG with embedded CSS. Built for Tabler, Lucide and Feather icons.",
+		page: "/projects/svg-animated",
+		linkText: "Try it here",
+		tags: ["Side project", "Tool"],
+		stack: ["HTML", "CSS animations", "JavaScript", "SVG"],
+		logo: "/projects/logos/svg-animated.svg",
 	},
 	{
 		id: "latevaweb",
@@ -189,16 +243,21 @@ export const projects = [
 			"Websites and online stores built with the team at the second-best SEO agency in Spain, focused on speed, clarity and conversion.",
 		href: "https://latevaweb.com",
 		linkText: "latevaweb.com",
-		tags: ["#2 SEO agency in Spain", "E-commerce", "Shopify"],
+		tags: ["#2 SEO agency in Spain", "E-commerce"],
+		stack: ["Shopify", "WordPress", "PHP", "Laravel", "React"],
+		logo: "/logo-ltw.svg",
+		logoOnTile: true,
 	},
 	{
 		id: "portfolio",
 		title: "This portfolio",
 		description:
-			"A personal site built as a playground for layout, typography and scroll animations — pair-programmed with Claude Code.",
+			"A personal site built as a playground for layout, typography and animation — pair-programmed with Claude Code.",
 		href: "https://github.com/juliramon",
 		linkText: "github.com/juliramon",
-		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude Code"],
+		tags: ["Personal site", "Claude Code"],
+		stack: ["Next.js", "React", "Tailwind CSS", "Sass"],
+		logo: "/projects/logos/portfolio.png",
 	},
 ];
 

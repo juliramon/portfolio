@@ -42,6 +42,7 @@ import {
 	aiTools,
 	profile,
 	projects,
+	projectStats,
 	services,
 	socials,
 } from "@/data/content";
@@ -293,14 +294,11 @@ export default function Home() {
 								one site at a time.
 							</h1>
 							<p className="mt-6 max-w-xl text-lg leading-relaxed">
-								Front-end developer and team lead in{" "}
-								{profile.location}. I build websites and{" "}
-								<span className="whitespace-nowrap">
-									e-commerce
-								</span>
-								, and lead the front-end team at LA TEVA WEB.
-								Day to day I orchestrate agents with Claude Code
-								and Cursor, and review every diff they produce.
+								Front-end developer and team lead with a
+								creative mindset. Working with AI to accelerate
+								the development of websites and online stores on
+								a modern stack: accessible, fast and designed to
+								convert.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
@@ -776,7 +774,11 @@ export default function Home() {
 											width={40}
 											height={40}
 											unoptimized
-											className="h-full w-full object-contain"
+											className={`h-full w-full object-contain${
+												job.logoInvertDark
+													? " dark:invert"
+													: ""
+											}`}
 										/>
 									) : (
 										<span
@@ -851,48 +853,87 @@ export default function Home() {
 					lead="A selection of things I've designed, built and keep improving."
 					note="some favourites"
 				/>
-				<ProjectStats />
-				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				<ul className="grid-cells">
 					{projects.map((project, idx) => (
-						<a
-							key={project.id}
-							data-reveal
-							href={project.href}
-							target="_blank"
-							rel="noreferrer"
-							className="card card-hover group flex flex-col overflow-hidden"
-						>
-							<div
-								className={`flex h-36 items-end justify-between border-b p-5 ${tints[idx % tints.length]}`}
+						<li key={project.id} data-reveal>
+							<a
+								href={project.page || project.href}
+								{...(project.page
+									? {}
+									: { target: "_blank", rel: "noreferrer" })}
+								className="group grid h-full gap-5 p-6 transition-colors hover:bg-zinc-50/60 md:grid-cols-[auto_1fr_15rem] md:gap-8 md:p-8"
 							>
-								<span className="font-mono text-5xl opacity-40 transition-opacity group-hover:opacity-70">
-									{String(idx + 1).padStart(2, "0")}
+								<span
+									className={`inline-flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl ${
+										project.logoOnTile
+											? "border border-zinc-200 bg-white p-3 shadow-sm"
+											: "shadow-sm"
+									}`}
+								>
+									<Image
+										src={project.logo}
+										alt={`${project.title} logo`}
+										width={64}
+										height={64}
+										unoptimized
+										className="h-full w-full object-contain"
+									/>
 								</span>
-								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-surface text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
-									<Icon classList="h-4 w-4">
-										{iconArrowUpRight}
-									</Icon>
-								</span>
-							</div>
-							<div className="flex flex-1 flex-col p-5">
-								<h3 className="text-lg">{project.title}</h3>
-								<p className="mt-2 flex-1 leading-relaxed">
-									{project.description}
-								</p>
-								<ul className="mt-4 flex flex-wrap gap-2">
-									{project.tags.map((tag) => (
-										<li key={tag} className="tag">
-											{tag}
-										</li>
-									))}
-								</ul>
-								<span className="mt-5 border-t border-zinc-200 pt-4 font-mono text-xs text-zinc-500">
-									{project.linkText}
-								</span>
-							</div>
-						</a>
+
+								<div className="min-w-0">
+									<div className="flex items-baseline gap-3">
+										<span className="font-mono text-xs text-zinc-400">
+											{String(idx + 1).padStart(2, "0")}
+										</span>
+										<h3 className="text-xl">
+											{project.title}
+										</h3>
+									</div>
+									<p className="mt-2 max-w-xl leading-relaxed">
+										{project.description}
+									</p>
+									<ul className="mt-4 flex flex-wrap gap-2">
+										{project.tags.map((tag) => (
+											<li key={tag} className="tag">
+												{tag}
+											</li>
+										))}
+									</ul>
+								</div>
+
+								<div className="flex flex-col justify-between gap-5 border-t border-zinc-200 pt-5 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+									<div>
+										<span className="font-mono text-[11px] uppercase tracking-widest text-zinc-500">
+											Built with
+										</span>
+										<p className="mt-2 text-sm leading-relaxed text-zinc-700">
+											{project.stack.join(" · ")}
+										</p>
+									</div>
+									<span className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors group-hover:text-zinc-900">
+										{project.linkText}
+										<Icon classList="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5">
+											{project.page
+												? iconArrowRight
+												: iconArrowUpRight}
+										</Icon>
+									</span>
+								</div>
+							</a>
+						</li>
 					))}
-				</div>
+				</ul>
+			</Section>
+
+			{/* Numbers */}
+			<Section id="numbers">
+				<SectionHeader
+					index="07"
+					eyebrow="In numbers"
+					title={`${projectStats.total}+ projects shipped.`}
+					lead="Websites and online stores delivered with my team, and the technologies behind them."
+				/>
+				<ProjectStats />
 			</Section>
 
 			{/* Connect */}
@@ -901,7 +942,7 @@ export default function Home() {
 					<div className="grid overflow-hidden rounded-[15px] bg-surface lg:grid-cols-[1.4fr_1fr]">
 						<div className="p-8 md:p-12">
 							<span className="eyebrow">
-								<span className="opacity-60">07</span>
+								<span className="opacity-60">08</span>
 								<span className="h-px w-6 bg-brand-gradient" />
 								Connect
 							</span>
