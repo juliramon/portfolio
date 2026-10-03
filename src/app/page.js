@@ -390,10 +390,11 @@ export default function Home() {
 											</span>
 											{": ["}
 											<span className="text-emerald-700 dark:text-emerald-400">
-												&quot;Next.js&quot;,
-												&quot;Shopify&quot;,
+												&quot;PHP&quot;,
 												&quot;WordPress&quot;,
-												&quot;PHP&quot;
+												&quot;Shopify&quot;,
+												&quot;Laravel&quot;,
+												&quot;React&quot;
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-500">
