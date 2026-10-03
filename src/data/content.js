@@ -99,10 +99,10 @@ export const services = [
 export const aiTools = [
 	{
 		id: "claude",
-		name: "Claude",
+		name: "Claude Code",
 		description:
-			"My main AI assistant. I hand Claude well-scoped, multi-step tasks — scaffolding components, refactors, migrations, tests — and review every diff before it ships.",
-		tags: ["Claude Code", "Refactors", "Tests"],
+			"My main tool. I orchestrate Claude Code agents on well-scoped, multi-step tasks — scaffolding components, refactors, migrations, tests — and review every diff before it ships.",
+		tags: ["Agents", "Diff review", "Refactors"],
 	},
 	{
 		id: "cursor",
@@ -149,7 +149,7 @@ export const experience = [
 		role: "Front-End Team Lead",
 		period: "Present",
 		description:
-			"LA TEVA WEB has been recognised as the second-best SEO agency in Spain. I lead its front-end team, building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought AI tools like Claude and Cursor into our daily workflow, review code and keep quality and performance high.",
+			"LA TEVA WEB has been recognised as the second-best SEO agency in Spain. I lead its front-end team, building websites and e-commerce for clients — from Shopify and WordPress to custom React and Next.js builds. I've brought Claude Code and Cursor into our daily workflow, review code and keep quality and performance high.",
 		tags: [
 			"Team lead",
 			"E-commerce",

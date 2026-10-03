@@ -59,7 +59,7 @@ const stackList = [
 	{ svg: iconMysql, title: "MySQL" },
 	{ svg: iconGIT, title: "Git" },
 	{ svg: iconFigma, title: "Figma" },
-	{ svg: iconClaude, title: "Claude" },
+	{ svg: iconClaude, title: "Claude Code" },
 	{ svg: iconCursor, title: "Cursor" },
 ];
 
@@ -299,8 +299,8 @@ export default function Home() {
 									e-commerce
 								</span>
 								, and lead the front-end team at LA TEVA WEB.
-								Lately, a lot of that work happens alongside AI
-								tools like Claude and Cursor.
+								Day to day I orchestrate agents with Claude Code
+								and Cursor, and review every diff they produce.
 							</p>
 							<div className="mt-8 flex flex-wrap gap-3">
 								<a
@@ -403,10 +403,18 @@ export default function Home() {
 											</span>
 											{": ["}
 											<span className="text-violet-600 dark:text-violet-400">
-												&quot;Claude&quot;,
+												&quot;Claude Code&quot;,
 												&quot;Cursor&quot;
 											</span>
 											{"],\n  "}
+											<span className="text-zinc-500">
+												&quot;workflow&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700 dark:text-emerald-400">
+												&quot;agents + diff review&quot;
+											</span>
+											{",\n  "}
 											<span className="text-zinc-500">
 												&quot;motto&quot;
 											</span>
@@ -466,9 +474,10 @@ export default function Home() {
 									LA TEVA WEB
 								</a>
 								, where my team and I build websites and
-								e-commerce for clients. AI tools are part of how
-								we work every day: they take care of the
-								repetitive work so we can focus on craft.
+								e-commerce for clients. Claude Code agents are
+								part of how we work every day: they take care of
+								the repetitive work, we review every diff and
+								focus on craft.
 							</p>
 							<p>
 								In my spare time you&apos;ll either find me up
@@ -600,7 +609,7 @@ export default function Home() {
 						index="03"
 						eyebrow="AI workflow"
 						title="Built with AI, reviewed by a human."
-						lead="I work with AI every day. It handles the repetitive, multi-step work; I focus on architecture, UX and quality."
+						lead="I work with Claude Code every day, orchestrating agents on the repetitive, multi-step work. I review every diff and focus on architecture, UX and quality."
 						note="my AI teammates"
 					/>
 
@@ -617,7 +626,7 @@ export default function Home() {
 									<span className="h-2.5 w-2.5 rounded-full border border-night-700" />
 								</div>
 								<span className="font-mono text-xs text-night-500">
-									claude — ~/client-store
+									claude code — ~/client-store
 								</span>
 								<span className="w-12" />
 							</div>
@@ -632,18 +641,25 @@ export default function Home() {
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-night-500">Read</span>{" "}
-									src/components/ProductForm.jsx{"\n"}
+									<span className="text-night-500">
+										Agent
+									</span>{" "}
+									explore · product page components{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-night-500">Read</span>{" "}
-									src/components/VariantPicker.jsx{"\n"}
+									<span className="text-night-500">
+										Agent
+									</span>{" "}
+									implement · size selector in VariantPicker
+									{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
-									<span className="text-night-500">Edit</span>{" "}
-									src/components/VariantPicker.jsx{"\n"}
+									<span className="text-night-500">
+										Agent
+									</span>{" "}
+									test · variant selection flow{"\n"}
 									<span className="text-violet-300">
 										●
 									</span>{" "}
