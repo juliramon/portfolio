@@ -339,7 +339,7 @@ export default function Home() {
 										</span>
 										<span className="w-12" />
 									</div>
-									<pre className="overflow-x-auto p-5 font-mono text-[13px] leading-7 text-zinc-700">
+									<pre className="overflow-x-auto whitespace-pre-wrap p-4 font-mono text-[11px] leading-7 text-zinc-700 sm:whitespace-pre sm:p-5 sm:text-[13px]">
 										<code>
 											{"{\n"}
 											{"  "}
@@ -393,6 +393,7 @@ export default function Home() {
 												&quot;PHP&quot;,
 												&quot;WordPress&quot;,
 												&quot;Shopify&quot;,
+												{"\n            "}
 												&quot;Laravel&quot;,
 												&quot;React&quot;
 											</span>
