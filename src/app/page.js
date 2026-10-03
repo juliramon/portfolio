@@ -370,6 +370,14 @@ export default function Home() {
 											</span>
 											{",\n  "}
 											<span className="text-zinc-500">
+												&quot;company&quot;
+											</span>
+											{": "}
+											<span className="text-emerald-700 dark:text-emerald-400">
+												&quot;{profile.company}&quot;
+											</span>
+											{",\n  "}
+											<span className="text-zinc-500">
 												&quot;location&quot;
 											</span>
 											{": "}

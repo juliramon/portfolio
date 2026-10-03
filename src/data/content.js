@@ -31,6 +31,7 @@ export const seo = {
 export const profile = {
 	name: "Juli Ramon",
 	role: "Front-End Team Lead",
+	company: "La Teva Web",
 	location: "Barcelona",
 	avatar: "/images/avatar-juli-ramon.jpg",
 	cover: "/images/cover-juli-ramon.jpg",
