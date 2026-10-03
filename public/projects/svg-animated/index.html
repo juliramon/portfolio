@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SVG Animated</title>
+<title>Static SVG Animator</title>
 <style>
 :root{
   --paper:#EBECEF;
@@ -157,7 +157,7 @@ input.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wea
 /* ---------- output ---------- */
 .code-wrap{border:1px solid var(--line);border-radius:var(--radius);background:var(--field);overflow:hidden}
 pre.code{margin:0;padding:13px 14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink);white-space:pre;overflow:auto;max-height:240px;tab-size:2}
-pre.code:empty::before{content:"El SVG animado aparecerá aquí.";color:var(--ink-faint)}
+pre.code:empty::before{content:"The animated SVG will appear here.";color:var(--ink-faint)}
 .out-bar{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 
 /* ---------- buttons ---------- */
@@ -256,12 +256,12 @@ textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{b
   <header class="head">
     <div class="brand">
       <span class="mark">Tra<span class="cur">zo</span></span>
-      <span class="tag">Convierte cualquier icono estático en un SVG animado. Combina el dibujado del trazo con un movimiento, ajusta y copia el resultado.</span>
+      <span class="tag">Turn any static icon into an animated SVG. Combine stroke drawing with motion, tweak it and copy the result.</span>
     </div>
     <div class="head-note">
-      salida: <b>SVG autónomo</b> · CSS incrustado<br>
-      sin JS · sin dependencias<br>
-      pensado para <b>Tabler · Lucide · Feather</b>
+      output: <b>standalone SVG</b> · embedded CSS<br>
+      no JS · no dependencies<br>
+      made for <b>Tabler · Lucide · Feather</b>
     </div>
   </header>
 
@@ -269,49 +269,49 @@ textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{b
     <!-- COLUMNA IZQUIERDA -->
     <section class="col">
       <div class="panel">
-        <p class="eyebrow">Entrada · SVG</p>
-        <textarea id="svgin" spellcheck="false" placeholder="Pega aquí el código completo del icono, p. ej. <svg …>…</svg>"></textarea>
+        <p class="eyebrow">Input · SVG</p>
+        <textarea id="svgin" spellcheck="false" placeholder="Paste the full icon code here, e.g. <svg …>…</svg>"></textarea>
         <div class="examples">
-          <span class="ex-label">Ejemplos</span>
-          <button class="ex" data-ex="act">Actividad</button>
-          <button class="ex" data-ex="bell">Campana</button>
-          <button class="ex" data-ex="gear">Ajustes</button>
-          <button class="ex" data-ex="user">Usuario</button>
+          <span class="ex-label">Examples</span>
+          <button class="ex" data-ex="act">Activity</button>
+          <button class="ex" data-ex="bell">Bell</button>
+          <button class="ex" data-ex="gear">Settings</button>
+          <button class="ex" data-ex="user">User</button>
         </div>
       </div>
 
       <div class="panel">
-        <p class="eyebrow">Animación</p>
-        <p class="grp">Trazo · el dibujado</p>
+        <p class="eyebrow">Animation</p>
+        <p class="grp">Stroke · the drawing</p>
         <div class="chips" id="strokeChips"></div>
-        <p class="grp">Movimiento · todo el icono</p>
+        <p class="grp">Motion · the whole icon</p>
         <div class="chips" id="motionChips"></div>
         <div id="scopeRow" class="ctrl hide">
-          <div class="ctrl-hd"><label>Ámbito del movimiento</label></div>
+          <div class="ctrl-hd"><label>Motion scope</label></div>
           <div class="seg" id="scope">
-            <button data-v="whole">Conjunto</button>
-            <button data-v="parts">Por partes</button>
+            <button data-v="whole">Whole</button>
+            <button data-v="parts">By parts</button>
           </div>
         </div>
-        <p class="hint hide" id="partsHint">Cada elemento y subtrazo se anima por separado, con un pequeño desfase. Así, p. ej., la cabeza y el cuerpo de un icono se mueven de forma independiente.</p>
-        <p class="hint hide" id="comboHint">Trazo y movimiento combinados: el trazo se dibuja una vez y la repetición se aplica al movimiento.</p>
+        <p class="hint hide" id="partsHint">Each element and sub-path animates on its own, with a small offset. That way, for example, the head and body of an icon move independently.</p>
+        <p class="hint hide" id="comboHint">Stroke and motion combined: the stroke draws once and the repeat applies to the motion.</p>
       </div>
 
       <div class="panel">
-        <p class="eyebrow">Ajustes</p>
+        <p class="eyebrow">Settings</p>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label>Tamaño</label><button class="mini-reset" id="sizeReset" type="button">restablecer</button></div>
+          <div class="ctrl-hd"><label>Size</label><button class="mini-reset" id="sizeReset" type="button">reset</button></div>
           <div class="size-row">
             <div class="size-field">
-              <span class="size-cap" title="Ancho">↔</span>
+              <span class="size-cap" title="Width">↔</span>
               <input type="number" id="w" class="size-num" min="1" max="2000" value="44">
             </div>
-            <button class="link is-on" id="link" type="button" aria-pressed="true" title="Proporción bloqueada">
+            <button class="link is-on" id="link" type="button" aria-pressed="true" title="Aspect ratio locked">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 15l6 -6"/><path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"/><path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"/></svg>
             </button>
             <div class="size-field">
-              <span class="size-cap" title="Alto">↕</span>
+              <span class="size-cap" title="Height">↕</span>
               <input type="number" id="h" class="size-num" min="1" max="2000" value="44">
             </div>
             <span class="size-unit">px</span>
@@ -319,10 +319,10 @@ textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{b
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label>Color del trazo</label></div>
+          <div class="ctrl-hd"><label>Stroke color</label></div>
           <div class="seg" id="colorMode">
-            <button data-v="inherit">Heredar</button>
-            <button data-v="custom">Personalizado</button>
+            <button data-v="inherit">Inherit</button>
+            <button data-v="custom">Custom</button>
           </div>
           <div class="color-row hide" id="colorRow">
             <label class="swatch"><input type="color" id="colorPick" value="#2242E8"></label>
@@ -331,69 +331,69 @@ textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{b
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label for="vb">viewBox</label><button class="mini-reset" id="vbReset" type="button">restablecer</button></div>
+          <div class="ctrl-hd"><label for="vb">viewBox</label><button class="mini-reset" id="vbReset" type="button">reset</button></div>
           <input type="text" id="vb" class="num" value="0 0 24 24" spellcheck="false" placeholder="0 0 24 24">
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label for="dur">Duración</label><span class="val" id="durVal">1.2 s</span></div>
+          <div class="ctrl-hd"><label for="dur">Duration</label><span class="val" id="durVal">1.2 s</span></div>
           <input type="range" id="dur" min="0.1" max="5" step="0.1" value="1.2">
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label for="delay">Retardo</label><span class="val" id="delayVal">0 s</span></div>
+          <div class="ctrl-hd"><label for="delay">Delay</label><span class="val" id="delayVal">0 s</span></div>
           <input type="range" id="delay" min="0" max="3" step="0.05" value="0">
         </div>
 
         <div class="ctrl hide" id="stagRow">
-          <div class="ctrl-hd"><label for="stag">Retardo entre trazos</label><span class="val" id="stagVal">0.15 s</span></div>
+          <div class="ctrl-hd"><label for="stag">Delay between strokes</label><span class="val" id="stagVal">0.15 s</span></div>
           <input type="range" id="stag" min="0" max="0.6" step="0.01" value="0.15">
         </div>
 
         <div class="ctrl hide" id="phaseRow">
-          <div class="ctrl-hd"><label for="phase">Desfase entre partes</label><span class="val" id="phaseVal">0.12 s</span></div>
+          <div class="ctrl-hd"><label for="phase">Offset between parts</label><span class="val" id="phaseVal">0.12 s</span></div>
           <input type="range" id="phase" min="0" max="0.6" step="0.01" value="0.12">
           <div class="rand-row">
-            <button type="button" class="toggle" id="randToggle" aria-pressed="false">Orden aleatorio</button>
-            <button type="button" class="mini-reset hide" id="shuffle">↻ barajar</button>
+            <button type="button" class="toggle" id="randToggle" aria-pressed="false">Random order</button>
+            <button type="button" class="mini-reset hide" id="shuffle">↻ shuffle</button>
           </div>
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label for="easing">Suavizado</label></div>
+          <div class="ctrl-hd"><label for="easing">Easing</label></div>
           <select class="sel" id="easing">
-            <option value="suave">Suave (entrada y salida)</option>
-            <option value="salida">Salida</option>
-            <option value="entrada">Entrada</option>
-            <option value="lineal">Lineal</option>
-            <option value="estandar">Estándar</option>
-            <option value="elastico">Elástico (rebote)</option>
+            <option value="suave">Smooth (ease in and out)</option>
+            <option value="salida">Ease out</option>
+            <option value="entrada">Ease in</option>
+            <option value="lineal">Linear</option>
+            <option value="estandar">Standard</option>
+            <option value="elastico">Elastic (overshoot)</option>
           </select>
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label>Repetición</label></div>
+          <div class="ctrl-hd"><label>Repeat</label></div>
           <div class="seg" id="repeat">
-            <button data-v="once">Una vez</button>
-            <button data-v="loop">En bucle</button>
-            <button data-v="custom">N veces</button>
+            <button data-v="once">Once</button>
+            <button data-v="loop">Loop</button>
+            <button data-v="custom">N times</button>
           </div>
         </div>
 
         <div class="ctrl hide" id="countRow">
-          <div class="ctrl-hd"><label for="count">Número de repeticiones</label></div>
+          <div class="ctrl-hd"><label for="count">Number of repeats</label></div>
           <input type="number" class="num" id="count" min="1" max="50" value="3">
         </div>
 
         <div class="ctrl">
-          <div class="ctrl-hd"><label>Disparador</label></div>
+          <div class="ctrl-hd"><label>Trigger</label></div>
           <div class="seg" id="trigger">
-            <button data-v="load">Al cargar</button>
-            <button data-v="hover" title="Al pasar el cursor por el icono">Hover</button>
-            <button data-v="container" title="Al pasar el cursor por el contenedor (p. ej. un botón)">Contenedor</button>
+            <button data-v="load">On load</button>
+            <button data-v="hover" title="When hovering the icon">Hover</button>
+            <button data-v="container" title="When hovering the container (e.g. a button)">Container</button>
           </div>
         </div>
-        <p class="hint hide" id="containerHint">Modo contenedor: la animación se dispara desde el elemento padre. El SVG exportado incluye la línea CSS que debes añadir a tu página (cambia el selector <code>.contenedor</code> por el de tu botón). En la vista previa, pasa el cursor por el lienzo.</p>
+        <p class="hint hide" id="containerHint">Container mode: the animation is triggered from the parent element. The exported SVG includes the CSS line to add to your page (swap the <code>.container</code> selector for your button's). In the preview, hover the canvas.</p>
       </div>
     </section>
 
@@ -402,32 +402,32 @@ textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{b
       <div class="panel stage-panel">
         <div class="stage bg-light" id="stage">
           <span class="mk tl"></span><span class="mk tr"></span><span class="mk bl"></span><span class="mk br"></span>
-          <span class="stage-eyebrow" id="stageEyebrow">DIBUJAR + VAIVÉN · BUCLE</span>
-          <span class="hoverhint hide" id="hoverHint">pasa el cursor por el icono</span>
+          <span class="stage-eyebrow" id="stageEyebrow">DRAW + WIGGLE · LOOP</span>
+          <span class="hoverhint hide" id="hoverHint">hover the icon</span>
           <span class="dim" id="dim">44 × 44</span>
-          <div id="stageInner"><div class="empty">Pega un SVG para ver la animación</div></div>
+          <div id="stageInner"><div class="empty">Paste an SVG to see the animation</div></div>
         </div>
         <div class="stage-bar">
-          <button class="btn btn-ghost" id="replay">↻ Reproducir de nuevo</button>
+          <button class="btn btn-ghost" id="replay">↻ Replay</button>
           <div class="seg seg-sm" id="bg">
-            <button data-v="light">Claro</button>
-            <button data-v="dark">Oscuro</button>
+            <button data-v="light">Light</button>
+            <button data-v="dark">Dark</button>
           </div>
         </div>
       </div>
 
       <div class="panel">
-        <p class="eyebrow">Salida · SVG animado</p>
+        <p class="eyebrow">Output · animated SVG</p>
         <div class="code-wrap"><pre class="code" id="code"></pre></div>
         <div class="out-bar">
-          <button class="btn btn-primary" id="copy">Copiar SVG</button>
-          <button class="btn btn-secondary" id="download">Descargar .svg</button>
+          <button class="btn btn-primary" id="copy">Copy SVG</button>
+          <button class="btn btn-secondary" id="download">Download .svg</button>
         </div>
       </div>
     </section>
   </main>
 
-  <p class="foot"><b>Static SVG Animator</b> · combina trazo y movimiento · el dibujado necesita iconos de <b>trazo</b> (Tabler, Lucide, Feather); el movimiento funciona con cualquier SVG.</p>
+  <p class="foot"><b>Static SVG Animator</b> · combines stroke and motion · drawing needs <b>stroke</b> icons (Tabler, Lucide, Feather); motion works with any SVG.</p>
 </div>
 
 <script>
@@ -439,8 +439,8 @@ const DEF_SIZE=44;
 
 /* ---- capa TRAZO (dibujado) ---- */
 const STROKE_DEF={name:'t-draw',base:'stroke-dasharray:1;',kf:'@keyframes t-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}'};
-const STROKE_ORDER=[['none','Ninguno'],['draw','Dibujar'],['drawSeq','En secuencia']];
-const STROKE_LABEL={draw:'Dibujar',drawSeq:'Dibujar en secuencia'};
+const STROKE_ORDER=[['none','None'],['draw','Draw'],['drawSeq','In sequence']];
+const STROKE_LABEL={draw:'Draw',drawSeq:'Draw in sequence'};
 
 /* ---- capa MOVIMIENTO (transform sobre todo el icono) ---- */
 const MOTION_DEF={
@@ -452,8 +452,8 @@ const MOTION_DEF={
   appear:{name:'t-appear',base:'', kf:'@keyframes t-appear{from{opacity:0}to{opacity:1}}'},
   slide: {name:'t-slide',base:'transform-box:fill-box;', kf:'@keyframes t-slide{from{opacity:0;transform:translateY(14%)}to{opacity:1;transform:translateY(0)}}'},
 };
-const MOTION_ORDER=[['none','Ninguno'],['rotate','Rotar'],['pulse','Pulso'],['bounce','Rebote'],['wiggle','Vaivén'],['float','Flotar'],['appear','Aparecer'],['slide','Deslizar']];
-const MOTION_LABEL={rotate:'Rotar',pulse:'Pulso',bounce:'Rebote',wiggle:'Vaivén',float:'Flotar',appear:'Aparecer',slide:'Deslizar'};
+const MOTION_ORDER=[['none','None'],['rotate','Rotate'],['pulse','Pulse'],['bounce','Bounce'],['wiggle','Wiggle'],['float','Float'],['appear','Appear'],['slide','Slide']];
+const MOTION_LABEL={rotate:'Rotate',pulse:'Pulse',bounce:'Bounce',wiggle:'Wiggle',float:'Float',appear:'Appear',slide:'Slide'};
 
 const EASINGS={suave:'ease-in-out',lineal:'linear',entrada:'ease-in',salida:'ease-out',estandar:'ease',elastico:'cubic-bezier(.34,1.56,.64,1)'};
 
@@ -600,9 +600,9 @@ function buildCSS(uid){
   }
   if(trig==='container'){
     const cl=[];
-    if(doStroke)cl.push(`   .contenedor:hover ${S} .t-stroke{animation-name:${sName}}`);
-    if(doMotion)cl.push(`   .contenedor:hover ${S} .t-motion{animation-name:${mName}}`);
-    L.unshift(`/* Animar al pasar el cursor por el contenedor: añade esto al CSS de tu\n   página y cambia ".contenedor" por el selector de tu botón/elemento.\n${cl.join('\n')} */`);
+    if(doStroke)cl.push(`   .container:hover ${S} .t-stroke{animation-name:${sName}}`);
+    if(doMotion)cl.push(`   .container:hover ${S} .t-motion{animation-name:${mName}}`);
+    L.unshift(`/* Animate when hovering the container: add this to your page's CSS\n   and swap ".container" for your button/element selector.\n${cl.join('\n')} */`);
   }
   return L.join('\n');
 }
@@ -625,9 +625,9 @@ function generate(render){
   if(!src){setEmpty();return;}
   let doc;
   try{doc=new DOMParser().parseFromString(src,'image/svg+xml');}
-  catch(e){setError('No se pudo leer el código.');return;}
+  catch(e){setError('The code could not be read.');return;}
   if(doc.querySelector('parsererror')||!doc.querySelector('svg')){
-    setError('No encuentro un <svg> válido. Pega el código completo del icono.');return;
+    setError('No valid <svg> found. Paste the full icon code.');return;
   }
   const work=doc.querySelector('svg');
   if(!work.getAttribute('xmlns'))work.setAttribute('xmlns',SVGNS);
@@ -727,26 +727,26 @@ function generate(render){
 }
 
 function renderPreview(){stageInner.innerHTML=lastPreviewHtml;}
-function setEmpty(msg){stageInner.innerHTML=`<div class="empty">${msg||'Pega un SVG para ver la animación'}</div>`;codePre.textContent='';lastOutput='';lastPreviewHtml='';}
+function setEmpty(msg){stageInner.innerHTML=`<div class="empty">${msg||'Paste an SVG to see the animation'}</div>`;codePre.textContent='';lastOutput='';lastPreviewHtml='';}
 function setError(m){setEmpty(m);const e=stageInner.querySelector('.empty');if(e)e.classList.add('is-error');}
 
 function comboLabel(){
   const parts=[];
   if(state.stroke!=='none')parts.push(STROKE_LABEL[state.stroke]);
   if(state.motion!=='none')parts.push(MOTION_LABEL[state.motion]);
-  return parts.length?parts.join(' + '):'Sin animación';
+  return parts.length?parts.join(' + '):'No animation';
 }
 function updateStageMeta(){
   $('dim').textContent=`${state.width} × ${state.height}`;
-  const rep=state.repeat==='loop'?'BUCLE':(state.repeat==='custom'?`${state.count}×`:'UNA VEZ');
+  const rep=state.repeat==='loop'?'LOOP':(state.repeat==='custom'?`${state.count}×`:'ONCE');
   let ey=comboLabel().toUpperCase()+' · '+rep;
-  if(state.motion!=='none'&&state.scope==='parts')ey+=' · PARTES';
+  if(state.motion!=='none'&&state.scope==='parts')ey+=' · PARTS';
   if(state.trigger==='hover')ey+=' · HOVER';
-  else if(state.trigger==='container')ey+=' · CONTENEDOR';
+  else if(state.trigger==='container')ey+=' · CONTAINER';
   $('stageEyebrow').textContent=ey;
   const hoverish=(state.trigger==='hover'||state.trigger==='container');
   $('hoverHint').classList.toggle('hide',!hoverish);
-  $('hoverHint').textContent=state.trigger==='container'?'pasa el cursor por el lienzo':'pasa el cursor por el icono';
+  $('hoverHint').textContent=state.trigger==='container'?'hover the canvas':'hover the icon';
   $('containerHint').classList.toggle('hide',state.trigger!=='container');
   $('comboHint').classList.toggle('hide',!(state.stroke!=='none'&&state.motion!=='none'));
 }
@@ -767,7 +767,7 @@ function reflect(){
   reflectSize();
   $('link').classList.toggle('is-on',state.lockRatio);
   $('link').setAttribute('aria-pressed',String(state.lockRatio));
-  $('link').title=state.lockRatio?'Proporción bloqueada':'Proporción libre';
+  $('link').title=state.lockRatio?'Aspect ratio locked':'Aspect ratio free';
   setSeg('colorMode',state.colorMode);
   $('colorRow').classList.toggle('hide',state.colorMode!=='custom');
   $('colorPick').value=toHex6(state.color);
@@ -838,7 +838,7 @@ $('link').addEventListener('click',()=>{
   state.lockRatio=!state.lockRatio;
   $('link').classList.toggle('is-on',state.lockRatio);
   $('link').setAttribute('aria-pressed',String(state.lockRatio));
-  $('link').title=state.lockRatio?'Proporción bloqueada':'Proporción libre';
+  $('link').title=state.lockRatio?'Aspect ratio locked':'Aspect ratio free';
   if(state.lockRatio){state.height=Math.max(1,Math.round(state.width/state.ratio));$('h').value=state.height;state.sizeTouched=true;generate(false);}
 });
 $('sizeReset').addEventListener('click',()=>{state.sizeTouched=false;generate(false);});
@@ -867,13 +867,13 @@ $('copy').addEventListener('click',async ()=>{
     const ta=document.createElement('textarea');ta.value=lastOutput;ta.style.position='fixed';ta.style.opacity='0';
     document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(_){}ta.remove();
   }
-  flash($('copy'),'¡Copiado!');
+  flash($('copy'),'Copied!');
 });
 $('download').addEventListener('click',()=>{
   if(!lastOutput)return;
   const blob=new Blob([lastOutput],{type:'image/svg+xml'});
   const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download='trazo-animado.svg';
+  const a=document.createElement('a');a.href=url;a.download='animated-icon.svg';
   document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
 });
 function flash(btn,txt){const o=btn.textContent;btn.textContent=txt;btn.disabled=true;setTimeout(()=>{btn.textContent=o;btn.disabled=false;},1300);}

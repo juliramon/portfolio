@@ -15,9 +15,9 @@ const loadJSZip = () => {
 };
 
 const FAVICON_SIZES = [
-  { name: 'favicon-16x16.png', size: 16, desc: 'Pestaña navegador' },
-  { name: 'favicon-32x32.png', size: 32, desc: 'Pestaña en HiDPI' },
-  { name: 'favicon-48x48.png', size: 48, desc: 'Escritorio Windows' },
+  { name: 'favicon-16x16.png', size: 16, desc: 'Browser tab' },
+  { name: 'favicon-32x32.png', size: 32, desc: 'HiDPI browser tab' },
+  { name: 'favicon-48x48.png', size: 48, desc: 'Windows desktop' },
   { name: 'apple-touch-icon.png', size: 180, desc: 'iOS / iPadOS' },
   { name: 'android-chrome-192x192.png', size: 192, desc: 'Android Chrome' },
   { name: 'android-chrome-512x512.png', size: 512, desc: 'PWA / splash' },
@@ -112,8 +112,8 @@ export default function FaviconGenerator() {
   const [copied, setCopied] = useState(false);
   const [copiedManifest, setCopiedManifest] = useState(false);
   const [bgColor, setBgColor] = useState('transparent');
-  const [siteName, setSiteName] = useState('Mi Sitio');
-  const [shortName, setShortName] = useState('Mi Sitio');
+  const [siteName, setSiteName] = useState('My Site');
+  const [shortName, setShortName] = useState('My Site');
   const [themeColor, setThemeColor] = useState('#0ea5e9');
   const [manifestBg, setManifestBg] = useState('#ffffff');
   const [display, setDisplay] = useState('standalone');
@@ -141,7 +141,7 @@ export default function FaviconGenerator() {
       setIsProcessing(false);
     };
     img.onerror = () => {
-      alert('No se pudo cargar la imagen.');
+      alert('The image could not be loaded.');
       setIsProcessing(false);
     };
     img.src = dataURL;
@@ -158,7 +158,7 @@ export default function FaviconGenerator() {
   const handleFile = (file) => {
     if (!file) return;
     if (!file.type.startsWith('image/')) {
-      alert('Por favor sube un archivo de imagen (PNG, JPG, SVG, WebP).');
+      alert('Please upload an image file (PNG, JPG, SVG, WebP).');
       return;
     }
     const reader = new FileReader();
@@ -245,12 +245,12 @@ export default function FaviconGenerator() {
   </msapplication>
 </browserconfig>`;
       zip.file('browserconfig.xml', browserconfig);
-      zip.file('README.txt', `Favicons generados\n\nCopia los archivos a la raíz de tu sitio web y añade el siguiente snippet HTML al <head>:\n\n${htmlSnippet}`);
+      zip.file('README.txt', `Generated favicons\n\nCopy the files to the root of your website and add this HTML snippet to the <head>:\n\n${htmlSnippet}`);
 
       const content = await zip.generateAsync({ type: 'blob' });
       downloadBlob(content, 'favicons.zip');
     } catch (err) {
-      alert('Error al generar el ZIP: ' + err.message);
+      alert('Could not generate the ZIP: ' + err.message);
     }
   };
 
@@ -363,10 +363,10 @@ export default function FaviconGenerator() {
             </div>
             <div>
               <p className="mb-1 text-lg text-zinc-900">
-                Arrastra una imagen aquí o haz clic para seleccionar
+                Drop an image here or click to choose one
               </p>
               <p className="font-mono text-xs text-zinc-500">
-                PNG, JPG, SVG o WebP · Recomendado: 512×512 o superior, cuadrada
+                PNG, JPG, SVG or WebP · Square, 512×512 or larger recommended
               </p>
             </div>
           </div>
@@ -376,7 +376,7 @@ export default function FaviconGenerator() {
       {isProcessing && variants.length === 0 && (
         <div className="card p-8 text-center">
           <div className="mb-3 inline-block h-8 w-8 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-900"></div>
-          <p className="text-zinc-700">Generando variantes…</p>
+          <p className="text-zinc-700">Generating variants…</p>
         </div>
       )}
 
@@ -386,10 +386,10 @@ export default function FaviconGenerator() {
             <div className="flex flex-col gap-6 md:flex-row">
               <div className="flex items-center gap-4">
                 <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-200" style={checkerboardStyle}>
-                  <img src={sourceDataURL} alt="Origen" className="max-h-full max-w-full object-contain" />
+                  <img src={sourceDataURL} alt="Source" className="max-h-full max-w-full object-contain" />
                 </div>
                 <div>
-                  <p className={labelClass}>Imagen original</p>
+                  <p className={labelClass}>Source image</p>
                   <p className="text-zinc-900">
                     {sourceDims?.width} × {sourceDims?.height}px
                   </p>
@@ -397,14 +397,14 @@ export default function FaviconGenerator() {
                     onClick={reset}
                     className="mt-1 inline-flex items-center gap-1 text-sm text-zinc-500 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-900"
                   >
-                    <X className="h-3.5 w-3.5" /> Cambiar imagen
+                    <X className="h-3.5 w-3.5" /> Change image
                   </button>
                 </div>
               </div>
 
               <div className="grid flex-1 grid-cols-1 gap-4 border-zinc-200 sm:grid-cols-3 md:border-l md:pl-6">
                 <div>
-                  <label className={labelClass}>Nombre del sitio</label>
+                  <label className={labelClass}>Site name</label>
                   <input
                     type="text"
                     value={siteName}
@@ -413,7 +413,7 @@ export default function FaviconGenerator() {
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Color tema</label>
+                  <label className={labelClass}>Theme color</label>
                   <div className="flex gap-2">
                     <input
                       type="color"
@@ -430,13 +430,13 @@ export default function FaviconGenerator() {
                   </div>
                 </div>
                 <div>
-                  <label className={labelClass}>Fondo del icono</label>
+                  <label className={labelClass}>Icon background</label>
                   <div className="flex gap-2">
                     <button
                       onClick={() => setBgColor('transparent')}
                       className={`flex-1 ${toggleClass(bgColor === 'transparent')}`}
                     >
-                      Transparente
+                      Transparent
                     </button>
                     <input
                       type="color"
@@ -451,7 +451,7 @@ export default function FaviconGenerator() {
           </div>
 
           <div className="card p-6">
-            <p className={`${labelClass} mb-4`}>Vista previa en navegador</p>
+            <p className={`${labelClass} mb-4`}>Browser preview</p>
             <div className="inline-flex max-w-full items-center gap-2 rounded-t-lg border border-b-0 border-zinc-200 bg-zinc-100 p-2">
               <div className="flex gap-1.5">
                 <span className="h-2.5 w-2.5 rounded-full border border-zinc-300"></span>
@@ -474,7 +474,7 @@ export default function FaviconGenerator() {
             </div>
             {variant32 && (
               <div className="mt-4 flex items-center gap-3 font-mono text-xs text-zinc-500">
-                <span>Tamaño real:</span>
+                <span>Actual size:</span>
                 <img src={variant16.dataURL} alt="16px" width={16} height={16} />
                 <span>16px</span>
                 <img src={variant32.dataURL} alt="32px" width={32} height={32} />
@@ -485,10 +485,10 @@ export default function FaviconGenerator() {
 
           <div className="card p-6">
             <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-              <h2 className="text-lg">Variantes generadas</h2>
+              <h2 className="text-lg">Generated variants</h2>
               <button onClick={downloadAll} className="button button-primary">
                 <Download className="h-4 w-4" />
-                Descargar todo (ZIP)
+                Download all (ZIP)
               </button>
             </div>
 
@@ -510,12 +510,12 @@ export default function FaviconGenerator() {
                     </span>
                   </div>
                   <p className="truncate text-xs font-medium text-zinc-900">favicon.ico</p>
-                  <p className="mb-2 text-[11px] text-zinc-500">Multi-resolución</p>
+                  <p className="mb-2 text-[11px] text-zinc-500">Multi-resolution</p>
                   <button
                     onClick={() => downloadBlob(icoBlob, 'favicon.ico')}
                     className="button button-secondary button-sm w-full text-xs"
                   >
-                    <Download className="h-3 w-3" /> Descargar
+                    <Download className="h-3 w-3" />Download
                   </button>
                 </div>
               )}
@@ -550,7 +550,7 @@ export default function FaviconGenerator() {
                     onClick={() => downloadDataURL(v.dataURL, v.name)}
                     className="button button-secondary button-sm w-full text-xs"
                   >
-                    <Download className="h-3 w-3" /> Descargar
+                    <Download className="h-3 w-3" />Download
                   </button>
                 </div>
               ))}
@@ -558,21 +558,21 @@ export default function FaviconGenerator() {
           </div>
 
           <div className="overflow-hidden rounded-xl border border-night-800 bg-night-950">
-            <div className="flex items-center justify-between border-b border-night-800 px-5 py-3">
+            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-night-800 px-5 py-3">
               <div className="flex items-center gap-2">
                 <FileCode className="h-4 w-4 text-night-500" />
                 <h2 className="font-mono text-xs text-night-300">
-                  Código HTML para tu &lt;head&gt;
+                  HTML for your &lt;head&gt;
                 </h2>
               </div>
               <button onClick={copyHtml} className={codeButtonClass(copied)}>
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5" /> ¡Copiado!
+                    <Check className="h-3.5 w-3.5" /> Copied!
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" /> Copiar
+                    <Copy className="h-3.5 w-3.5" /> Copy
                   </>
                 )}
               </button>
@@ -587,7 +587,7 @@ export default function FaviconGenerator() {
             <div className="mb-5">
               <h2 className="text-lg">site.webmanifest</h2>
               <p className="mt-1 text-sm text-zinc-500">
-                Configuración de la PWA para Android, Chrome y otros navegadores compatibles
+                PWA settings for Android, Chrome and other supporting browsers
               </p>
             </div>
 
@@ -636,7 +636,7 @@ export default function FaviconGenerator() {
             </div>
 
             <div className="overflow-hidden rounded-xl border border-night-800 bg-night-950">
-              <div className="flex items-center justify-between border-b border-night-800 px-5 py-3">
+              <div className="flex flex-wrap items-center justify-between gap-2 border-b border-night-800 px-5 py-3">
                 <div className="flex items-center gap-2">
                   <FileCode className="h-4 w-4 text-night-500" />
                   <span className="font-mono text-xs text-night-300">site.webmanifest</span>
@@ -645,16 +645,16 @@ export default function FaviconGenerator() {
                   <button onClick={copyManifest} className={codeButtonClass(copiedManifest)}>
                     {copiedManifest ? (
                       <>
-                        <Check className="h-3.5 w-3.5" /> ¡Copiado!
+                        <Check className="h-3.5 w-3.5" /> Copied!
                       </>
                     ) : (
                       <>
-                        <Copy className="h-3.5 w-3.5" /> Copiar
+                        <Copy className="h-3.5 w-3.5" /> Copy
                       </>
                     )}
                   </button>
                   <button onClick={downloadManifest} className={codeButtonClass(false)}>
-                    <Download className="h-3.5 w-3.5" /> Descargar
+                    <Download className="h-3.5 w-3.5" />Download
                   </button>
                 </div>
               </div>
@@ -667,7 +667,7 @@ export default function FaviconGenerator() {
       )}
 
       <p className="mt-6 text-center font-mono text-xs text-zinc-500">
-        Procesamiento 100% en tu navegador · Tu imagen no se sube a ningún servidor
+        Runs 100% in your browser · Your image is never uploaded
       </p>
     </div>
   );
