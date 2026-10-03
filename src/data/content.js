@@ -168,7 +168,7 @@ export const experience = [
 		role: "COO & Front-End Developer",
 		period: "2017 – 2021",
 		description:
-			"Open innovation platform that connects companies with research centres, technology transfer offices and innovators. I developed the user and company profile system,.",
+			"Open innovation platform that connects companies with research centres, technology transfer offices and innovators. I developed the user and company profile system.",
 		tags: ["Sass", "jQuery", "Vanilla JS", "Open innovation"],
 	},
 	{
