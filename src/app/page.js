@@ -399,15 +399,6 @@ export default function Home() {
 											</span>
 											{"],\n  "}
 											<span className="text-zinc-500">
-												&quot;workflow&quot;
-											</span>
-											{": "}
-											<span className="text-emerald-700 dark:text-emerald-400">
-												&quot;Orchestrating AI agents
-												and reviewing every diff&quot;
-											</span>
-											{",\n  "}
-											<span className="text-zinc-500">
 												&quot;motto&quot;
 											</span>
 											{": "}
