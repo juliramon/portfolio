@@ -195,10 +195,10 @@ export const projects = [
 		id: "portfolio",
 		title: "This portfolio",
 		description:
-			"A personal site built as a playground for layout, typography and scroll animations — pair-programmed with Claude.",
+			"A personal site built as a playground for layout, typography and scroll animations — pair-programmed with Claude Code.",
 		href: "https://github.com/juliramon",
 		linkText: "github.com/juliramon",
-		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude"],
+		tags: ["Next.js", "Tailwind CSS", "GSAP", "Claude Code"],
 	},
 ];
 
