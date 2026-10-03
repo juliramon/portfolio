@@ -4,9 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SVG Animated</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#EBECEF;
@@ -59,27 +56,27 @@ body{
 textarea#svgin{
   width:100%;min-height:132px;resize:vertical;
   font-family:var(--mono);font-size:12.5px;line-height:1.55;
-  color:var(--ink);background:#FBFBFC;border:1px solid var(--line);border-radius:var(--radius);
+  color:var(--ink);background:var(--field);border:1px solid var(--line);border-radius:var(--radius);
   padding:11px 12px;outline:none;tab-size:2;
 }
 textarea#svgin:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
-textarea#svgin::placeholder{color:#9aa0ab}
+textarea#svgin::placeholder{color:var(--ink-faint)}
 .examples{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:11px}
 .ex-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
-.ex{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:20px;padding:5px 12px;cursor:pointer}
+.ex{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:5px 12px;cursor:pointer}
 .ex:hover{border-color:var(--line-strong);background:var(--accent-weaker)}
 
 /* ---------- chips ---------- */
 .grp{font-family:var(--mono);font-size:10px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-soft);margin:0 0 8px}
 .chips+.grp{margin-top:15px}
 .chips{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;cursor:pointer;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);text-align:left}
+.chip{display:flex;align-items:center;gap:9px;padding:9px 11px;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);cursor:pointer;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);text-align:left}
 .chip .dot{width:7px;height:7px;border-radius:50%;background:var(--line-strong);flex:none}
 .chip:hover{border-color:var(--line-strong)}
 .chip.is-active{border-color:var(--accent);background:var(--accent-weak)}
 .chip.is-active .dot{background:var(--accent)}
 .hint{font-size:11.5px;color:var(--ink-soft);margin:13px 0 0;line-height:1.45;padding:9px 11px;background:var(--accent-weaker);border-radius:var(--radius);border:1px solid var(--accent-weak)}
-.hint code{font-family:var(--mono);font-size:10.5px;background:#fff;border:1px solid var(--accent-weak);border-radius:4px;padding:1px 4px}
+.hint code{font-family:var(--mono);font-size:10.5px;background:var(--panel);border:1px solid var(--accent-weak);border-radius:4px;padding:1px 4px}
 
 /* ---------- controles ---------- */
 .ctrl{margin-top:15px}
@@ -88,32 +85,32 @@ textarea#svgin::placeholder{color:#9aa0ab}
 .ctrl-hd label{font-size:13px;font-weight:500;color:var(--ink)}
 .val{font-family:var(--mono);font-size:11.5px;color:var(--accent);background:var(--accent-weaker);padding:2px 7px;border-radius:20px}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;border-radius:2px;background:var(--line);outline:none;cursor:pointer;accent-color:var(--accent)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);border:2.5px solid #fff;box-shadow:0 0 0 1px var(--line-strong)}
-input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--accent);border:2.5px solid #fff}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--accent);border:2.5px solid var(--panel);box-shadow:0 0 0 1px var(--line-strong)}
+input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--accent);border:2.5px solid var(--panel)}
 input[type=range]:focus-visible{box-shadow:0 0 0 3px var(--accent-weaker)}
 
-.seg{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff}
+.seg{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--panel)}
 .seg button{flex:1;padding:8px 6px;font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink-soft);background:transparent;border:0;border-right:1px solid var(--line);cursor:pointer;white-space:nowrap}
 .seg button:last-child{border-right:0}
 .seg button:hover{background:var(--accent-weaker);color:var(--ink)}
-.seg button.is-active{background:var(--accent);color:#fff}
+.seg button.is-active{background:var(--accent);color:var(--on-accent)}
 .seg-sm button{padding:6px 8px;font-size:11.5px}
 
-select.sel{width:100%;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;cursor:pointer;outline:none;
+select.sel{width:100%;font-family:var(--sans);font-weight:500;font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;cursor:pointer;outline:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235A5F6B' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6l6 -6'/></svg>");
   background-repeat:no-repeat;background-position:right 10px center;padding-right:34px;-webkit-appearance:none;appearance:none}
 select.sel:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
-input.num{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;outline:none}
+input.num{width:100%;font-family:var(--mono);font-size:13px;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:8px 10px;outline:none}
 input.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
 .hide{display:none !important}
 
 .size-row{display:flex;align-items:center;gap:8px}
-.size-field{display:flex;align-items:center;gap:7px;flex:1;min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:#fff;padding:0 10px}
+.size-field{display:flex;align-items:center;gap:7px;flex:1;min-width:0;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);padding:0 10px}
 .size-field:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-weaker)}
 .size-cap{font-family:var(--mono);font-size:13px;color:var(--ink-soft);flex:none;cursor:default;user-select:none}
 .size-num{width:100%;min-width:0;border:0;outline:none;background:transparent;font-family:var(--mono);font-size:13px;color:var(--ink);padding:8px 0;-moz-appearance:textfield}
 .size-num::-webkit-outer-spin-button,.size-num::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.link{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:var(--radius);background:#fff;color:var(--ink-soft);cursor:pointer;padding:0}
+.link{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel);color:var(--ink-soft);cursor:pointer;padding:0}
 .link:hover{border-color:var(--line-strong)}
 .link.is-on{border-color:var(--accent);background:var(--accent-weak);color:var(--accent)}
 .size-unit{font-family:var(--mono);font-size:11px;color:var(--ink-soft);flex:none}
@@ -121,7 +118,7 @@ input.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wea
 .mini-reset:hover{text-decoration:underline}
 
 .rand-row{display:flex;align-items:center;gap:10px;margin-top:10px}
-.toggle{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
+.toggle{font-family:var(--sans);font-weight:500;font-size:12px;color:var(--ink-soft);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:6px 13px;cursor:pointer;display:inline-flex;align-items:center;gap:7px}
 .toggle::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--line-strong)}
 .toggle:hover{border-color:var(--line-strong)}
 .toggle.is-on{border-color:var(--accent);background:var(--accent-weak);color:var(--ink)}
@@ -155,20 +152,20 @@ input.num:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-wea
 @keyframes hh{0%,100%{opacity:.35}50%{opacity:1}}
 .stage.bg-dark .stage-eyebrow,.stage.bg-dark .dim{color:rgba(255,255,255,.55)}
 
-.stage-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--line);background:#fff;flex-wrap:wrap}
+.stage-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-top:1px solid var(--line);background:var(--panel);flex-wrap:wrap}
 
 /* ---------- output ---------- */
-.code-wrap{border:1px solid var(--line);border-radius:var(--radius);background:#F7F8FA;overflow:hidden}
-pre.code{margin:0;padding:13px 14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:#2b2f38;white-space:pre;overflow:auto;max-height:240px;tab-size:2}
-pre.code:empty::before{content:"El SVG animado aparecerá aquí.";color:#9aa0ab}
+.code-wrap{border:1px solid var(--line);border-radius:var(--radius);background:var(--field);overflow:hidden}
+pre.code{margin:0;padding:13px 14px;font-family:var(--mono);font-size:12px;line-height:1.6;color:var(--ink);white-space:pre;overflow:auto;max-height:240px;tab-size:2}
+pre.code:empty::before{content:"El SVG animado aparecerá aquí.";color:var(--ink-faint)}
 .out-bar{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 
 /* ---------- buttons ---------- */
 .btn{font-family:var(--sans);font-weight:600;font-size:13px;border-radius:var(--radius);padding:9px 16px;cursor:pointer;border:1px solid transparent;transition:background .12s,border-color .12s}
 .btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.btn-primary{background:var(--accent);color:#fff}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
 .btn-primary:hover{background:var(--accent-600)}
-.btn-secondary{background:#fff;color:var(--ink);border-color:var(--line)}
+.btn-secondary{background:var(--panel);color:var(--ink);border-color:var(--line)}
 .btn-secondary:hover{border-color:var(--line-strong)}
 .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line);font-weight:500}
 .btn-ghost:hover{background:var(--accent-weaker);border-color:var(--line-strong)}
@@ -186,7 +183,72 @@ pre.code:empty::before{content:"El SVG animado aparecerá aquí.";color:#9aa0ab}
   *{transition:none !important}
   .hoverhint::before{animation:none}
 }
+
+/* ---------- portfolio theme ----------
+   Restyles the tool with juliramon.dev's tokens (zinc neutrals, Circular,
+   near-black primary, pink focus accent) and follows the site's light/dark
+   theme, which the script below syncs from the parent page. */
+@font-face{font-family:'Circular';src:url('/projects/fonts/circular-book.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Circular';src:url('/projects/fonts/circular-medium.woff2') format('woff2');font-weight:500 700;font-display:swap}
+:root{
+  --paper:transparent;
+  --panel:#FFFFFF;
+  --field:#FAFAFA;
+  --ink:#18181B;
+  --ink-soft:#71717A;
+  --ink-faint:#A1A1AA;
+  --line:#E4E4E7;
+  --line-strong:#D4D4D8;
+  --accent:#18181B;
+  --accent-600:#3F3F46;
+  --accent-weak:#F4F4F5;
+  --accent-weaker:#FAFAFA;
+  --on-accent:#FFFFFF;
+  --focus:rgba(255,0,142,.25);
+  --dot:#FF008E;
+  --radius:8px;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+  --sans:'Circular',ui-sans-serif,system-ui,sans-serif;
+}
+:root.dark{
+  color-scheme:dark;
+  --panel:#0A0A0C;
+  --field:#161619;
+  --ink:#F4F4F5;
+  --ink-soft:#9696A0;
+  --ink-faint:#71717A;
+  --line:#2C2C31;
+  --line-strong:#3F3F46;
+  --accent:#F4F4F5;
+  --accent-600:#D4D4D8;
+  --accent-weak:#242428;
+  --accent-weaker:#161619;
+  --on-accent:#0A0A0C;
+}
+body{background:transparent}
+.wrap{max-width:none;padding:0}
+.head{display:none}
+.panel{border-radius:12px;padding:18px}
+.eyebrow::before{background:var(--dot)}
+.btn{font-weight:500}
+textarea#svgin:focus,select.sel:focus,input.num:focus,.size-field:focus-within{border-color:var(--line-strong);box-shadow:0 0 0 3px var(--focus)}
+.btn:focus-visible{outline-color:var(--dot)}
+.val,.mini-reset,.hoverhint{color:var(--ink)}
+.hoverhint::before{background:var(--dot)}
+.stage.bg-light{color:#18181B}
+.stage.bg-dark{color:#F4F4F5}
 </style>
+<script>
+// Follow the portfolio's light/dark theme when embedded in it
+(function(){
+  try{
+    var root=window.parent.document.documentElement;
+    var apply=function(){document.documentElement.classList.toggle('dark',root.classList.contains('dark'))};
+    apply();
+    new MutationObserver(apply).observe(root,{attributes:true,attributeFilter:['class']});
+  }catch(e){}
+})();
+</script>
 </head>
 <body>
 <div class="wrap">
@@ -365,7 +427,7 @@ pre.code:empty::before{content:"El SVG animado aparecerá aquí.";color:#9aa0ab}
     </section>
   </main>
 
-  <p class="foot"><b>Trazo</b> · combina trazo y movimiento · el dibujado necesita iconos de <b>trazo</b> (Tabler, Lucide, Feather); el movimiento funciona con cualquier SVG.</p>
+  <p class="foot"><b>Static SVG Animator</b> · combina trazo y movimiento · el dibujado necesita iconos de <b>trazo</b> (Tabler, Lucide, Feather); el movimiento funciona con cualquier SVG.</p>
 </div>
 
 <script>

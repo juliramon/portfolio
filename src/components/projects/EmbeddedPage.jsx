@@ -39,7 +39,7 @@ const EmbeddedPage = ({ src, title, minHeight = 900 }) => {
 			src={src}
 			title={title}
 			style={{ height }}
-			className="block w-full overflow-hidden rounded-xl border border-zinc-200 bg-white"
+			className="block w-full overflow-hidden bg-transparent"
 		/>
 	);
 };

@@ -207,7 +207,7 @@ export const projects = [
 	},
 	{
 		id: "svg-animated",
-		title: "Trazo · SVG animator",
+		title: "Static SVG Animator",
 		description:
 			"Turns any static icon into an animated SVG. Combine stroke drawing with motion, tweak it and copy a self-contained SVG with embedded CSS. Built for Tabler, Lucide and Feather icons.",
 		page: "/projects/svg-animated",

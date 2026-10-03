@@ -34,7 +34,7 @@ This is the personal site and portfolio of Juli Ramon. The site is a single page
 - [Experience](https://juliramon.dev/#experience)
 - [Projects](https://juliramon.dev/#projects)
 - [Favicon Generator](https://juliramon.dev/projects/favicon-generator): side project. Turns one image into every favicon size, a multi-size .ico, the HTML tags and a web manifest, in a zip. Built with React, Tailwind CSS, the Canvas API and JSZip.
-- [Trazo · SVG animator](https://juliramon.dev/projects/svg-animated): side project. Turns a static icon into a self-contained animated SVG with embedded CSS. Built with HTML, CSS animations, JavaScript and SVG.
+- [Static SVG Animator](https://juliramon.dev/projects/svg-animated): side project. Turns a static icon into a self-contained animated SVG with embedded CSS. Built with HTML, CSS animations, JavaScript and SVG.
 
 ## Contact
 

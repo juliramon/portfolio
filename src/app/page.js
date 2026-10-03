@@ -42,6 +42,7 @@ import {
 	aiTools,
 	profile,
 	projects,
+	projectStats,
 	services,
 	socials,
 } from "@/data/content";
@@ -851,7 +852,6 @@ export default function Home() {
 					lead="A selection of things I've designed, built and keep improving."
 					note="some favourites"
 				/>
-				<ProjectStats />
 				<ul className="grid-cells">
 					{projects.map((project, idx) => (
 						<li key={project.id} data-reveal>
@@ -924,13 +924,24 @@ export default function Home() {
 				</ul>
 			</Section>
 
+			{/* Numbers */}
+			<Section id="numbers">
+				<SectionHeader
+					index="07"
+					eyebrow="In numbers"
+					title={`${projectStats.total}+ projects shipped.`}
+					lead="Websites and online stores delivered with my team, and the technologies behind them."
+				/>
+				<ProjectStats />
+			</Section>
+
 			{/* Connect */}
 			<Section id="contact" className="bg-zinc-50/60">
 				<div data-reveal className="gradient-border shadow-sm">
 					<div className="grid overflow-hidden rounded-[15px] bg-surface lg:grid-cols-[1.4fr_1fr]">
 						<div className="p-8 md:p-12">
 							<span className="eyebrow">
-								<span className="opacity-60">07</span>
+								<span className="opacity-60">08</span>
 								<span className="h-px w-6 bg-brand-gradient" />
 								Connect
 							</span>

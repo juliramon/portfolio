@@ -13,9 +13,7 @@ export const metadata = {
 export default function FaviconGeneratorPage() {
 	return (
 		<ProjectPage project={project}>
-			<div className="overflow-hidden rounded-xl border border-zinc-200 [&>div]:min-h-0">
-				<FaviconGenerator />
-			</div>
+			<FaviconGenerator />
 		</ProjectPage>
 	);
 }

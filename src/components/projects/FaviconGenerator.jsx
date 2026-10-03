@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Upload, Download, Copy, Check, X, Sparkles, FileCode } from 'lucide-react';
+import { Upload, Download, Copy, Check, X, FileCode } from 'lucide-react';
 
 const loadJSZip = () => {
   return new Promise((resolve, reject) => {
@@ -300,413 +300,375 @@ export default function FaviconGenerator() {
     downloadBlob(blob, 'site.webmanifest');
   };
 
+  // Transparency grid; reads the theme tokens so it follows light/dark mode
   const checkerboardStyle = {
     backgroundImage:
-      'linear-gradient(45deg, #e2e8f0 25%, transparent 25%), linear-gradient(-45deg, #e2e8f0 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e2e8f0 75%), linear-gradient(-45deg, transparent 75%, #e2e8f0 75%)',
+      'linear-gradient(45deg, rgb(var(--zinc-200)) 25%, transparent 25%), linear-gradient(-45deg, rgb(var(--zinc-200)) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, rgb(var(--zinc-200)) 75%), linear-gradient(-45deg, transparent 75%, rgb(var(--zinc-200)) 75%)',
     backgroundSize: '12px 12px',
     backgroundPosition: '0 0, 0 6px, 6px -6px, -6px 0px',
-    backgroundColor: '#f8fafc',
+    backgroundColor: 'rgb(var(--zinc-50))',
   };
+
+  // Shared class names, matching the site's inputs, toggles and code blocks
+  const inputClass =
+    'w-full rounded-lg border border-zinc-200 bg-surface px-3 py-2 text-sm text-zinc-900 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-quartiary-500';
+  const colorClass = 'h-9 w-10 shrink-0 cursor-pointer rounded-lg border border-zinc-200 bg-surface';
+  const labelClass = 'mb-1.5 block font-mono text-[11px] uppercase tracking-widest text-zinc-500';
+  const toggleClass = (active) =>
+    `rounded-lg border px-2 py-2 text-xs transition-colors ${
+      active
+        ? 'border-zinc-900 bg-zinc-900 font-medium text-surface'
+        : 'border-zinc-200 bg-surface text-zinc-600 hover:border-zinc-300 hover:text-zinc-900'
+    }`;
+  const codeButtonClass = (done) =>
+    `inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-medium transition-colors ${
+      done
+        ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-400'
+        : 'border-night-700 bg-night-900 text-night-300 hover:text-white'
+    }`;
 
   const variant16 = variants.find((v) => v.size === 16);
   const variant32 = variants.find((v) => v.size === 32);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-8 px-4">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/70 backdrop-blur border border-slate-200 mb-4">
-            <Sparkles className="w-4 h-4 text-indigo-500" />
-            <span className="text-sm font-medium text-slate-700">Generador todo-en-uno</span>
+    <div>
+      {!sourceDataURL && (
+        <div
+          onDrop={handleDrop}
+          onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+          onDragLeave={() => setIsDragging(false)}
+          onClick={() => fileInputRef.current?.click()}
+          className={`relative cursor-pointer rounded-xl border border-dashed p-10 text-center transition-colors md:p-14 ${
+            isDragging
+              ? 'border-quartiary-500 bg-quartiary-100/30'
+              : 'border-zinc-300 bg-zinc-50/60 hover:border-zinc-400 hover:bg-zinc-50'
+          }`}
+        >
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) => handleFile(e.target.files[0])}
+          />
+          <div className="flex flex-col items-center gap-4">
+            <div
+              className={`flex h-14 w-14 items-center justify-center rounded-xl border shadow-sm transition-colors ${
+                isDragging
+                  ? 'border-quartiary-500 bg-quartiary-500 text-white'
+                  : 'border-zinc-200 bg-surface text-zinc-900'
+              }`}
+            >
+              <Upload className="h-6 w-6" strokeWidth={1.75} />
+            </div>
+            <div>
+              <p className="mb-1 text-lg text-zinc-900">
+                Arrastra una imagen aquí o haz clic para seleccionar
+              </p>
+              <p className="font-mono text-xs text-zinc-500">
+                PNG, JPG, SVG o WebP · Recomendado: 512×512 o superior, cuadrada
+              </p>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-indigo-700 to-blue-600 bg-clip-text text-transparent mb-3">
-            Generador de Favicons
-          </h1>
-          <p className="text-slate-600 text-lg">
-            Sube una imagen y obtén todas las variantes que necesita una web moderna
-          </p>
         </div>
+      )}
 
-        {!sourceDataURL && (
-          <div
-            onDrop={handleDrop}
-            onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
-            onDragLeave={() => setIsDragging(false)}
-            onClick={() => fileInputRef.current?.click()}
-            className={`relative border-2 border-dashed rounded-2xl p-12 text-center cursor-pointer transition-all ${
-              isDragging
-                ? 'border-indigo-500 bg-indigo-50 scale-[1.01]'
-                : 'border-slate-300 bg-white/70 hover:border-indigo-400 hover:bg-white'
-            }`}
-          >
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={(e) => handleFile(e.target.files[0])}
-            />
-            <div className="flex flex-col items-center gap-4">
-              <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-colors ${
-                isDragging ? 'bg-indigo-500 text-white' : 'bg-indigo-100 text-indigo-600'
-              }`}>
-                <Upload className="w-8 h-8" />
-              </div>
-              <div>
-                <p className="text-lg font-semibold text-slate-800 mb-1">
-                  Arrastra una imagen aquí o haz clic para seleccionar
-                </p>
-                <p className="text-sm text-slate-500">
-                  PNG, JPG, SVG o WebP · Recomendado: 512×512 o superior, cuadrada
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
+      {isProcessing && variants.length === 0 && (
+        <div className="card p-8 text-center">
+          <div className="mb-3 inline-block h-8 w-8 animate-spin rounded-full border-2 border-zinc-200 border-t-zinc-900"></div>
+          <p className="text-zinc-700">Generando variantes…</p>
+        </div>
+      )}
 
-        {isProcessing && variants.length === 0 && (
-          <div className="bg-white/80 backdrop-blur rounded-2xl border border-slate-200 p-8 text-center">
-            <div className="inline-block w-10 h-10 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-3"></div>
-            <p className="text-slate-700 font-medium">Generando variantes…</p>
-          </div>
-        )}
-
-        {sourceDataURL && variants.length > 0 && (
-          <div className="space-y-6">
-            <div className="bg-white/80 backdrop-blur rounded-2xl border border-slate-200 p-6">
-              <div className="flex flex-col md:flex-row gap-6">
-                <div className="flex items-center gap-4">
-                  <div className="w-24 h-24 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden flex-shrink-0">
-                    <img src={sourceDataURL} alt="Origen" className="max-w-full max-h-full object-contain" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-slate-500 mb-1">Imagen original</p>
-                    <p className="font-semibold text-slate-800">
-                      {sourceDims?.width} × {sourceDims?.height}px
-                    </p>
-                    <button
-                      onClick={reset}
-                      className="text-sm text-indigo-600 hover:text-indigo-700 font-medium mt-1 inline-flex items-center gap-1"
-                    >
-                      <X className="w-3.5 h-3.5" /> Cambiar imagen
-                    </button>
-                  </div>
+      {sourceDataURL && variants.length > 0 && (
+        <div className="space-y-4">
+          <div className="card p-6">
+            <div className="flex flex-col gap-6 md:flex-row">
+              <div className="flex items-center gap-4">
+                <div className="flex h-24 w-24 flex-shrink-0 items-center justify-center overflow-hidden rounded-xl border border-zinc-200" style={checkerboardStyle}>
+                  <img src={sourceDataURL} alt="Origen" className="max-h-full max-w-full object-contain" />
                 </div>
-
-                <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 md:border-l md:pl-6 md:border-slate-200">
-                  <div>
-                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                      Nombre del sitio
-                    </label>
-                    <input
-                      type="text"
-                      value={siteName}
-                      onChange={(e) => setSiteName(e.target.value)}
-                      className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                      Color tema
-                    </label>
-                    <div className="flex gap-2">
-                      <input
-                        type="color"
-                        value={themeColor}
-                        onChange={(e) => setThemeColor(e.target.value)}
-                        className="w-10 h-9 rounded-lg border border-slate-200 cursor-pointer"
-                      />
-                      <input
-                        type="text"
-                        value={themeColor}
-                        onChange={(e) => setThemeColor(e.target.value)}
-                        className="flex-1 px-2 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                      Fondo del icono
-                    </label>
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => setBgColor('transparent')}
-                        className={`flex-1 px-2 py-2 text-xs rounded-lg border transition ${
-                          bgColor === 'transparent'
-                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                            : 'border-slate-200 text-slate-600 hover:border-slate-300'
-                        }`}
-                      >
-                        Transparente
-                      </button>
-                      <input
-                        type="color"
-                        value={bgColor === 'transparent' ? '#ffffff' : bgColor}
-                        onChange={(e) => setBgColor(e.target.value)}
-                        className="w-10 h-9 rounded-lg border border-slate-200 cursor-pointer"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white/80 backdrop-blur rounded-2xl border border-slate-200 p-6">
-              <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
-                Vista previa en navegador
-              </h2>
-              <div className="bg-slate-200 rounded-t-lg p-2 inline-flex items-center gap-2 max-w-full">
-                <div className="flex gap-1">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-400"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-400"></span>
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-400"></span>
-                </div>
-                <div className="bg-white rounded px-3 py-1.5 flex items-center gap-2 text-xs text-slate-700 max-w-xs">
-                  {variant16 && (
-                    <img
-                      src={variant16.dataURL}
-                      alt=""
-                      width={16}
-                      height={16}
-                      className="flex-shrink-0"
-                    />
-                  )}
-                  <span className="truncate">{siteName}</span>
-                  <X className="w-3 h-3 text-slate-400 flex-shrink-0" />
-                </div>
-              </div>
-              {variant32 && (
-                <div className="mt-4 flex items-center gap-3 text-xs text-slate-500">
-                  <span>Tamaño real:</span>
-                  <img src={variant16.dataURL} alt="16px" width={16} height={16} />
-                  <span>16px</span>
-                  <img src={variant32.dataURL} alt="32px" width={32} height={32} />
-                  <span>32px</span>
-                </div>
-              )}
-            </div>
-
-            <div className="bg-white/80 backdrop-blur rounded-2xl border border-slate-200 p-6">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-slate-800">
-                  Variantes generadas
-                </h2>
-                <button
-                  onClick={downloadAll}
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-blue-600 text-white text-sm font-medium rounded-lg hover:from-indigo-700 hover:to-blue-700 transition shadow-sm hover:shadow-md"
-                >
-                  <Download className="w-4 h-4" />
-                  Descargar todo (ZIP)
-                </button>
-              </div>
-
-              <div className="grid grid-cols-4 gap-3">
-                {icoBlob && variant32 && (
-                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-3 hover:shadow-md transition">
-                    <div
-                      className="aspect-square rounded-lg flex items-center justify-center mb-2 relative overflow-hidden"
-                      style={checkerboardStyle}
-                    >
-                      <img
-                        src={variant32.dataURL}
-                        alt="favicon.ico"
-                        className="object-contain"
-                        style={{ width: '60%', height: '60%' }}
-                      />
-                      <span className="absolute top-1 right-1 text-[10px] font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded">
-                        ICO
-                      </span>
-                    </div>
-                    <p className="text-xs font-semibold text-slate-800 truncate">favicon.ico</p>
-                    <p className="text-[10px] text-slate-500 mb-2">Multi-resolución</p>
-                    <button
-                      onClick={() => downloadBlob(icoBlob, 'favicon.ico')}
-                      className="w-full text-xs py-1.5 bg-white hover:bg-amber-100 border border-amber-200 text-amber-700 rounded font-medium transition flex items-center justify-center gap-1"
-                    >
-                      <Download className="w-3 h-3" /> Descargar
-                    </button>
-                  </div>
-                )}
-
-                {variants.map((v) => (
-                  <div
-                    key={v.name}
-                    className="bg-white border border-slate-200 rounded-xl p-3 hover:shadow-md hover:border-indigo-200 transition"
-                  >
-                    <div
-                      className="aspect-square rounded-lg flex items-center justify-center mb-2 overflow-hidden"
-                      style={checkerboardStyle}
-                    >
-                      <img
-                        src={v.dataURL}
-                        alt={v.name}
-                        className="object-contain"
-                        style={{
-                          width: v.size <= 48 ? `${v.size}px` : '80%',
-                          height: v.size <= 48 ? `${v.size}px` : '80%',
-                          imageRendering: v.size <= 32 ? 'pixelated' : 'auto',
-                        }}
-                      />
-                    </div>
-                    <p className="text-xs font-semibold text-slate-800 truncate">
-                      {v.size}×{v.size}
-                    </p>
-                    <p className="text-[10px] text-slate-500 mb-2 truncate" title={v.desc}>
-                      {v.desc}
-                    </p>
-                    <button
-                      onClick={() => downloadDataURL(v.dataURL, v.name)}
-                      className="w-full text-xs py-1.5 bg-slate-50 hover:bg-indigo-50 border border-slate-200 hover:border-indigo-200 text-slate-700 hover:text-indigo-700 rounded font-medium transition flex items-center justify-center gap-1"
-                    >
-                      <Download className="w-3 h-3" /> Descargar
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-slate-900 rounded-2xl border border-slate-800 overflow-hidden">
-              <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
-                <div className="flex items-center gap-2">
-                  <FileCode className="w-4 h-4 text-slate-400" />
-                  <h2 className="text-sm font-semibold text-slate-200">
-                    Código HTML para tu &lt;head&gt;
-                  </h2>
-                </div>
-                <button
-                  onClick={copyHtml}
-                  className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                    copied
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                      : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
-                  }`}
-                >
-                  {copied ? (
-                    <>
-                      <Check className="w-3.5 h-3.5" /> ¡Copiado!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-3.5 h-3.5" /> Copiar
-                    </>
-                  )}
-                </button>
-              </div>
-              <pre className="p-6 text-xs text-slate-300 overflow-x-auto leading-relaxed">
-                <code>{htmlSnippet}</code>
-              </pre>
-            </div>
-
-            {/* Web App Manifest */}
-            <div className="bg-white/80 backdrop-blur rounded-2xl border border-slate-200 p-6">
-              <div className="flex items-center justify-between mb-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-slate-800">site.webmanifest</h2>
-                  <p className="text-xs text-slate-500 mt-0.5">
-                    Configuración de la PWA para Android, Chrome y otros navegadores compatibles
+                  <p className={labelClass}>Imagen original</p>
+                  <p className="text-zinc-900">
+                    {sourceDims?.width} × {sourceDims?.height}px
                   </p>
+                  <button
+                    onClick={reset}
+                    className="mt-1 inline-flex items-center gap-1 text-sm text-zinc-500 underline decoration-zinc-300 underline-offset-4 transition-colors hover:text-zinc-900 hover:decoration-zinc-900"
+                  >
+                    <X className="h-3.5 w-3.5" /> Cambiar imagen
+                  </button>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+              <div className="grid flex-1 grid-cols-1 gap-4 border-zinc-200 sm:grid-cols-3 md:border-l md:pl-6">
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                    Short name
-                  </label>
+                  <label className={labelClass}>Nombre del sitio</label>
                   <input
                     type="text"
-                    value={shortName}
-                    onChange={(e) => setShortName(e.target.value)}
-                    placeholder={siteName}
-                    className="w-full px-3 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                    value={siteName}
+                    onChange={(e) => setSiteName(e.target.value)}
+                    className={inputClass}
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                    Background color
-                  </label>
+                  <label className={labelClass}>Color tema</label>
                   <div className="flex gap-2">
                     <input
                       type="color"
-                      value={manifestBg}
-                      onChange={(e) => setManifestBg(e.target.value)}
-                      className="w-10 h-9 rounded-lg border border-slate-200 cursor-pointer"
+                      value={themeColor}
+                      onChange={(e) => setThemeColor(e.target.value)}
+                      className={colorClass}
                     />
                     <input
                       type="text"
-                      value={manifestBg}
-                      onChange={(e) => setManifestBg(e.target.value)}
-                      className="flex-1 px-2 py-2 text-sm rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      value={themeColor}
+                      onChange={(e) => setThemeColor(e.target.value)}
+                      className={inputClass}
                     />
                   </div>
                 </div>
-                <div className="sm:col-span-2 lg:col-span-2">
-                  <label className="block text-xs font-medium text-slate-600 mb-1.5">
-                    Display mode
-                  </label>
-                  <div className="grid grid-cols-4 gap-1">
-                    {['standalone', 'fullscreen', 'minimal-ui', 'browser'].map((opt) => (
-                      <button
-                        key={opt}
-                        onClick={() => setDisplay(opt)}
-                        className={`px-2 py-2 text-xs rounded-lg border transition ${
-                          display === opt
-                            ? 'border-indigo-500 bg-indigo-50 text-indigo-700 font-medium'
-                            : 'border-slate-200 text-slate-600 hover:border-slate-300'
-                        }`}
-                      >
-                        {opt}
-                      </button>
-                    ))}
+                <div>
+                  <label className={labelClass}>Fondo del icono</label>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setBgColor('transparent')}
+                      className={`flex-1 ${toggleClass(bgColor === 'transparent')}`}
+                    >
+                      Transparente
+                    </button>
+                    <input
+                      type="color"
+                      value={bgColor === 'transparent' ? '#ffffff' : bgColor}
+                      onChange={(e) => setBgColor(e.target.value)}
+                      className={colorClass}
+                    />
                   </div>
                 </div>
-              </div>
-
-              <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
-                <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800">
-                  <div className="flex items-center gap-2">
-                    <FileCode className="w-4 h-4 text-slate-400" />
-                    <span className="text-xs font-mono text-slate-400">site.webmanifest</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={copyManifest}
-                      className={`inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                        copiedManifest
-                          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                          : 'bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700'
-                      }`}
-                    >
-                      {copiedManifest ? (
-                        <>
-                          <Check className="w-3.5 h-3.5" /> ¡Copiado!
-                        </>
-                      ) : (
-                        <>
-                          <Copy className="w-3.5 h-3.5" /> Copiar
-                        </>
-                      )}
-                    </button>
-                    <button
-                      onClick={downloadManifest}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition"
-                    >
-                      <Download className="w-3.5 h-3.5" /> Descargar
-                    </button>
-                  </div>
-                </div>
-                <pre className="p-5 text-xs text-slate-300 overflow-x-auto leading-relaxed">
-                  <code>{manifestJSON}</code>
-                </pre>
               </div>
             </div>
           </div>
-        )}
 
-        <p className="text-center text-xs text-slate-400 mt-8">
-          Procesamiento 100% en tu navegador · Tu imagen no se sube a ningún servidor
-        </p>
-      </div>
+          <div className="card p-6">
+            <p className={`${labelClass} mb-4`}>Vista previa en navegador</p>
+            <div className="inline-flex max-w-full items-center gap-2 rounded-t-lg border border-b-0 border-zinc-200 bg-zinc-100 p-2">
+              <div className="flex gap-1.5">
+                <span className="h-2.5 w-2.5 rounded-full border border-zinc-300"></span>
+                <span className="h-2.5 w-2.5 rounded-full border border-zinc-300"></span>
+                <span className="h-2.5 w-2.5 rounded-full border border-zinc-300"></span>
+              </div>
+              <div className="flex max-w-xs items-center gap-2 rounded-md border border-zinc-200 bg-surface px-3 py-1.5 text-xs text-zinc-700">
+                {variant16 && (
+                  <img
+                    src={variant16.dataURL}
+                    alt=""
+                    width={16}
+                    height={16}
+                    className="flex-shrink-0"
+                  />
+                )}
+                <span className="truncate">{siteName}</span>
+                <X className="h-3 w-3 flex-shrink-0 text-zinc-400" />
+              </div>
+            </div>
+            {variant32 && (
+              <div className="mt-4 flex items-center gap-3 font-mono text-xs text-zinc-500">
+                <span>Tamaño real:</span>
+                <img src={variant16.dataURL} alt="16px" width={16} height={16} />
+                <span>16px</span>
+                <img src={variant32.dataURL} alt="32px" width={32} height={32} />
+                <span>32px</span>
+              </div>
+            )}
+          </div>
+
+          <div className="card p-6">
+            <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="text-lg">Variantes generadas</h2>
+              <button onClick={downloadAll} className="button button-primary">
+                <Download className="h-4 w-4" />
+                Descargar todo (ZIP)
+              </button>
+            </div>
+
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {icoBlob && variant32 && (
+                <div className="rounded-xl border border-zinc-200 bg-surface p-3 transition-colors hover:border-zinc-300">
+                  <div
+                    className="relative mb-2 flex aspect-square items-center justify-center overflow-hidden rounded-lg"
+                    style={checkerboardStyle}
+                  >
+                    <img
+                      src={variant32.dataURL}
+                      alt="favicon.ico"
+                      className="object-contain"
+                      style={{ width: '60%', height: '60%' }}
+                    />
+                    <span className="absolute right-1 top-1 rounded bg-quartiary-500 px-1.5 py-0.5 font-mono text-[10px] text-white">
+                      ICO
+                    </span>
+                  </div>
+                  <p className="truncate text-xs font-medium text-zinc-900">favicon.ico</p>
+                  <p className="mb-2 text-[11px] text-zinc-500">Multi-resolución</p>
+                  <button
+                    onClick={() => downloadBlob(icoBlob, 'favicon.ico')}
+                    className="button button-secondary button-sm w-full text-xs"
+                  >
+                    <Download className="h-3 w-3" /> Descargar
+                  </button>
+                </div>
+              )}
+
+              {variants.map((v) => (
+                <div
+                  key={v.name}
+                  className="rounded-xl border border-zinc-200 bg-surface p-3 transition-colors hover:border-zinc-300"
+                >
+                  <div
+                    className="mb-2 flex aspect-square items-center justify-center overflow-hidden rounded-lg"
+                    style={checkerboardStyle}
+                  >
+                    <img
+                      src={v.dataURL}
+                      alt={v.name}
+                      className="object-contain"
+                      style={{
+                        width: v.size <= 48 ? `${v.size}px` : '80%',
+                        height: v.size <= 48 ? `${v.size}px` : '80%',
+                        imageRendering: v.size <= 32 ? 'pixelated' : 'auto',
+                      }}
+                    />
+                  </div>
+                  <p className="truncate font-mono text-xs text-zinc-900">
+                    {v.size}×{v.size}
+                  </p>
+                  <p className="mb-2 truncate text-[11px] text-zinc-500" title={v.desc}>
+                    {v.desc}
+                  </p>
+                  <button
+                    onClick={() => downloadDataURL(v.dataURL, v.name)}
+                    className="button button-secondary button-sm w-full text-xs"
+                  >
+                    <Download className="h-3 w-3" /> Descargar
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-xl border border-night-800 bg-night-950">
+            <div className="flex items-center justify-between border-b border-night-800 px-5 py-3">
+              <div className="flex items-center gap-2">
+                <FileCode className="h-4 w-4 text-night-500" />
+                <h2 className="font-mono text-xs text-night-300">
+                  Código HTML para tu &lt;head&gt;
+                </h2>
+              </div>
+              <button onClick={copyHtml} className={codeButtonClass(copied)}>
+                {copied ? (
+                  <>
+                    <Check className="h-3.5 w-3.5" /> ¡Copiado!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="h-3.5 w-3.5" /> Copiar
+                  </>
+                )}
+              </button>
+            </div>
+            <pre className="overflow-x-auto p-5 font-mono text-xs leading-relaxed text-night-300">
+              <code>{htmlSnippet}</code>
+            </pre>
+          </div>
+
+          {/* Web App Manifest */}
+          <div className="card p-6">
+            <div className="mb-5">
+              <h2 className="text-lg">site.webmanifest</h2>
+              <p className="mt-1 text-sm text-zinc-500">
+                Configuración de la PWA para Android, Chrome y otros navegadores compatibles
+              </p>
+            </div>
+
+            <div className="mb-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              <div>
+                <label className={labelClass}>Short name</label>
+                <input
+                  type="text"
+                  value={shortName}
+                  onChange={(e) => setShortName(e.target.value)}
+                  placeholder={siteName}
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className={labelClass}>Background color</label>
+                <div className="flex gap-2">
+                  <input
+                    type="color"
+                    value={manifestBg}
+                    onChange={(e) => setManifestBg(e.target.value)}
+                    className={colorClass}
+                  />
+                  <input
+                    type="text"
+                    value={manifestBg}
+                    onChange={(e) => setManifestBg(e.target.value)}
+                    className={inputClass}
+                  />
+                </div>
+              </div>
+              <div className="sm:col-span-2 lg:col-span-2">
+                <label className={labelClass}>Display mode</label>
+                <div className="grid grid-cols-2 gap-1 sm:grid-cols-4">
+                  {['standalone', 'fullscreen', 'minimal-ui', 'browser'].map((opt) => (
+                    <button
+                      key={opt}
+                      onClick={() => setDisplay(opt)}
+                      className={toggleClass(display === opt)}
+                    >
+                      {opt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-xl border border-night-800 bg-night-950">
+              <div className="flex items-center justify-between border-b border-night-800 px-5 py-3">
+                <div className="flex items-center gap-2">
+                  <FileCode className="h-4 w-4 text-night-500" />
+                  <span className="font-mono text-xs text-night-300">site.webmanifest</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button onClick={copyManifest} className={codeButtonClass(copiedManifest)}>
+                    {copiedManifest ? (
+                      <>
+                        <Check className="h-3.5 w-3.5" /> ¡Copiado!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="h-3.5 w-3.5" /> Copiar
+                      </>
+                    )}
+                  </button>
+                  <button onClick={downloadManifest} className={codeButtonClass(false)}>
+                    <Download className="h-3.5 w-3.5" /> Descargar
+                  </button>
+                </div>
+              </div>
+              <pre className="overflow-x-auto p-5 font-mono text-xs leading-relaxed text-night-300">
+                <code>{manifestJSON}</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <p className="mt-6 text-center font-mono text-xs text-zinc-500">
+        Procesamiento 100% en tu navegador · Tu imagen no se sube a ningún servidor
+      </p>
     </div>
   );
 }
