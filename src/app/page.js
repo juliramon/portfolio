@@ -852,60 +852,76 @@ export default function Home() {
 					note="some favourites"
 				/>
 				<ProjectStats />
-				<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+				<ul className="grid-cells">
 					{projects.map((project, idx) => (
-						<a
-							key={project.id}
-							data-reveal
-							href={project.page || project.href}
-							{...(project.page
-								? {}
-								: { target: "_blank", rel: "noreferrer" })}
-							className="card card-hover group flex flex-col overflow-hidden"
-						>
-							<div
-								className={`flex h-36 items-end justify-between border-b p-5 ${tints[idx % tints.length]}`}
+						<li key={project.id} data-reveal>
+							<a
+								href={project.page || project.href}
+								{...(project.page
+									? {}
+									: { target: "_blank", rel: "noreferrer" })}
+								className="group grid h-full gap-5 p-6 transition-colors hover:bg-zinc-50/60 md:grid-cols-[auto_1fr_15rem] md:gap-8 md:p-8"
 							>
-								<span className="font-mono text-5xl opacity-40 transition-opacity group-hover:opacity-70">
-									{String(idx + 1).padStart(2, "0")}
+								<span
+									className={`inline-flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-2xl ${
+										project.logoOnTile
+											? "border border-zinc-200 bg-white p-3 shadow-sm"
+											: "shadow-sm"
+									}`}
+								>
+									<Image
+										src={project.logo}
+										alt={`${project.title} logo`}
+										width={64}
+										height={64}
+										unoptimized
+										className="h-full w-full object-contain"
+									/>
 								</span>
-								<span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-zinc-200 bg-surface text-zinc-500 transition-colors group-hover:border-zinc-900 group-hover:text-zinc-900">
-									<Icon classList="h-4 w-4">
-										{project.page
-											? iconArrowRight
-											: iconArrowUpRight}
-									</Icon>
-								</span>
-							</div>
-							<div className="flex flex-1 flex-col p-5">
-								<h3 className="text-lg">{project.title}</h3>
-								<p className="mt-2 flex-1 leading-relaxed">
-									{project.description}
-								</p>
-								<ul className="mt-4 flex flex-wrap gap-2">
-									{project.tags.map((tag) => (
-										<li key={tag} className="tag">
-											{tag}
-										</li>
-									))}
-								</ul>
-								{project.stack.length > 0 && (
-									<div className="mt-4">
+
+								<div className="min-w-0">
+									<div className="flex items-baseline gap-3">
+										<span className="font-mono text-xs text-zinc-400">
+											{String(idx + 1).padStart(2, "0")}
+										</span>
+										<h3 className="text-xl">
+											{project.title}
+										</h3>
+									</div>
+									<p className="mt-2 max-w-xl leading-relaxed">
+										{project.description}
+									</p>
+									<ul className="mt-4 flex flex-wrap gap-2">
+										{project.tags.map((tag) => (
+											<li key={tag} className="tag">
+												{tag}
+											</li>
+										))}
+									</ul>
+								</div>
+
+								<div className="flex flex-col justify-between gap-5 border-t border-zinc-200 pt-5 md:border-l md:border-t-0 md:pl-8 md:pt-0">
+									<div>
 										<span className="font-mono text-[11px] uppercase tracking-widest text-zinc-500">
 											Built with
 										</span>
-										<p className="mt-1.5 text-sm text-zinc-700">
+										<p className="mt-2 text-sm leading-relaxed text-zinc-700">
 											{project.stack.join(" · ")}
 										</p>
 									</div>
-								)}
-								<span className="mt-5 border-t border-zinc-200 pt-4 font-mono text-xs text-zinc-500">
-									{project.linkText}
-								</span>
-							</div>
-						</a>
+									<span className="inline-flex items-center gap-2 font-mono text-xs text-zinc-500 transition-colors group-hover:text-zinc-900">
+										{project.linkText}
+										<Icon classList="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5">
+											{project.page
+												? iconArrowRight
+												: iconArrowUpRight}
+										</Icon>
+									</span>
+								</div>
+							</a>
+						</li>
 					))}
-				</div>
+				</ul>
 			</Section>
 
 			{/* Connect */}

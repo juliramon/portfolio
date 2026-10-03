@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Icon from "@/components/Icon";
 import { iconArrowRight } from "@/utils/icons";
 
@@ -19,9 +20,19 @@ const ProjectPage = ({ project, children }) => (
 						</Icon>
 						All projects
 					</a>
-					<h1 className="section-title md:text-5xl">
-						{project.title}
-					</h1>
+					<div className="mt-6 flex items-center gap-4">
+						<Image
+							src={project.logo}
+							alt=""
+							width={56}
+							height={56}
+							unoptimized
+							className="h-12 w-12 shrink-0 rounded-xl shadow-sm md:h-14 md:w-14"
+						/>
+						<h1 className="text-3xl text-zinc-900 md:text-5xl">
+							{project.title}
+						</h1>
+					</div>
 					<p className="section-lead">{project.description}</p>
 					<div className="mt-6 flex flex-wrap items-center gap-2">
 						<span className="mr-1 font-mono text-xs uppercase tracking-widest text-zinc-500">

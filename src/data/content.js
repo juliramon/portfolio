@@ -161,7 +161,7 @@ export const experience = [
 	},
 	{
 		id: "escapades",
-		company: "Escapades en parella",
+		company: "Escapadesenparella.cat",
 		href: "https://escapadesenparella.cat",
 		logo: "/logo-escapades-icon.svg",
 		role: "Founder & Developer",
@@ -175,13 +175,24 @@ export const experience = [
 export const projects = [
 	{
 		id: "escapades",
-		title: "Escapades en parella",
+		title: "Escapadesenparella.cat",
 		description:
 			"Content platform to discover getaways, cabins and plans for couples across Catalonia — it has even been featured on TV.",
 		href: "https://escapadesenparella.cat",
 		linkText: "escapadesenparella.cat",
 		tags: ["Featured on TV", "Web platform", "SEO"],
-		stack: [],
+		stack: [
+			"Next.js",
+			"React",
+			"Tailwind CSS",
+			"Node.js",
+			"Express",
+			"MongoDB",
+			"Stripe",
+			"Google Maps",
+		],
+		logo: "/logo-escapades-icon.svg",
+		logoOnTile: true,
 	},
 	{
 		id: "favicon-generator",
@@ -192,6 +203,7 @@ export const projects = [
 		linkText: "Try it here",
 		tags: ["Side project", "Tool"],
 		stack: ["React", "Tailwind CSS", "Canvas API", "JSZip"],
+		logo: "/projects/logos/favicon-generator.svg",
 	},
 	{
 		id: "svg-animated",
@@ -202,6 +214,7 @@ export const projects = [
 		linkText: "Try it here",
 		tags: ["Side project", "Tool"],
 		stack: ["HTML", "CSS animations", "JavaScript", "SVG"],
+		logo: "/projects/logos/svg-animated.svg",
 	},
 	{
 		id: "latevaweb",
@@ -212,6 +225,8 @@ export const projects = [
 		linkText: "latevaweb.com",
 		tags: ["#2 SEO agency in Spain", "E-commerce"],
 		stack: ["Shopify", "WordPress", "PHP", "Laravel", "React"],
+		logo: "/logo-ltw.svg",
+		logoOnTile: true,
 	},
 	{
 		id: "portfolio",
@@ -222,6 +237,7 @@ export const projects = [
 		linkText: "github.com/juliramon",
 		tags: ["Personal site", "Claude Code"],
 		stack: ["Next.js", "React", "Tailwind CSS", "Sass"],
+		logo: "/projects/logos/portfolio.png",
 	},
 ];
 

@@ -22,7 +22,7 @@ This is the personal site and portfolio of Juli Ramon. The site is a single page
 ## Experience
 
 - [LA TEVA WEB](https://latevaweb.com) — Front-End Team Lead (present). Leads the front-end team building websites and e-commerce for clients, from Shopify and WordPress to custom React and Next.js builds; brought Claude Code and Cursor into the team's daily workflow.
-- [Escapades en parella](https://escapadesenparella.cat) — Founder & developer (side project). A guide to getaways for couples in Catalonia that has been featured on TV.
+- [Escapadesenparella.cat](https://escapadesenparella.cat) — Founder & developer (side project). A guide to getaways for couples in Catalonia that has been featured on TV. Built with Next.js, React, Tailwind CSS, Node.js, Express, MongoDB, Stripe and Google Maps.
 
 ## Pages
 
